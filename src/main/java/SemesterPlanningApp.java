@@ -9,6 +9,6 @@ public class SemesterPlanningApp {
         System.out.println("running semester planning app");
         Semester thisSem = new Semester("2021-05-20", "2021-06-20", "America/Chicago");
         System.out.println("created semester");
-        thisSem.addCourse("TEST123", "Miguel Rdor", new int[]{1,3,5}, "09:45", "11:00");
+        thisSem.addCourse("TEST COURSE", "Miguel Rdor", new int[]{1,3,5}, "09:45", "11:00");
     }
 }

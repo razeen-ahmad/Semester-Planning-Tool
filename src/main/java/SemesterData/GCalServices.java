@@ -70,22 +70,28 @@ public class GCalServices {
         return service;
     }
 
-    public static void createCourse(String courseCode, String startTime, String endTime, String semEnd, String timezone, String daysOfWeek)
+    // function to create a course object and add it to user's primary GCal
+    public static String createCourse(String courseCode, String startTime, String endTime, String semEnd, String timezone, String daysOfWeek)
             throws IOException, GeneralSecurityException{
+        //get api service
         Calendar service = getAPIClientService();
+        //create new gcal event
         Event thisCourse = new Event();
+
+        //set event details (title, start time, end time, timezone, recurrence)
         thisCourse.setSummary(courseCode);
         DateTime start = DateTime.parseRfc3339(startTime);
         DateTime end = DateTime.parseRfc3339(endTime);
         thisCourse.setStart(new EventDateTime().setDateTime(start).setTimeZone(timezone));
         thisCourse.setEnd(new EventDateTime().setDateTime(end).setTimeZone(timezone));
-        System.out.println("RRULE:FREQ=WEEKLY;UNTIL="+ semEnd + ";BYDAY=" + daysOfWeek);
         thisCourse.setRecurrence(Arrays.asList("RRULE:FREQ=WEEKLY;UNTIL="+ semEnd + ";BYDAY=" + daysOfWeek));
 
+        //add event to user's primary calendar
         thisCourse = service.events().insert("primary", thisCourse).execute();
-
+        return thisCourse.getRecurringEventId();
     }
 
+    //this main method from Google- Java Google Calendar Quickstart code
     public static void main(String... args) throws IOException, GeneralSecurityException {
         Calendar service = getAPIClientService();
 
