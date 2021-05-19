@@ -71,15 +71,17 @@ public class GCalServices {
     }
 
     // function to create a course object and add it to user's primary GCal
-    public static String createCourse(String courseCode, String startTime, String endTime, String semEnd, String timezone, String daysOfWeek)
+    public static String createCourse(String courseCode, String startTime, String endTime, String semEnd,
+                                      String timezone, String daysOfWeek, String desc)
             throws IOException, GeneralSecurityException{
         //get api service
         Calendar service = getAPIClientService();
         //create new gcal event
         Event thisCourse = new Event();
 
-        //set event details (title, start time, end time, timezone, recurrence)
+        //set event details (title, description, start time, end time, timezone, recurrence)
         thisCourse.setSummary(courseCode);
+        thisCourse.setDescription(desc);
         DateTime start = DateTime.parseRfc3339(startTime);
         DateTime end = DateTime.parseRfc3339(endTime);
         thisCourse.setStart(new EventDateTime().setDateTime(start).setTimeZone(timezone));
@@ -88,7 +90,37 @@ public class GCalServices {
 
         //add event to user's primary calendar
         thisCourse = service.events().insert("primary", thisCourse).execute();
-        return thisCourse.getRecurringEventId();
+        return thisCourse.getId();
+    }
+
+    // function to update a course object and corresponding event in GCal
+    public static void updateCourse(String eventID, String newCourseTitle, String newStartTime, String newEndTime,
+                                    String newDaysOfWeek, String newDesc, String semEnd, String timezone)
+            throws IOException, GeneralSecurityException{
+        //get api service
+        Calendar service = getAPIClientService();
+
+        //get corresponding gcal event
+        Event thisCourse = service.events().get("primary", eventID).execute();
+
+        if(newCourseTitle != null){
+            thisCourse.setSummary(newCourseTitle);
+        }
+        if(newStartTime != null){
+            DateTime newStart = DateTime.parseRfc3339(newStartTime);
+            thisCourse.setStart(new EventDateTime().setDateTime(newStart).setTimeZone(timezone));
+        }
+        if(newEndTime != null){
+            DateTime newEnd = DateTime.parseRfc3339(newEndTime);
+            thisCourse.setEnd(new EventDateTime().setDateTime(newEnd).setTimeZone(timezone));
+        }
+        if(newDaysOfWeek != null){
+            thisCourse.setRecurrence(Arrays.asList("RRULE:FREQ=WEEKLY;UNTIL="+ semEnd + ";BYDAY=" + newDaysOfWeek));
+        }
+        if(newDesc != null){
+            thisCourse.setDescription(newDesc);
+        }
+        thisCourse = service.events().update("primary", thisCourse.getId(), thisCourse).execute();
     }
 
     //this main method from Google- Java Google Calendar Quickstart code

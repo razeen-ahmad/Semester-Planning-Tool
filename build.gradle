@@ -17,3 +17,7 @@ dependencies {
     implementation group: 'com.google.apis', name: 'google-api-services-calendar', version: 'v3-rev20210429-1.31.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-jackson2', version: '1.31.5'
 }
+
+run{
+    standardInput = System.in
+}
