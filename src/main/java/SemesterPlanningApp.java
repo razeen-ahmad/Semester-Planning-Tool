@@ -12,10 +12,12 @@ public class SemesterPlanningApp {
         Semester thisSem = new Semester("2021-05-20", "2021-06-20", "America/Chicago");
 
         thisSem.addCourse("TEST COURSE", "Miguel Rdor", new int[]{1,3,5}, "09:45", "11:00");
+        thisSem.addCourse("TEST COURSE2", "Billy", new int[]{2,4}, "13:15", "14:30");
         Course thisCourse = thisSem.getCourse(0);
 
         while(true){//loop to wait for user input before updating event
-            System.out.println("Created test event. Type in '1' to update days of week to Tues and Thurs");
+            System.out.println("Created test events. Type in '1' to delete TEST COURSE " +
+                    "(the event on mondays, wednesdays, and fridays");
             Scanner s = new Scanner(System.in);
             if(s.hasNextInt()){
                 int chosenMode = s.nextInt();
@@ -31,7 +33,7 @@ public class SemesterPlanningApp {
             }
         }
 
-        thisCourse.setDayInts(new int[]{2,4});
+        thisSem.deleteCourse(0);
         System.out.println("Done");
     }
 }

@@ -73,6 +73,10 @@ public class Course {
         setCourseDesc("");
     }
 
+    public void setCourseStartDay(ZonedDateTime newStartDay){
+        this.courseStartDay = newStartDay;
+    }
+
     public void setDayInts(int[] newDaysOfWeek){
         this.dayInts = newDaysOfWeek;
 
@@ -80,8 +84,7 @@ public class Course {
         String newCourseDays = Semester.getDaysOfWeek(newDaysOfWeek);
 
         //get new start day for course, with correct start and end times
-         ZonedDateTime newStartDate = Semester.getCourseStart(this.thisSemester.getStart().getDayOfWeek().getValue(),
-                this.thisSemester.getStart(), newDaysOfWeek);
+        ZonedDateTime newStartDate = Semester.getCourseStart(this.thisSemester.getStart(), newDaysOfWeek);
         this.courseStartDay = newStartDate;
 
         //get formatted date-time strings for new start day, based on semester start and new days of week

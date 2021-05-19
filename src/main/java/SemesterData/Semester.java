@@ -13,8 +13,9 @@ import java.util.ArrayList;
 public class Semester {
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
-    protected ZoneId timezone;
     private ArrayList<Course> courses;
+
+    protected final ZoneId TIMEZONE;
 
     private static final LocalTime BEG_DAY = LocalTime.of(0,0);
     private static final LocalTime END_DAY = LocalTime.of(11,59);
@@ -24,7 +25,7 @@ public class Semester {
         LocalDate start = LocalDate.parse(startDate);//"year-month-day"
         LocalDate end = LocalDate.parse(endDate);
         ZoneId thisTimezone = ZoneId.of(zoneName);
-        this.timezone = thisTimezone;
+        this.TIMEZONE = thisTimezone;
         this.startDate = ZonedDateTime.of(start, BEG_DAY, thisTimezone);
         this.endDate = ZonedDateTime.of(end, END_DAY, thisTimezone);
         this.courses = new ArrayList<Course>();
@@ -40,7 +41,7 @@ public class Semester {
     }
 
     public String getTimezone(){
-        return this.timezone.toString();
+        return this.TIMEZONE.toString();
     }
 
     public Course getCourse(int courseIndex){
@@ -49,21 +50,42 @@ public class Semester {
 
     //setters
     public void setStartDate(String newStart){
-        LocalDate newDate = LocalDate.parse(newStart);
-        this.startDate = ZonedDateTime.of(newDate, BEG_DAY, this.timezone);
+        LocalDate newDateStr = LocalDate.parse(newStart);
+        ZonedDateTime newStartDate = ZonedDateTime.of(newDateStr, BEG_DAY, this.TIMEZONE);
+        this.startDate = newStartDate;
+        for(int i = 0; i < this.courses.size(); i++){
+            Course thisCourse = this.courses.get(i);
+            thisCourse.setDayInts(thisCourse.getDayInts());
+        }
     }
 
     public void setEndDate(String newEnd){
-        LocalDate newDate = LocalDate.parse(newEnd);
-        this.endDate = ZonedDateTime.of(newDate, END_DAY, this.timezone);
+        //get updated zoneddatetime object from inputted new end date
+        LocalDate newDateStr = LocalDate.parse(newEnd);
+        ZonedDateTime newEndDate = ZonedDateTime.of(newDateStr, END_DAY, this.TIMEZONE);
+        this.endDate = newEndDate;
+
+        //get correct semester end date format for updating recurrence rule
+        DateTimeFormatter semEndFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String newSemEnd = newEndDate.format(semEndFormatter);
+
+        //update each course event's recurrence rule in google calendar
+        for(int i = 0; i < this.courses.size(); i++){
+            Course thisCourse = this.courses.get(i);
+            String thisCourseID = thisCourse.getEventID();
+            String courseDays = getDaysOfWeek(thisCourse.getDayInts());
+            try {
+                GCalServices.updateCourse(thisCourseID, null, null, null,
+                        courseDays, null, newSemEnd, null);
+            } catch (IOException | GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void setTimezone(String newZoneID){
-        this.timezone = ZoneId.of(newZoneID);
-    }
-
-    protected static ZonedDateTime getCourseStart(int semesterStartDay,
-                                                ZonedDateTime courseStartDate, int[] daysOfWeek){
+    protected static ZonedDateTime getCourseStart(ZonedDateTime semesterStartDate, int[] daysOfWeek){
+        //semester start date day of week
+        int semesterStartDay = semesterStartDate.getDayOfWeek().getValue();
         //initialize courseStartDay (day of week index) to the first value in daysOfWeek
         int courseStartDay = daysOfWeek[0];
         //check if semester starts in the middle of the course's weekly occurrences
@@ -81,8 +103,10 @@ public class Semester {
         }
 
         //iterate for at most a week until we get date for first day of course that matches courseStartDay
+        ZonedDateTime courseStartDate = semesterStartDate;
         for(int i = 0; i < 7; i++){
-            if(courseStartDate.getDayOfWeek().getValue() != courseStartDay){
+            int thisStartDay = courseStartDate.getDayOfWeek().getValue();
+            if(thisStartDay != courseStartDay){
                 courseStartDate = courseStartDate.plusDays(1);
             }
             else{
@@ -115,8 +139,7 @@ public class Semester {
 
     public void addCourse(String courseCode, String profName, int[] daysOfWeek, String begTime, String stopTime){
         //get first day of course given start of semester
-        ZonedDateTime courseFirstDay = getCourseStart(this.startDate.getDayOfWeek().getValue(),
-                this.startDate, daysOfWeek);
+        ZonedDateTime courseFirstDay = getCourseStart(this.startDate, daysOfWeek);
 
         //parse times given in "hh:mm" 24hour time format
         LocalTime startTime = LocalTime.parse(begTime);
@@ -136,7 +159,7 @@ public class Semester {
         try {
             //use GCalServices to create recurring event in user's primary calendar.
             String eventID = GCalServices.createCourse(courseCode, firstDayStartDT, firstDayEndDT,
-                    semEnd, this.timezone.getId(), courseDays, "Instructor: " + profName + "\n");
+                    semEnd, this.TIMEZONE.getId(), courseDays, "Instructor: " + profName + "\n");
             //create corresponding course object.
             Course newCourse = new Course(courseCode, profName, daysOfWeek, startTime, endTime,
                     eventID, courseFirstDay, this);
@@ -145,5 +168,20 @@ public class Semester {
             e.printStackTrace();
         };
         System.out.println("Added course to calendar");
+    }
+
+    public void deleteCourse(int courseIndex){
+        if(courseIndex > this.courses.size() - 1 || courseIndex < 0){
+            System.out.println("invalid course");
+        }
+        else{
+            Course thisCourse = this.courses.get(courseIndex);
+            this.courses.remove(courseIndex);
+            try {
+                GCalServices.deleteCourse(thisCourse.getEventID());
+            } catch (IOException | GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

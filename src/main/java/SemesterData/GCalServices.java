@@ -120,7 +120,21 @@ public class GCalServices {
         if(newDesc != null){
             thisCourse.setDescription(newDesc);
         }
-        thisCourse = service.events().update("primary", thisCourse.getId(), thisCourse).execute();
+        service.events().update("primary", thisCourse.getId(), thisCourse).execute();
+    }
+
+    public static void deleteCourse(String eventID) throws IOException, GeneralSecurityException{
+        //get api service
+        Calendar service = getAPIClientService();
+
+        //get corresponding gcal event
+        Event thisCourse = service.events().get("primary", eventID).execute();
+
+        //delete course from gcal
+        thisCourse.setStatus("cancelled");
+
+        service.events().update("primary", thisCourse.getId(), thisCourse).execute();
+
     }
 
     //this main method from Google- Java Google Calendar Quickstart code
