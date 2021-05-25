@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="GUI.MyApp">
+  <grid id="27dc6" binding="mainPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-15253213"/>
+      <foreground color="-2599894"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="22413" class="javax.swing.JButton" binding="mainButton">
+        <constraints/>
+        <properties>
+          <background color="-2599894"/>
+          <text value="Button"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

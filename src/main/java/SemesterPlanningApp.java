@@ -8,12 +8,10 @@ import java.util.Scanner;
 public class SemesterPlanningApp {
     public static void main(String[] args){
         System.out.println("running semester planning app");
-
         Semester thisSem = new Semester("2021-05-20", "2021-06-20", "America/Chicago");
 
         thisSem.addCourse("TEST COURSE", "Miguel Rdor", new int[]{1,3,5}, "09:45", "11:00");
         thisSem.addCourse("TEST COURSE2", "Billy", new int[]{2,4}, "13:15", "14:30");
-        Course thisCourse = thisSem.getCourse(0);
 
         while(true){//loop to wait for user input before updating event
             System.out.println("Created test events. Type in '1' to delete TEST COURSE " +
