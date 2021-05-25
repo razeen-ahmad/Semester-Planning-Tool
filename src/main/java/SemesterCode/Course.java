@@ -1,6 +1,4 @@
-package SemesterData;
-
-import jdk.vm.ci.meta.Local;
+package SemesterCode;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -8,7 +6,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Course {
+public class Course implements java.io.Serializable {
     private String courseTitle;
     private String profName;
     private int[] dayInts;//.getDayOfWeek().getValue()

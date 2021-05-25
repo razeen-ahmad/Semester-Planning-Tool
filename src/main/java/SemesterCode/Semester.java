@@ -1,6 +1,6 @@
-package SemesterData;
+package SemesterCode;
 
-import java.io.IOException;
+import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
-public class Semester {
+public class Semester implements java.io.Serializable {
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
     private ArrayList<Course> courses;
