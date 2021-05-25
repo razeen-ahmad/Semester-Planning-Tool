@@ -17,6 +17,7 @@ public class Semester implements java.io.Serializable {
 
     protected final ZoneId TIMEZONE;
 
+    private static final long serialVersionUID = 2825191020787845619L;
     private static final LocalTime BEG_DAY = LocalTime.of(0,0);
     private static final LocalTime END_DAY = LocalTime.of(11,59);
     private static final String[] DAYS_OF_WEEK = new String[]{"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
@@ -46,6 +47,15 @@ public class Semester implements java.io.Serializable {
 
     public Course getCourse(int courseIndex){
         return this.courses.get(courseIndex);
+    }
+
+    public String getCourses(){
+        String returnString = "Courses in this Semester:\n";
+        for(int i = 0; i < this.courses.size(); i++){
+            Course thisCourse = this.courses.get(i);
+            returnString += thisCourse.toString() + "\n";
+        }
+        return returnString;
     }
 
     //setters
