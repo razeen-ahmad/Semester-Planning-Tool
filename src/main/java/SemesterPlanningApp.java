@@ -34,8 +34,8 @@ public class SemesterPlanningApp {
 //
 //        thisSem.addCourse("TEST COURSE1", "Miguel Rdor", new int[]{1,3,5}, "09:45", "11:00");
 //        thisSem.addCourse("TEST COURSE2", "Billy", new int[]{2,4}, "13:15", "14:30");
-
-
+//
+//
 //        try{//try catch block to serialize semester object
 //            System.out.println("Serializing test semester");
 //            String basePath = System.getProperty("user.dir");

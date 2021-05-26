@@ -6,3 +6,6 @@ build
 
 #ignore credentials w/ secret
 src/main/resources/credentials.json
+
+#ignore stored credentials token
+tokens/StoredCredential
