@@ -1,5 +1,7 @@
 package SemesterCode;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
@@ -8,9 +10,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class Semester implements java.io.Serializable {
+    private String name;
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
     private ArrayList<Course> courses;
@@ -22,10 +28,11 @@ public class Semester implements java.io.Serializable {
     private static final LocalTime END_DAY = LocalTime.of(11,59);
     private static final String[] DAYS_OF_WEEK = new String[]{"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
 
-    public Semester(String startDate, String endDate, String zoneName){
+    public Semester(String semName, String startDate, String endDate, String zoneName){
         LocalDate start = LocalDate.parse(startDate);//"year-month-day"
         LocalDate end = LocalDate.parse(endDate);
         ZoneId thisTimezone = ZoneId.of(zoneName);
+        this.name = semName;
         this.TIMEZONE = thisTimezone;
         this.startDate = ZonedDateTime.of(start, BEG_DAY, thisTimezone);
         this.endDate = ZonedDateTime.of(end, END_DAY, thisTimezone);
@@ -43,6 +50,10 @@ public class Semester implements java.io.Serializable {
 
     public String getTimezone(){
         return this.TIMEZONE.toString();
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public Course getCourse(int courseIndex){
@@ -193,5 +204,47 @@ public class Semester implements java.io.Serializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    //serialize and de-serialize
+    public void serializeSem(){
+        try{
+            String basePath = System.getProperty("user.dir");
+            Path filePath = Paths.get(basePath + "/src/main/java/data/" + this.name + ".ser");
+            Boolean fileExists = Files.exists(filePath);
+            if(!fileExists){
+                Files.createFile(filePath);
+            }
+            FileOutputStream fileOut = new FileOutputStream(filePath.toString());
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Semester deserializeSem(String semName){
+        Semester loadedInSem = null;
+        try{
+            String basePath = System.getProperty("user.dir");
+            Path newTestPath = Paths.get(basePath + "/src/main/java/data/"+ semName +".ser");
+            FileInputStream fileIn = new FileInputStream(newTestPath.toString());
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            loadedInSem = (Semester) in.readObject();
+            in.close();
+            fileIn.close();
+            return loadedInSem;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return loadedInSem;
     }
 }
