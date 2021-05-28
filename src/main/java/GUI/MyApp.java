@@ -21,26 +21,26 @@ public class MyApp extends JFrame {
         this.setSize(300, 300);
 
 
-        JPanel thisMainPanel = new JPanel();
-        thisMainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-        thisMainPanel.setBackground(new Color(-15253213));
-        thisMainPanel.setForeground(new Color(-2599894));
-        JButton thisMainButton = new JButton();
-        thisMainButton.setBackground(new Color(-2599894));
-        thisMainButton.setText("Button");
-        thisMainPanel.add(mainButton);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        mainPanel.setBackground(new Color(-15253213));
+        mainPanel.setForeground(new Color(-2599894));
+        JButton mainButton = new JButton();
+        mainButton.setBackground(new Color(-2599894));
+        mainButton.setText("Button");
+        mainPanel.add(mainButton);
 
 
-        this.mainButton.addActionListener(new ActionListener() {
+        mainButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "You have pressed the button");
             }
         });
 
-        this.mainPanel = thisMainPanel;
-        this.mainButton = thisMainButton;
+//        this.mainPanel = thisMainPanel;
+//        this.mainButton = thisMainButton;
 
-        this.setContentPane(thisMainPanel);
+        this.setContentPane(mainPanel);
 
     }
 
@@ -81,5 +81,4 @@ public class MyApp extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return mainPanel;
     }
-
 }
