@@ -44,7 +44,7 @@ public class SemesterSelect extends JFrame {
         final Spacer spacer5 = new Spacer();
         selectPanel.add(spacer5, new GridConstraints(2, 16, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
 
-        if(semNames.length > 0){
+        if (semNames.length > 0) {
             semName = semNames[0];
         }
 
@@ -70,5 +70,4 @@ public class SemesterSelect extends JFrame {
         JFrame myFrame = new SemesterSelect(mySemNames);
         myFrame.setVisible(true);
     }
-
 }
