@@ -39,7 +39,184 @@ public class CreateSemester extends JFrame {
     private String givenEndDate;
     private String givenZone;
 
-    public CreateSemester(String[] zoneNames) {
+    private static final String[] ZONE_NAMES = new String[] {
+            "America/New_York",
+            "America/Chicago",
+            "America/Denver",
+            "America/Los_Angeles",
+            "Asia/Aden",
+            "Asia/Almaty",
+            "Asia/Amman",
+            "Asia/Anadyr",
+            "Asia/Aqtau",
+            "Asia/Aqtobe",
+            "Asia/Ashgabat",
+            "Asia/Ashkhabad",
+            "Asia/Atyrau",
+            "Asia/Baghdad",
+            "Asia/Bahrain",
+            "Asia/Baku",
+            "Asia/Bangkok",
+            "Asia/Barnaul",
+            "Asia/Beirut",
+            "Asia/Bishkek",
+            "Asia/Brunei",
+            "Asia/Calcutta",
+            "Asia/Chita",
+            "Asia/Choibalsan",
+            "Asia/Chongqing",
+            "Asia/Chungking",
+            "Asia/Colombo",
+            "Asia/Dacca",
+            "Asia/Damascus",
+            "Asia/Dhaka",
+            "Asia/Dili",
+            "Asia/Dubai",
+            "Asia/Dushanbe",
+            "Asia/Famagusta",
+            "Asia/Gaza",
+            "Asia/Harbin",
+            "Asia/Hebron",
+            "Asia/Ho_Chi_Minh",
+            "Asia/Hong_Kong",
+            "Asia/Hovd",
+            "Asia/Irkutsk",
+            "Asia/Istanbul",
+            "Asia/Jakarta",
+            "Asia/Jayapura",
+            "Asia/Jerusalem",
+            "Asia/Kabul",
+            "Asia/Kamchatka",
+            "Asia/Karachi",
+            "Asia/Kashgar",
+            "Asia/Kathmandu",
+            "Asia/Katmandu",
+            "Asia/Khandyga",
+            "Asia/Kolkata",
+            "Asia/Krasnoyarsk",
+            "Asia/Kuala_Lumpur",
+            "Asia/Kuching",
+            "Asia/Kuwait",
+            "Asia/Macao",
+            "Asia/Macau",
+            "Asia/Magadan",
+            "Asia/Makassar",
+            "Asia/Manila",
+            "Asia/Muscat",
+            "Asia/Nicosia",
+            "Asia/Novokuznetsk",
+            "Asia/Novosibirsk",
+            "Asia/Omsk",
+            "Asia/Oral",
+            "Asia/Phnom_Penh",
+            "Asia/Pontianak",
+            "Asia/Pyongyang",
+            "Asia/Qatar",
+            "Asia/Qostanay",
+            "Asia/Qyzylorda",
+            "Asia/Rangoon",
+            "Asia/Riyadh",
+            "Asia/Saigon",
+            "Asia/Sakhalin",
+            "Asia/Samarkand",
+            "Asia/Seoul",
+            "Asia/Shanghai",
+            "Asia/Singapore",
+            "Asia/Srednekolymsk",
+            "Asia/Taipei",
+            "Asia/Tashkent",
+            "Asia/Tbilisi",
+            "Asia/Tehran",
+            "Asia/Tel_Aviv",
+            "Asia/Thimbu",
+            "Asia/Thimphu",
+            "Asia/Tokyo",
+            "Asia/Tomsk",
+            "Asia/Ujung_Pandang",
+            "Asia/Ulaanbaatar",
+            "Asia/Ulan_Bator",
+            "Asia/Urumqi",
+            "Asia/Ust-Nera",
+            "Asia/Vientiane",
+            "Asia/Vladivostok",
+            "Asia/Yakutsk",
+            "Asia/Yangon",
+            "Asia/Yekaterinburg",
+            "Asia/Yerevan",
+            "Canada/Atlantic",
+            "Canada/Central",
+            "Canada/Eastern",
+            "Canada/Mountain",
+            "Canada/Newfoundland",
+            "Canada/Pacific",
+            "Canada/Saskatchewan",
+            "Canada/Yukon",
+            "Europe/Amsterdam",
+            "Europe/Andorra",
+            "Europe/Astrakhan",
+            "Europe/Athens",
+            "Europe/Belfast",
+            "Europe/Belgrade",
+            "Europe/Berlin",
+            "Europe/Bratislava",
+            "Europe/Brussels",
+            "Europe/Bucharest",
+            "Europe/Budapest",
+            "Europe/Busingen",
+            "Europe/Chisinau",
+            "Europe/Copenhagen",
+            "Europe/Dublin",
+            "Europe/Gibraltar",
+            "Europe/Guernsey",
+            "Europe/Helsinki",
+            "Europe/Isle_of_Man",
+            "Europe/Istanbul",
+            "Europe/Jersey",
+            "Europe/Kaliningrad",
+            "Europe/Kiev",
+            "Europe/Kirov",
+            "Europe/Lisbon",
+            "Europe/Ljubljana",
+            "Europe/London",
+            "Europe/Luxembourg",
+            "Europe/Madrid",
+            "Europe/Malta",
+            "Europe/Mariehamn",
+            "Europe/Minsk",
+            "Europe/Monaco",
+            "Europe/Moscow",
+            "Europe/Nicosia",
+            "Europe/Oslo",
+            "Europe/Paris",
+            "Europe/Podgorica",
+            "Europe/Prague",
+            "Europe/Riga",
+            "Europe/Rome",
+            "Europe/Samara",
+            "Europe/San_Marino",
+            "Europe/Sarajevo",
+            "Europe/Saratov",
+            "Europe/Simferopol",
+            "Europe/Skopje",
+            "Europe/Sofia",
+            "Europe/Stockholm",
+            "Europe/Tallinn",
+            "Europe/Tirane",
+            "Europe/Tiraspol",
+            "Europe/Ulyanovsk",
+            "Europe/Uzhgorod",
+            "Europe/Vaduz",
+            "Europe/Vatican",
+            "Europe/Vienna",
+            "Europe/Vilnius",
+            "Europe/Volgograd",
+            "Europe/Warsaw",
+            "Europe/Zagreb",
+            "Europe/Zaporozhye",
+            "Europe/Zurich",
+    };
+
+    public CreateSemester() {
         super("Semester Planning Tool");
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -123,7 +300,7 @@ public class CreateSemester extends JFrame {
             }
         });
 
-        semZoneSelect = new JComboBox(zoneNames);
+        semZoneSelect = new JComboBox(ZONE_NAMES);
         semZoneSelect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JComboBox cb = (JComboBox) e.getSource();
@@ -171,20 +348,20 @@ public class CreateSemester extends JFrame {
         semEndLabel.setText("Please Enter with following format: 'YYYY-MM-DD'. (e.g Jan. 1, 2010 = '2010-01-01')");
         CreateSemPanel.add(semEndLabel, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semZoneLabel = new JLabel();
-        semZoneLabel.setText("Choose one from the dropdown menu");
+        semZoneLabel.setText("Choose the timezone of this semester. Includes US, Canada, Europe, and Asian timezones. NOTE: time zone CANNOT be changed later!");
         CreateSemPanel.add(semZoneLabel, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         this.setContentPane(CreateSemPanel);
         givenSemName = null;
         givenStartDate = null;
         givenEndDate = null;
-        givenZone = zoneNames[0];
+        givenZone = ZONE_NAMES[0];
     }
 
         public static void main(String[] args) {
         String[] zoneNames = new String[]{"America/Chicago", "America/New York", "America/California"};
 
-        JFrame thisFrame = new CreateSemester(zoneNames);
+        JFrame thisFrame = new CreateSemester();
         thisFrame.setVisible(true);
     }
 }
