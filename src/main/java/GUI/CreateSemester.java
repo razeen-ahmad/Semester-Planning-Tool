@@ -6,12 +6,14 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import javax.swing.text.DateFormatter;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class CreateSemester extends JFrame {
@@ -46,6 +48,15 @@ public class CreateSemester extends JFrame {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormatter dateFormatter = new DateFormatter(dateFormat);
+        MaskFormatter nameFormatter = null;
+        try {
+            nameFormatter = new MaskFormatter("********************");
+            nameFormatter.setValidCharacters(
+                    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+            );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         CreateSemPanel = new JPanel();
         CreateSemPanel.setLayout(new GridLayoutManager(6, 7, new Insets(0, 0, 0, 0), -1, -1));
@@ -88,13 +99,15 @@ public class CreateSemester extends JFrame {
         SemZoneLabel.setText("Time Zone");
         CreateSemPanel.add(SemZoneLabel, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
-        semNameInput = new JFormattedTextField();
-        CreateSemPanel.add(semNameInput, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        semNameInput = new JFormattedTextField(nameFormatter);
         semNameInput.addPropertyChangeListener("value", new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 givenSemName = semNameInput.getText();
             }
         });
+        semNameInput.setValue(null);
+        CreateSemPanel.add(semNameInput, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+
         semStartInput = new JFormattedTextField(dateFormatter);
         CreateSemPanel.add(semStartInput, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         semStartInput.addPropertyChangeListener("value", new PropertyChangeListener() {
@@ -152,10 +165,10 @@ public class CreateSemester extends JFrame {
         semNameLabel.setText("only alphanumeric characters");
         CreateSemPanel.add(semNameLabel, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semStartLabel = new JLabel();
-        semStartLabel.setText("MM/DD/YYYY");
+        semStartLabel.setText("Please Enter with following format: 'YYYY-MM-DD'. (e.g Jan. 1, 2010 = '2010-01-01')");
         CreateSemPanel.add(semStartLabel, new GridConstraints(2, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semEndLabel = new JLabel();
-        semEndLabel.setText("MM/DD/YYYY");
+        semEndLabel.setText("Please Enter with following format: 'YYYY-MM-DD'. (e.g Jan. 1, 2010 = '2010-01-01')");
         CreateSemPanel.add(semEndLabel, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semZoneLabel = new JLabel();
         semZoneLabel.setText("Choose one from the dropdown menu");
@@ -168,7 +181,7 @@ public class CreateSemester extends JFrame {
         givenZone = zoneNames[0];
     }
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         String[] zoneNames = new String[]{"America/Chicago", "America/New York", "America/California"};
 
         JFrame thisFrame = new CreateSemester(zoneNames);
