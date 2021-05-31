@@ -60,6 +60,10 @@ public class Semester implements java.io.Serializable {
         return this.courses.get(courseIndex);
     }
 
+    public ArrayList<Course> getCourseList() {
+        return this.courses;
+    }
+
     public String getCourses(){
         String returnString = "Courses in this Semester:\n";
         for(int i = 0; i < this.courses.size(); i++){
