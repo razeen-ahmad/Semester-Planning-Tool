@@ -1,7 +1,5 @@
 package SemesterCode;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
@@ -25,7 +23,7 @@ public class Semester implements java.io.Serializable {
 
     private static final long serialVersionUID = 2825191020787845619L;
     private static final LocalTime BEG_DAY = LocalTime.of(0,0);
-    private static final LocalTime END_DAY = LocalTime.of(11,59);
+    private static final LocalTime END_DAY = LocalTime.of(23,59);
     private static final String[] DAYS_OF_WEEK = new String[]{"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
 
     public Semester(String semName, String startDate, String endDate, String zoneName){
@@ -100,7 +98,7 @@ public class Semester implements java.io.Serializable {
             String thisCourseID = thisCourse.getEventID();
             String courseDays = getDaysOfWeek(thisCourse.getDayInts());
             try {
-                GCalServices.updateCourse(thisCourseID, null, null, null,
+                GoogleServices.updateCourse(thisCourseID, null, null, null,
                         courseDays, null, newSemEnd, null);
             } catch (IOException | GeneralSecurityException e) {
                 e.printStackTrace();
@@ -183,7 +181,7 @@ public class Semester implements java.io.Serializable {
 
         try {
             //use GCalServices to create recurring event in user's primary calendar.
-            String eventID = GCalServices.createCourse(courseCode, firstDayStartDT, firstDayEndDT,
+            String eventID = GoogleServices.createCourse(courseCode, firstDayStartDT, firstDayEndDT,
                     semEnd, this.TIMEZONE.getId(), courseDays, "Instructor: " + profName + "\n");
             //create corresponding course object.
             Course newCourse = new Course(courseCode, profName, daysOfWeek, startTime, endTime,
@@ -203,7 +201,7 @@ public class Semester implements java.io.Serializable {
             Course thisCourse = this.courses.get(courseIndex);
             this.courses.remove(courseIndex);
             try {
-                GCalServices.deleteCourse(thisCourse.getEventID());
+                GoogleServices.deleteCourse(thisCourse.getEventID());
             } catch (IOException | GeneralSecurityException e) {
                 e.printStackTrace();
             }

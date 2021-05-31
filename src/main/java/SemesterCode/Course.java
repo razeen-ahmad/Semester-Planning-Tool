@@ -5,6 +5,7 @@ import java.security.GeneralSecurityException;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Course implements java.io.Serializable {
     private String courseTitle;
@@ -17,6 +18,7 @@ public class Course implements java.io.Serializable {
     private String semEnd;
     private Semester thisSemester;
     private String eventID;
+    private ArrayList<CourseDeadline> deadlines;
 
     public Course(String courseCode, String profName, int[] daysOfWeek, LocalTime start, LocalTime end,
                   String eventID, ZonedDateTime courseStartDay, Semester thisSemester){
@@ -31,6 +33,7 @@ public class Course implements java.io.Serializable {
         this.eventID = eventID;
         this.courseStartDay = courseStartDay;
         this.thisSemester = thisSemester;
+        this.deadlines = new ArrayList<CourseDeadline>();
     }
 
     //getters
@@ -59,7 +62,7 @@ public class Course implements java.io.Serializable {
         this.courseTitle = newCourseTitle;
 
         try {
-            GCalServices.updateCourse(this.eventID, newCourseTitle,null, null,
+            GoogleServices.updateCourse(this.eventID, newCourseTitle,null, null,
                     null, null, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
@@ -90,7 +93,7 @@ public class Course implements java.io.Serializable {
         String newEndDT = Semester.getFormattedDT(courseStartDay, this.endTime);
 
         try {
-            GCalServices.updateCourse(this.eventID, null, newStartDT, newEndDT,
+            GoogleServices.updateCourse(this.eventID, null, newStartDT, newEndDT,
                     newCourseDays, null, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
@@ -101,7 +104,7 @@ public class Course implements java.io.Serializable {
         this.courseDesc = "Instructor: " + this.profName + "\n" + newDesc;
 
         try {
-            GCalServices.updateCourse(this.eventID, null,null, null,
+            GoogleServices.updateCourse(this.eventID, null,null, null,
                     null, newDesc, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
@@ -117,7 +120,7 @@ public class Course implements java.io.Serializable {
         String newStartDT = Semester.getFormattedDT(this.courseStartDay, newStartTime);
 
         try {
-            GCalServices.updateCourse(this.eventID, null, newStartDT, null,
+            GoogleServices.updateCourse(this.eventID, null, newStartDT, null,
                     null, null, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
@@ -133,11 +136,17 @@ public class Course implements java.io.Serializable {
         String newEndDT = Semester.getFormattedDT(this.courseStartDay, newEndTime);
 
         try {
-            GCalServices.updateCourse(this.eventID, null, null, newEndDT,
+            GoogleServices.updateCourse(this.eventID, null, null, newEndDT,
                     null, null, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addDeadline(String name, String dueDate) {
+        CourseDeadline newDeadline = new CourseDeadline(name, this.courseTitle,
+                dueDate, this.thisSemester.getTimezone());
+        this.deadlines.add(newDeadline);
     }
 
     public String toString(){

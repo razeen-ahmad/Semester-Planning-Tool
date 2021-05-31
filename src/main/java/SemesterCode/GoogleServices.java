@@ -16,6 +16,9 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.google.api.services.tasks.model.Task;
+import com.google.api.services.tasks.Tasks;
+import com.google.api.services.tasks.TasksScopes;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,7 +28,7 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
-public class GCalServices {
+public class GoogleServices {
     private static final String APPLICATION_NAME = "Semester Planning App";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -34,7 +37,7 @@ public class GCalServices {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_EVENTS, CalendarScopes.CALENDAR_READONLY);
+    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_EVENTS, TasksScopes.TASKS );
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
@@ -45,7 +48,7 @@ public class GCalServices {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = GCalServices.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = GoogleServices.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -61,10 +64,19 @@ public class GCalServices {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    // Build a new authorized API client service.
-    private static Calendar getAPIClientService() throws IOException, GeneralSecurityException{
+    // Build a new authorized API client service for GCal.
+    private static Calendar getCalAPIClientService() throws IOException, GeneralSecurityException{
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+        return service;
+    }
+
+    // Build a new authorized API client service for Google Tasks.
+    private static Tasks getTasksAPIClientService() throws IOException, GeneralSecurityException{
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Tasks service = new Tasks.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
         return service;
@@ -75,7 +87,7 @@ public class GCalServices {
                                       String timezone, String daysOfWeek, String desc)
             throws IOException, GeneralSecurityException{
         //get api service
-        Calendar service = getAPIClientService();
+        Calendar service = getCalAPIClientService();
         //create new gcal event
         Event thisCourse = new Event();
 
@@ -98,7 +110,7 @@ public class GCalServices {
                                     String newDaysOfWeek, String newDesc, String semEnd, String timezone)
             throws IOException, GeneralSecurityException{
         //get api service
-        Calendar service = getAPIClientService();
+        Calendar service = getCalAPIClientService();
 
         //get corresponding gcal event
         Event thisCourse = service.events().get("primary", eventID).execute();
@@ -125,7 +137,7 @@ public class GCalServices {
 
     public static void deleteCourse(String eventID) throws IOException, GeneralSecurityException{
         //get api service
-        Calendar service = getAPIClientService();
+        Calendar service = getCalAPIClientService();
 
         //get corresponding gcal event
         Event thisCourse = service.events().get("primary", eventID).execute();
@@ -137,9 +149,39 @@ public class GCalServices {
 
     }
 
+    public static String createDeadline(String deadlineName, String dueDate, String notes)
+            throws GeneralSecurityException, IOException {
+        Tasks service = getTasksAPIClientService();
+        //create new task
+        Task thisTask = new Task();
+
+        //set task details
+        thisTask.setTitle(deadlineName);
+        thisTask.setNotes(notes);
+        thisTask.setDue(dueDate);
+
+
+        thisTask = service.tasks().insert("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", thisTask).execute();
+        return thisTask.getId();
+    }
+
+    public static void updateDeadline(String taskId, String newName, String newDueDate)
+            throws GeneralSecurityException, IOException {
+        Tasks service = getTasksAPIClientService();
+        Task thisTask = service.tasks().get("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", taskId).execute();
+
+        if(newName != null) {
+            thisTask.setTitle(newName);
+        }
+        if(newDueDate != null) {
+            thisTask.setDue(newDueDate);
+        }
+        service.tasks().insert("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", thisTask).execute();
+    }
+
     //this main method from Google- Java Google Calendar Quickstart code
     public static void main(String... args) throws IOException, GeneralSecurityException {
-        Calendar service = getAPIClientService();
+        Calendar service = getCalAPIClientService();
 
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
