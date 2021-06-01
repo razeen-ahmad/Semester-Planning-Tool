@@ -5,21 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries-with-intellij-classes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GCalServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GTaskServices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/mySem.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/mySem.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/mySem.ser" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +23,31 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Semester-Planning-Tool" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Semester-Planning-Tool" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">

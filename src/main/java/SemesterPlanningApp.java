@@ -13,14 +13,21 @@ public class SemesterPlanningApp {
     public static void main(String[] args){
         System.out.println("running semester planning app");
 
-        CourseDeadline thisDeadline = new CourseDeadline("test task",
-                "my notes", "2021-06-07", "America/Chicago");
+        Semester thisSem = Semester.deserializeSem("testSem");
+        Course thisCourse = thisSem.getCourse(0);
+        thisSem.serializeSem();
+
+//        Semester newSem = new Semester("testSem", "2021-06-01", "2021-06-20",
+//                "America/Chicago");
+//        newSem.addCourse("test course 1!", "prof mouse", new int[] {1,3,5}, "12:00", "13:15");
+//        newSem.addCourse("test course 2!", "prof duck", new int[] {2,4}, "11:00", "12:15");
+//        newSem.serializeSem();
 
 
-//        Semester thisSem = Semester.deserializeSem("mySem");
-//        Course thisCourse = thisSem.getCourse(0);
-//        thisCourse.setCourseTitle("course #1");
-//        thisSem.serializeSem();
+
+//        CourseDeadline thisDeadline = new CourseDeadline("test Sem", "test task",
+//                "my notes", "2021-06-07", "America/Chicago");
+
 
 
 //        try {

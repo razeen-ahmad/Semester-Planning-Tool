@@ -135,6 +135,7 @@ public class Course implements java.io.Serializable {
         //get formatted DT string
         String newEndDT = Semester.getFormattedDT(this.courseStartDay, newEndTime);
 
+        //update with google api
         try {
             GoogleServices.updateCourse(this.eventID, null, null, newEndDT,
                     null, null, this.semEnd, this.thisSemester.getTimezone());
@@ -143,17 +144,29 @@ public class Course implements java.io.Serializable {
         }
     }
 
-    public void addDeadline(String name, String dueDate) {
-        CourseDeadline newDeadline = new CourseDeadline(name, this.courseTitle,
+    //course deadlines
+    public void addDeadline(String name, String dueDate, String notes) {
+        CourseDeadline newDeadline = new CourseDeadline(this.thisSemester.getName(), name, this, notes,
                 dueDate, this.thisSemester.getTimezone());
         this.deadlines.add(newDeadline);
     }
 
-    public String toString(){
-        String returnString = "" + courseTitle + " taught by: " + profName + " taught on ";
-        for(int i = 0; i < dayInts.length; i++){
-            returnString += dayInts[i] + " ";
+    public void deleteDeadline(int deadlineIndex) {
+        String thisDeadlineId = this.deadlines.get(deadlineIndex).getTaskId();
+        this.deadlines.remove(deadlineIndex);
+
+        //remove with google api
+        try {
+            GoogleServices.deleteDeadline(thisDeadlineId, thisSemester.getName());
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public String toString(){
+        String returnString = "" + courseTitle + " taught by: " + profName;
         return returnString;
     }
 

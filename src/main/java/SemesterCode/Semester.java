@@ -21,8 +21,7 @@ public class Semester implements java.io.Serializable {
 
     protected final ZoneId TIMEZONE;
 
-    private static final long serialVersionUID = 2825191020787845619L;
-    private static final LocalTime BEG_DAY = LocalTime.of(0,0);
+    private static final LocalTime BEG_DAY = LocalTime.of(0,1);
     private static final LocalTime END_DAY = LocalTime.of(23,59);
     private static final String[] DAYS_OF_WEEK = new String[]{"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
 

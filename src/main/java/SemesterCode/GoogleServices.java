@@ -19,6 +19,8 @@ import com.google.api.services.calendar.model.Events;
 import com.google.api.services.tasks.model.Task;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.TasksScopes;
+import com.google.api.services.tasks.model.TaskList;
+import com.google.api.services.tasks.model.TaskLists;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -149,7 +151,37 @@ public class GoogleServices {
 
     }
 
-    public static String createDeadline(String deadlineName, String dueDate, String notes)
+    //get tasklist id for semester by finding or creating it
+    private static String getTasklistID(Tasks service, String semName)
+            throws IOException {
+        //get all tasklists from user's google account
+        TaskLists result = service.tasklists().list().execute();
+        List<TaskList> taskLists = result.getItems();
+
+        //check if tasklist already exists for this semester
+        boolean foundTasklist = false;
+        String taskListID = null;
+        for (TaskList tasklist : taskLists) {
+            if(tasklist.getTitle().equals(semName)){
+                foundTasklist = true;
+                //get tasklist id
+                taskListID = tasklist.getId();
+            }
+        }
+        if (!foundTasklist) {
+            //create new tasklist for all tasks created through semester planning tool
+            TaskList newList = new TaskList();
+            newList.setTitle(semName);
+            //add to google tasklists
+            newList = service.tasklists().insert(newList).execute();
+            //get tasklist id
+            taskListID = newList.getId();
+        }
+
+        return taskListID;
+    }
+
+    public static String createDeadline(String semName, String deadlineName, String dueDate, String notes)
             throws GeneralSecurityException, IOException {
         Tasks service = getTasksAPIClientService();
         //create new task
@@ -160,49 +192,43 @@ public class GoogleServices {
         thisTask.setNotes(notes);
         thisTask.setDue(dueDate);
 
+        //get tasklist id
+        String taskListID = getTasklistID(service, semName);
 
-        thisTask = service.tasks().insert("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", thisTask).execute();
+        thisTask = service.tasks().insert(taskListID, thisTask).execute();
         return thisTask.getId();
     }
 
-    public static void updateDeadline(String taskId, String newName, String newDueDate)
+    public static void updateDeadline(String semName, String taskId, String newName, String newDueDate, String newNotes)
             throws GeneralSecurityException, IOException {
         Tasks service = getTasksAPIClientService();
-        Task thisTask = service.tasks().get("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", taskId).execute();
+        String taskListID = getTasklistID(service, semName);
 
+        //get task from google api
+        Task thisTask = service.tasks().get(taskListID, taskId).execute();
+
+        //check which fields being updated
         if(newName != null) {
             thisTask.setTitle(newName);
         }
         if(newDueDate != null) {
             thisTask.setDue(newDueDate);
         }
-        service.tasks().insert("MDkxODgxNTEzNjM5MDAyNjE0NjU6MDow", thisTask).execute();
+        if(newNotes != null){
+            thisTask.setNotes(newNotes);
+        }
+        //push changes to google tasks api
+        service.tasks().insert(taskListID, thisTask).execute();
     }
 
-    //this main method from Google- Java Google Calendar Quickstart code
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-        Calendar service = getCalAPIClientService();
+    public static void deleteDeadline(String taskId, String semName)
+            throws GeneralSecurityException, IOException {
+        Tasks service = getTasksAPIClientService();
+        String taskListID = getTasklistID(service, semName);
 
-        // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("primary")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
-            }
-        }
+        //get task from google api
+        Task thisTask = service.tasks().get(taskListID, taskId).execute();
+
+        thisTask.setDeleted(true);
     }
 }
