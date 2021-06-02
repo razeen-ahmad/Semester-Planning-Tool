@@ -50,11 +50,24 @@ public class Course implements java.io.Serializable {
     }
 
     public String getCourseDesc(){
-        return this.courseDesc;
+        String[] result = this.courseDesc.split("\n", 2);
+        return result[1];
     }
 
     public String getEventID(){
         return this.eventID;
+    }
+
+    public LocalTime getStartTime() {
+        return this.startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return this.endTime;
+    }
+
+    public ArrayList<CourseDeadline> getDeadlines() {
+        return this.deadlines;
     }
 
     //setters
@@ -101,11 +114,12 @@ public class Course implements java.io.Serializable {
     }
 
     public void setCourseDesc(String newDesc){
-        this.courseDesc = "Instructor: " + this.profName + "\n" + newDesc;
+        String fullNewDesc = "Instructor: " + this.profName + "\n" + newDesc;
+        this.courseDesc = fullNewDesc;
 
         try {
             GoogleServices.updateCourse(this.eventID, null,null, null,
-                    null, newDesc, this.semEnd, this.thisSemester.getTimezone());
+                    null, fullNewDesc, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
         }

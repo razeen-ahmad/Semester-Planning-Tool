@@ -13,7 +13,8 @@ public class SemesterSelect extends JFrame {
     private JPanel selectPanel;
     private JComboBox semSelect;
     private JLabel appName;
-    private JButton button1;
+    private JButton semSelecter;
+    private JButton addSem;
     private String semName;
 
     public SemesterSelect(String[] semNames) {
@@ -24,28 +25,38 @@ public class SemesterSelect extends JFrame {
         this.setSize(300, 300);
 
         selectPanel = new JPanel();
-        selectPanel.setLayout(new GridLayoutManager(3, 18, new Insets(0, 0, 0, 0), -1, -1));
+        selectPanel.setLayout(new GridLayoutManager(4, 18, new Insets(0, 0, 0, 0), -1, -1));
         appName = new JLabel();
         appName.setText("Semester Planning Tool");
         selectPanel.add(appName, new GridConstraints(0, 0, 1, 16, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        selectPanel.add(spacer1, new GridConstraints(1, 15, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer1, new GridConstraints(2, 15, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         selectPanel.add(spacer2, new GridConstraints(0, 17, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        selectPanel.add(spacer3, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        button1 = new JButton();
-        button1.setText("Continue");
-        selectPanel.add(button1, new GridConstraints(2, 12, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(spacer3, new GridConstraints(3, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        semSelecter = new JButton();
+        semSelecter.setText("Continue");
+        selectPanel.add(semSelecter, new GridConstraints(3, 12, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
-        selectPanel.add(spacer4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        selectPanel.add(spacer4, new GridConstraints(3, 16, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         semSelect = new JComboBox(semNames);
-        selectPanel.add(semSelect, new GridConstraints(1, 5, 1, 3, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(semSelect, new GridConstraints(2, 5, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSem = new JButton();
+        addSem.setText("Create New Semester");
+        selectPanel.add(addSem, new GridConstraints(1, 13, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
-        selectPanel.add(spacer5, new GridConstraints(2, 16, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer6 = new Spacer();
+        selectPanel.add(spacer6, new GridConstraints(2, 14, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+
 
         if (semNames.length > 0) {
             semName = semNames[0];
+        }
+        if (semNames.length == 0) {
+            semSelect.setEnabled(false);
+            semSelecter.setEnabled(false);
         }
 
         semSelect.addActionListener(new ActionListener() {
@@ -56,7 +67,7 @@ public class SemesterSelect extends JFrame {
             }
         });
 
-        button1.addActionListener(new ActionListener() {
+        semSelecter.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "You have chosen semester: " + semName);
             }
@@ -66,7 +77,7 @@ public class SemesterSelect extends JFrame {
     }
 
     public static void main(String[] args) {
-        String[] mySemNames = new String[]{"sem1", "sem2", "semester 3"};
+        String[] mySemNames = new String[]{"semester 1", "semester 2", "semester 3"};
         JFrame myFrame = new SemesterSelect(mySemNames);
         myFrame.setVisible(true);
     }
@@ -87,25 +98,30 @@ public class SemesterSelect extends JFrame {
      */
     private void $$$setupUI$$$() {
         selectPanel = new JPanel();
-        selectPanel.setLayout(new GridLayoutManager(3, 18, new Insets(0, 0, 0, 0), -1, -1));
+        selectPanel.setLayout(new GridLayoutManager(4, 18, new Insets(0, 0, 0, 0), -1, -1));
         appName = new JLabel();
         appName.setText("Label");
         selectPanel.add(appName, new GridConstraints(0, 0, 1, 16, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        selectPanel.add(spacer1, new GridConstraints(1, 15, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer1, new GridConstraints(2, 15, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         selectPanel.add(spacer2, new GridConstraints(0, 17, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        selectPanel.add(spacer3, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        button1 = new JButton();
-        button1.setText("Button");
-        selectPanel.add(button1, new GridConstraints(2, 12, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(spacer3, new GridConstraints(3, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        semSelecter = new JButton();
+        semSelecter.setText("Button");
+        selectPanel.add(semSelecter, new GridConstraints(3, 12, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
-        selectPanel.add(spacer4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        selectPanel.add(spacer4, new GridConstraints(3, 16, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         semSelect = new JComboBox();
-        selectPanel.add(semSelect, new GridConstraints(1, 5, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(semSelect, new GridConstraints(2, 5, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSem = new JButton();
+        addSem.setText("Button");
+        selectPanel.add(addSem, new GridConstraints(1, 13, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
-        selectPanel.add(spacer5, new GridConstraints(2, 16, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final Spacer spacer6 = new Spacer();
+        selectPanel.add(spacer6, new GridConstraints(2, 14, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
     }
 
     /**
