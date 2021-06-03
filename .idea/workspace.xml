@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data/testSem.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/testSem.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +84,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CreateSemester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.CreateSemester" />
+      <module name="semester-planning-app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GUI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GoogleServices" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="SemesterCode.GoogleServices" />
       <module name="semester-planning-app.main" />
@@ -125,34 +130,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Semester-Planning-Tool [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="dependencies" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CreateSemester" />
         <item itemvalue="Application.CourseView" />
         <item itemvalue="Application.SemesterSelect" />
         <item itemvalue="Application.SemesterPlanningApp" />
         <item itemvalue="Application.GoogleServices" />
-        <item itemvalue="Gradle.Semester-Planning-Tool [dependencies]" />
       </list>
     </recent_temporary>
   </component>
@@ -166,6 +150,16 @@
       <updated>1622081616653</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

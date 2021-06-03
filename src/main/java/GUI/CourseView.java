@@ -8,12 +8,19 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 
@@ -59,6 +66,11 @@ public class CourseView extends JFrame {
         String courseProf = thisCourse.getProfName();
         int[] courseDays = thisCourse.getDayInts();
         String courseDesc = thisCourse.getCourseDesc();
+
+        //get text field formatters
+        DateFormat timeFormat = new SimpleDateFormat("KK:mm");
+        DateFormatter timeFormatter = new DateFormatter(timeFormat);
+
 
 
         //get formatted start/end time, booleans for pm/am
@@ -124,9 +136,9 @@ public class CourseView extends JFrame {
         CourseView.add(profNameValue, new GridConstraints(2, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         courseDescValue = new JFormattedTextField(courseDesc);
         CourseView.add(courseDescValue, new GridConstraints(5, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        startTimeValue = new JFormattedTextField(courseStartTime);
+        startTimeValue = new JFormattedTextField(timeFormatter);
         CourseView.add(startTimeValue, new GridConstraints(6, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        endTimeValue = new JFormattedTextField(courseEndTime);
+        endTimeValue = new JFormattedTextField(timeFormatter);
         CourseView.add(endTimeValue, new GridConstraints(10, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         daysOfWeekList = new JList(DAYS_OF_WEEK);
         CourseView.add(daysOfWeekList, new GridConstraints(3, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 50), null, 0, false));
@@ -180,6 +192,20 @@ public class CourseView extends JFrame {
         //set jframe contents
         this.setContentPane(CourseView);
 
+        //initialize time fields
+        startTimeValue.setText(courseStartTime);
+        endTimeValue.setText(courseEndTime);
+//        startTimeValue.addPropertyChangeListener("value", new PropertyChangeListener() {
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                startTimeValue.getText();
+//            }
+//        });
+//        endTimeValue.addPropertyChangeListener("value", new PropertyChangeListener() {
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                System.out.println(endTimeValue.getText());
+//            }
+//        });
+
         //set radio button groups
         ButtonGroup startTimeGroup = new ButtonGroup();
         startTimeGroup.add(startTimeAM);
@@ -195,7 +221,7 @@ public class CourseView extends JFrame {
         endTimePM.setSelected(!endIsAM);
 
         //set days of week list selections
-        daysOfWeekList.setSelectedIndices(thisCourse.getDayInts());
+        daysOfWeekList.setSelectedIndices(courseDays);
 
 
         //update semester button press
@@ -254,18 +280,19 @@ public class CourseView extends JFrame {
             }
         });
 
-        //select deadline button press
+        //select deadline button
+        selectDeadline.setEnabled(false); //initially, no deadline selected
+        courseDeadlineList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectDeadline.setEnabled(true); //enable select button
+            }
+        });
         selectDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
-                if(selectedDeadline == null) {
-                    JOptionPane.showMessageDialog(null,
-                            "No deadline selected");
-                }
-                else {
-                    JOptionPane.showMessageDialog(null,
-                            "You have selected: " + selectedDeadline.toString());
-                }
+                JOptionPane.showMessageDialog(null,
+                        "You have selected: " + selectedDeadline.toString());
+
             }
         });
 

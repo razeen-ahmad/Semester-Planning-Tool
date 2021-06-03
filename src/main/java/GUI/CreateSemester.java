@@ -218,11 +218,9 @@ public class CreateSemester extends JFrame {
 
     public CreateSemester() {
         super("Semester Planning Tool");
-
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.pack();
         this.setSize(900, 300);
-
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormatter dateFormatter = new DateFormatter(dateFormat);
         MaskFormatter nameFormatter = null;
@@ -234,7 +232,6 @@ public class CreateSemester extends JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         CreateSemPanel = new JPanel();
         CreateSemPanel.setLayout(new GridLayoutManager(6, 7, new Insets(0, 0, 0, 0), -1, -1));
         ScreenTitle = new JLabel();
