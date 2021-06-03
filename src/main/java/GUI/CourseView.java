@@ -54,7 +54,7 @@ public class CourseView extends JFrame {
     private static final String[] DAYS_OF_WEEK = new String[]
             {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-    public CourseView(Course thisCourse) {
+    public CourseView(Course thisCourse, boolean newCourse, Semester thisSem) {
         //JFrame initialization
         super("Semester Planning Tool");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +68,7 @@ public class CourseView extends JFrame {
         String courseDesc = thisCourse.getCourseDesc();
 
         //get text field formatters
-        DateFormat timeFormat = new SimpleDateFormat("KK:mm");
+        DateFormat timeFormat = new SimpleDateFormat("hh:mm");
         DateFormatter timeFormatter = new DateFormatter(timeFormat);
 
 
@@ -93,7 +93,7 @@ public class CourseView extends JFrame {
             startIsAM = true;
         }
         //format end time to 12 hour
-        if (thisCourse.getEndTime().getHour() > 12) {
+        if (newCourse || thisCourse.getEndTime().getHour() > 12) {
             courseEndTime = thisCourse.getEndTime().minusHours(12L).toString();
             endIsAM = false;
         }
@@ -110,7 +110,7 @@ public class CourseView extends JFrame {
         CourseView = new JPanel();
         CourseView.setLayout(new GridLayoutManager(16, 9, new Insets(0, 0, 0, 0), -1, -1));
         CourseViewLabel = new JLabel();
-        CourseViewLabel.setText("See Course Details");
+        CourseViewLabel.setText("Edit Course Details");
         CourseView.add(CourseViewLabel, new GridConstraints(0, 2, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         courseTitleLabel = new JLabel();
         courseTitleLabel.setText("Course Title:");
@@ -224,54 +224,86 @@ public class CourseView extends JFrame {
         daysOfWeekList.setSelectedIndices(courseDays);
 
 
-        //update semester button press
-        updateCourse.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean changed = false;
-                //check which fields changed compared to serialized course object values
-                if(!courseTitleValue.getText().equals(courseTitle)) {
-                    changed = true;
-                    thisCourse.setCourseTitle(courseTitleValue.getText());
-                }
-                if(!profNameValue.getText().equals(courseProf)) {
-                    changed = true;
-                    thisCourse.setProfName(profNameValue.getText());
-                }
-                if(!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
-                    changed = true;
-                    thisCourse.setDayInts(daysOfWeekList.getSelectedIndices());
-                }
-                if(!courseDescValue.getText().equals(courseDesc)) {
-                    changed = true;
-                    thisCourse.setCourseDesc(courseDescValue.getText());
-                }
-                if(!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
-                    changed = true;
-                    //get local time
-                    LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
-                    if(!startTimeAM.isSelected()){
-                        newStartTime = newStartTime.plusHours(12);
+        //update semester button press, conditional action listeners
+        //based on whether creating new or editing existing course
+        if(newCourse) {
+            updateCourse.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if(courseTitleValue.getText() == null || courseTitleValue.getText().equals("") ||
+                            profNameValue.getText() == null || profNameValue.getText().equals("") ||
+                            Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[] {}) ||
+                            courseDescValue.getText() == null || startTimeValue.getText() == null ||
+                            endTimeValue.getText() == null) {
+                        JOptionPane.showMessageDialog(null, "Fill in all fields");
                     }
-                    thisCourse.setStartTime(newStartTime.toString());
-                }
-                if(!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
-                    changed = true;
-                    //get local time
-                    LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
-                    if(!startTimeAM.isSelected()){
-                        newEndTime = newEndTime.plusHours(12);
+                    else {
+                        LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
+                        if(!startTimeAM.isSelected()){
+                            realStartTime = realStartTime.plusHours(12);
+                        }
+                        LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
+                        if(!startTimeAM.isSelected()){
+                            realEndTime = realEndTime.plusHours(12);
+                        }
+                        thisSem.addCourse(
+                                courseTitleValue.getText(), profNameValue.getText(),
+                                daysOfWeekList.getSelectedIndices(), realStartTime.toString(),
+                                realEndTime.toString()
+                        );
+                        JOptionPane.showMessageDialog(null, "Successfully created new course");
                     }
-                    thisCourse.setEndTime(newEndTime.toString());
                 }
+            });
+        }
+        else {
+            updateCourse.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    boolean changed = false;
+                    //check which fields changed compared to serialized course object values
+                    if(!courseTitleValue.getText().equals(courseTitle)) {
+                        changed = true;
+                        thisCourse.setCourseTitle(courseTitleValue.getText());
+                    }
+                    if(!profNameValue.getText().equals(courseProf)) {
+                        changed = true;
+                        thisCourse.setProfName(profNameValue.getText());
+                    }
+                    if(!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
+                        changed = true;
+                        thisCourse.setDayInts(daysOfWeekList.getSelectedIndices());
+                    }
+                    if(!courseDescValue.getText().equals(courseDesc)) {
+                        changed = true;
+                        thisCourse.setCourseDesc(courseDescValue.getText());
+                    }
+                    if(!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
+                        changed = true;
+                        //get local time
+                        LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
+                        if(!startTimeAM.isSelected()){
+                            newStartTime = newStartTime.plusHours(12);
+                        }
+                        thisCourse.setStartTime(newStartTime.toString());
+                    }
+                    if(!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
+                        changed = true;
+                        //get local time
+                        LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
+                        if(!startTimeAM.isSelected()){
+                            newEndTime = newEndTime.plusHours(12);
+                        }
+                        thisCourse.setEndTime(newEndTime.toString());
+                    }
 
-                if(changed) {
-                    JOptionPane.showMessageDialog(null, "Course Updated!");
+                    if(changed) {
+                        JOptionPane.showMessageDialog(null, "Course Updated!");
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(null, "No updates to be made");
+                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(null, "No updates to be made");
-                }
-            }
-        });
+            });
+        }
 
         //add new deadline button press
         addDeadline.addActionListener(new ActionListener() {
@@ -301,9 +333,17 @@ public class CourseView extends JFrame {
 
     public static void main(String[] args) {
         Semester thisSem = Semester.deserializeSem("testSem");
-        Course thisCourse = thisSem.getCourse(0);
 
-        JFrame thisFrame = new CourseView(thisCourse);
+//        Course thisCourse = thisSem.getCourse(0);
+//
+//        JFrame thisFrame = new CourseView(thisCourse, false, null);
+
+        Course nullCourse = new Course(null, null, new int[] {},
+                LocalTime.parse("12:00"), LocalTime.parse("12:00"),
+                null, null, thisSem);
+
+        JFrame thisFrame = new CourseView(nullCourse, true, thisSem);
+
         thisFrame.setVisible(true);
     }
 }

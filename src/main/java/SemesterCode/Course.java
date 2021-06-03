@@ -87,7 +87,7 @@ public class Course implements java.io.Serializable {
         setCourseDesc("");
     }
 
-    public void setCourseStartDay(ZonedDateTime newStartDay){
+    private void setCourseStartDay(ZonedDateTime newStartDay){
         this.courseStartDay = newStartDay;
     }
 

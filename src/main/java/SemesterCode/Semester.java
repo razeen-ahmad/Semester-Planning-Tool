@@ -21,7 +21,7 @@ public class Semester implements java.io.Serializable {
 
     protected final ZoneId TIMEZONE;
 
-    private static final long serialVersionUID = 9179141582786746176L;
+    private static final long serialVersionUID = 887128668450659414L;
     private static final LocalTime BEG_DAY = LocalTime.of(0,1);
     private static final LocalTime END_DAY = LocalTime.of(23,59);
     private static final String[] DAYS_OF_WEEK = new String[]{"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
@@ -124,11 +124,21 @@ public class Semester implements java.io.Serializable {
                 }
             }
         }
+        //re-assign sunday.getvalue() to 0
+        if(courseStartDay == 7) {
+            courseStartDay = 0;
+        }
 
         //iterate for at most a week until we get date for first day of course that matches courseStartDay
         ZonedDateTime courseStartDate = semesterStartDate;
         for(int i = 0; i < 7; i++){
             int thisStartDay = courseStartDate.getDayOfWeek().getValue();
+
+            //re-assign sunday.getvalue() to 0
+            if(thisStartDay == 7) {
+                thisStartDay = 0;
+            }
+
             if(thisStartDay != courseStartDay){
                 courseStartDate = courseStartDate.plusDays(1);
             }
@@ -174,7 +184,9 @@ public class Semester implements java.io.Serializable {
 
         //format semester end date (end of event recurrences)
         DateTimeFormatter semEndFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String semEnd = this.endDate.format(semEndFormatter);
+        //add 1 day because end date not-inclusive in recurrence rules
+        // (we assume given end date is last day of courses)
+        String semEnd = this.endDate.plusDays(1).format(semEndFormatter);
 
         //create days of week string for recurrence rules
         String courseDays = getDaysOfWeek(daysOfWeek);
