@@ -16,31 +16,14 @@ public class CourseDeadline implements java.io.Serializable {
     private String taskId;
     private String semName;
 
-    public CourseDeadline(String semName, String deadlineName, Course thisCourse, String notes, String dueDate, String timeZone){
+    public CourseDeadline(String semName, String deadlineName, Course thisCourse, String notes, ZonedDateTime dueDate,
+                          String taskId){
         this.name = deadlineName;
-        this.notes = thisCourse.getCourseCode()+ "\n" + notes;
+        this.notes = notes;
         this.thisCourse = thisCourse;
         this.semName = semName;
-        LocalDate dueDT = LocalDate.parse(dueDate);//"year-month-day"
-        ZoneId thisTimezone = ZoneId.of(timeZone);
-        //set 23:59 as time because google tasks api cannot set day of time for due dates
-        ZonedDateTime thisDueDate = ZonedDateTime.of(dueDT, LocalTime.of(23,59), thisTimezone);
-        this.dueDate = thisDueDate;
-
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-                .withZone(thisTimezone);
-
-        String givenID = null;
-        try {
-            givenID = GoogleServices.createDeadline(semName, deadlineName, thisDueDate.format(formatter), notes);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        this.taskId = givenID;
+        this.dueDate = dueDate;
+        this.taskId = taskId;
     }
     //getters
     public String getName(){
@@ -52,13 +35,24 @@ public class CourseDeadline implements java.io.Serializable {
     }
 
     public String getNotes(){
-        return this.notes;
+        if(this.notes == null) {
+            return null;
+        }
+        else {
+            String[] result = this.notes.split("\n", 2);
+            return result[1];
+        }
     }
 
     public String getDueDate(){
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern("MM/dd/yyyy");
-        return this.dueDate.format(formatter);
+        if(this.dueDate == null) {
+            return null;
+        }
+        else {
+            DateTimeFormatter formatter = DateTimeFormatter
+                    .ofPattern("yyyy-MM-dd");
+            return this.dueDate.format(formatter);
+        }
     }
 
 

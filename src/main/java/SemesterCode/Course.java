@@ -2,7 +2,9 @@ package SemesterCode;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -160,8 +162,28 @@ public class Course implements java.io.Serializable {
 
     //course deadlines
     public void addDeadline(String name, String dueDate, String notes) {
-        CourseDeadline newDeadline = new CourseDeadline(this.thisSemester.getName(), name, this, notes,
-                dueDate, this.thisSemester.getTimezone());
+        LocalDate dueDT = LocalDate.parse(dueDate);//"year-month-day"
+        ZoneId thisTimezone = ZoneId.of(this.thisSemester.getTimezone());
+        //set 23:59 as time because google tasks api cannot set day of time for due dates
+        ZonedDateTime thisDueDate = ZonedDateTime.of(dueDT, LocalTime.of(23,59), thisTimezone);
+
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                .withZone(thisTimezone);
+        String fullNotes = "For: " + this.getCourseCode()+ "\n" + notes;
+
+        String givenID = null;
+        try {
+            givenID = GoogleServices.createDeadline(this.thisSemester.getName(), name, thisDueDate.format(formatter),
+                    fullNotes);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CourseDeadline newDeadline = new CourseDeadline(this.thisSemester.getName(), name, this, fullNotes,
+                thisDueDate, givenID);
         this.deadlines.add(newDeadline);
     }
 

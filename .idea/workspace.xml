@@ -8,7 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/data/testSem.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/testSem.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,7 +73,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Application.CourseView">
+  <component name="RunManager" selected="Application.DeadlineView">
     <configuration name="CourseView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.CourseView" />
       <module name="semester-planning-app.main" />
@@ -99,12 +100,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GoogleServices" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="SemesterCode.GoogleServices" />
+    <configuration name="DeadlineView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.DeadlineView" />
       <module name="semester-planning-app.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="SemesterCode.*" />
+          <option name="PATTERN" value="GUI.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -134,11 +135,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.DeadlineView" />
         <item itemvalue="Application.CreateSemester" />
         <item itemvalue="Application.CourseView" />
         <item itemvalue="Application.SemesterSelect" />
         <item itemvalue="Application.SemesterPlanningApp" />
-        <item itemvalue="Application.GoogleServices" />
       </list>
     </recent_temporary>
   </component>

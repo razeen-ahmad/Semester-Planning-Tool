@@ -218,7 +218,7 @@ public class GoogleServices {
             thisTask.setNotes(newNotes);
         }
         //push changes to google tasks api
-        service.tasks().insert(taskListID, thisTask).execute();
+        service.tasks().update(taskListID, thisTask.getId(), thisTask).execute();
     }
 
     public static void deleteDeadline(String taskId, String semName)

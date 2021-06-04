@@ -72,7 +72,6 @@ public class CourseView extends JFrame {
         DateFormatter timeFormatter = new DateFormatter(timeFormat);
 
 
-
         //get formatted start/end time, booleans for pm/am
         String courseStartTime;
         String courseEndTime;
@@ -83,12 +82,10 @@ public class CourseView extends JFrame {
             courseStartTime = thisCourse.getStartTime().minusHours(12L).toString();
             startIsAM = false;
 
-        }
-        else if (thisCourse.getStartTime().getHour() == 12) {
+        } else if (thisCourse.getStartTime().getHour() == 12) {
             courseStartTime = thisCourse.getStartTime().toString();
             startIsAM = false;
-        }
-        else {
+        } else {
             courseStartTime = thisCourse.getStartTime().toString();
             startIsAM = true;
         }
@@ -96,12 +93,10 @@ public class CourseView extends JFrame {
         if (newCourse || thisCourse.getEndTime().getHour() > 12) {
             courseEndTime = thisCourse.getEndTime().minusHours(12L).toString();
             endIsAM = false;
-        }
-        else if (thisCourse.getEndTime().getHour() == 12) {
+        } else if (thisCourse.getEndTime().getHour() == 12) {
             courseEndTime = thisCourse.getEndTime().toString();
             endIsAM = false;
-        }
-        else {
+        } else {
             courseEndTime = thisCourse.getEndTime().toString();
             endIsAM = true;
         }
@@ -226,23 +221,22 @@ public class CourseView extends JFrame {
 
         //update semester button press, conditional action listeners
         //based on whether creating new or editing existing course
-        if(newCourse) {
+        if (newCourse) {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if(courseTitleValue.getText() == null || courseTitleValue.getText().equals("") ||
+                    if (courseTitleValue.getText() == null || courseTitleValue.getText().equals("") ||
                             profNameValue.getText() == null || profNameValue.getText().equals("") ||
-                            Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[] {}) ||
+                            Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[]{}) ||
                             courseDescValue.getText() == null || startTimeValue.getText() == null ||
                             endTimeValue.getText() == null) {
                         JOptionPane.showMessageDialog(null, "Fill in all fields");
-                    }
-                    else {
+                    } else {
                         LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
-                        if(!startTimeAM.isSelected()){
+                        if (!startTimeAM.isSelected()) {
                             realStartTime = realStartTime.plusHours(12);
                         }
                         LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
-                        if(!startTimeAM.isSelected()){
+                        if (!startTimeAM.isSelected()) {
                             realEndTime = realEndTime.plusHours(12);
                         }
                         thisSem.addCourse(
@@ -254,51 +248,49 @@ public class CourseView extends JFrame {
                     }
                 }
             });
-        }
-        else {
+        } else {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     boolean changed = false;
                     //check which fields changed compared to serialized course object values
-                    if(!courseTitleValue.getText().equals(courseTitle)) {
+                    if (!courseTitleValue.getText().equals(courseTitle)) {
                         changed = true;
                         thisCourse.setCourseTitle(courseTitleValue.getText());
                     }
-                    if(!profNameValue.getText().equals(courseProf)) {
+                    if (!profNameValue.getText().equals(courseProf)) {
                         changed = true;
                         thisCourse.setProfName(profNameValue.getText());
                     }
-                    if(!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
+                    if (!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
                         changed = true;
                         thisCourse.setDayInts(daysOfWeekList.getSelectedIndices());
                     }
-                    if(!courseDescValue.getText().equals(courseDesc)) {
+                    if (!courseDescValue.getText().equals(courseDesc)) {
                         changed = true;
                         thisCourse.setCourseDesc(courseDescValue.getText());
                     }
-                    if(!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
+                    if (!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
                         changed = true;
                         //get local time
                         LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
-                        if(!startTimeAM.isSelected()){
+                        if (!startTimeAM.isSelected()) {
                             newStartTime = newStartTime.plusHours(12);
                         }
                         thisCourse.setStartTime(newStartTime.toString());
                     }
-                    if(!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
+                    if (!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
                         changed = true;
                         //get local time
                         LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
-                        if(!startTimeAM.isSelected()){
+                        if (!startTimeAM.isSelected()) {
                             newEndTime = newEndTime.plusHours(12);
                         }
                         thisCourse.setEndTime(newEndTime.toString());
                     }
 
-                    if(changed) {
+                    if (changed) {
                         JOptionPane.showMessageDialog(null, "Course Updated!");
-                    }
-                    else {
+                    } else {
                         JOptionPane.showMessageDialog(null, "No updates to be made");
                     }
                 }
@@ -338,7 +330,7 @@ public class CourseView extends JFrame {
 //
 //        JFrame thisFrame = new CourseView(thisCourse, false, null);
 
-        Course nullCourse = new Course(null, null, new int[] {},
+        Course nullCourse = new Course(null, null, new int[]{},
                 LocalTime.parse("12:00"), LocalTime.parse("12:00"),
                 null, null, thisSem);
 
