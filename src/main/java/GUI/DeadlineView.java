@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class DeadlineView extends JFrame {
+public class DeadlineView {
     private JFormattedTextField deadlineNameValue;
     private JFormattedTextField deadlineNotesValue;
     private JFormattedTextField deadlineDueDateValue;
@@ -25,29 +25,25 @@ public class DeadlineView extends JFrame {
     private JLabel deadlineNotesLabel;
     private JLabel deadlineDueDateLabel;
     private JLabel deadlineViewTitle;
-    private JPanel DeadlineView;
+    protected JPanel DeadlineView;
     private JLabel deadlineDueDateHelperLabel;
+    private JLabel deadlineNotesHelperLabel;
 
 
     public DeadlineView(CourseDeadline thisDeadline, Course thisCourse) {
-        //JFrame initialization
-        super("Semester Planning Tool");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
-        this.setSize(700, 400);
 
         //create due date formatter
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormatter dateFormat = new DateFormatter(simpleDateFormat);
 
-        //intellij generated java swing layout
+        //intellij generated java swing layout for JPanel
         DeadlineView = new JPanel();
-        DeadlineView.setLayout(new GridLayoutManager(5, 7, new Insets(0, 0, 0, 0), -1, -1));
+        DeadlineView.setLayout(new GridLayoutManager(7, 7, new Insets(0, 0, 0, 0), -1, -1));
         deadlineViewTitle = new JLabel();
-        deadlineViewTitle.setText("Deadline View");
+        deadlineViewTitle.setText("Deadline Details");
         DeadlineView.add(deadlineViewTitle, new GridConstraints(0, 0, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        DeadlineView.add(spacer1, new GridConstraints(1, 6, 3, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        DeadlineView.add(spacer1, new GridConstraints(1, 6, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         deadlineNameLabel = new JLabel();
         deadlineNameLabel.setText("Deadline Name:");
         DeadlineView.add(deadlineNameLabel, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -55,30 +51,30 @@ public class DeadlineView extends JFrame {
         deadlineNotesLabel.setText("Deadline Notes:");
         DeadlineView.add(deadlineNotesLabel, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deadlineDueDateLabel = new JLabel();
-        deadlineDueDateLabel.setText("Deadline Due Date:");
-        DeadlineView.add(deadlineDueDateLabel, new GridConstraints(3, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deadlineDueDateLabel.setText("Due Date:");
+        DeadlineView.add(deadlineDueDateLabel, new GridConstraints(4, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         DeadlineView.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        updateDeadlineButton = new JButton();
-        updateDeadlineButton.setText("Save");
-        DeadlineView.add(updateDeadlineButton, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        goBackButton = new JButton();
-        goBackButton.setText("Go Back");
-        DeadlineView.add(goBackButton, new GridConstraints(4, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
         DeadlineView.add(spacer3, new GridConstraints(1, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         deadlineNameValue = new JFormattedTextField();
-        DeadlineView.add(deadlineNameValue, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        DeadlineView.add(deadlineNameValue, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         deadlineNotesValue = new JFormattedTextField();
-        DeadlineView.add(deadlineNotesValue, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        DeadlineView.add(deadlineNotesValue, new GridConstraints(2, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         deadlineDueDateValue = new JFormattedTextField(dateFormat);
-        DeadlineView.add(deadlineDueDateValue, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        DeadlineView.add(deadlineDueDateValue, new GridConstraints(4, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         deadlineDueDateHelperLabel = new JLabel();
-        deadlineDueDateHelperLabel.setText("Enter date as: 'YYYY-MM-DD'");
-        DeadlineView.add(deadlineDueDateHelperLabel, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-
-        //set jframe contents
-        this.setContentPane(DeadlineView);
+        deadlineDueDateHelperLabel.setText("Enter date as: 'YYYY-MM-DD' (e.g Jan. 1, 2010 = '2010-01-01')");
+        DeadlineView.add(deadlineDueDateHelperLabel, new GridConstraints(5, 3, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        updateDeadlineButton = new JButton();
+        updateDeadlineButton.setText("Save");
+        DeadlineView.add(updateDeadlineButton, new GridConstraints(6, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        goBackButton = new JButton();
+        goBackButton.setText("Go Back");
+        DeadlineView.add(goBackButton, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deadlineNotesHelperLabel = new JLabel();
+        deadlineNotesHelperLabel.setText("Notes will automatically include corresponding course in Google Tasks");
+        DeadlineView.add(deadlineNotesHelperLabel, new GridConstraints(3, 3, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //initialize deadline values
         String ogDeadlineName = thisDeadline.getName();
@@ -96,43 +92,39 @@ public class DeadlineView extends JFrame {
         });
 
         //update deadline button listener
-        if(thisCourse == null) { //if updating existing task
+        if (thisCourse == null) { //if updating existing task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     boolean changed = false;
-                    if(!deadlineNameValue.getText().equals(ogDeadlineName)) {
+                    if (!deadlineNameValue.getText().equals(ogDeadlineName)) {
                         changed = true;
                         thisDeadline.setName(deadlineNameValue.getText());
                     }
-                    if(!deadlineNotesValue.getText().equals(ogDeadlineNotes)) {
+                    if (!deadlineNotesValue.getText().equals(ogDeadlineNotes)) {
                         changed = true;
                         thisDeadline.setNotes(deadlineNotesValue.getText());
                     }
-                    if(!deadlineDueDateValue.getText().equals(ogDeadlineDueDate)) {
+                    if (!deadlineDueDateValue.getText().equals(ogDeadlineDueDate)) {
                         changed = true;
                         thisDeadline.setDueDate(deadlineDueDateValue.getText());
                     }
-                    if(changed) {
+                    if (changed) {
                         JOptionPane.showMessageDialog(null, "Deadline updated");
-                    }
-                    else {
+                    } else {
                         JOptionPane.showMessageDialog(null, "No changes to update");
                     }
                 }
             });
-        }
-        else { //if creating new task
+        } else { //if creating new task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if(deadlineNameValue.getText().equals("") || deadlineNameValue.getText() == null ||
+                    if (deadlineNameValue.getText().equals("") || deadlineNameValue.getText() == null ||
                             deadlineNotesValue.getText() == null ||
                             deadlineDueDateValue.getText().equals("") || deadlineDueDateValue.getText() == null) {
-                        System.out.println(deadlineNameValue.getText());
                         JOptionPane.showMessageDialog(null, "Fill in all fields");
-                    }
-                    else {
-                       thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
-                               deadlineNotesValue.getText());
+                    } else {
+                        thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
+                                deadlineNotesValue.getText());
                         JOptionPane.showMessageDialog(null, "Added new deadline!");
                     }
                 }
@@ -145,14 +137,18 @@ public class DeadlineView extends JFrame {
         Semester thisSem = Semester.deserializeSem("testSem");
         Course thisCourse = thisSem.getCourse(0);
 //        CourseDeadline thisDeadline = thisCourse.getDeadlines().get(0);
-//        JFrame thisFrame = new DeadlineView(thisDeadline, null);
+//        JPanel thisPanel = new DeadlineView(thisDeadline, null).DeadlineView;
 
 
         CourseDeadline nullDeadline = new CourseDeadline(null, null, thisCourse,
                 null, null, null);
-        JFrame thisFrame = new DeadlineView(nullDeadline, thisCourse);
+        JPanel thisPanel = new DeadlineView(nullDeadline, thisCourse).DeadlineView;
 
+        JFrame thisFrame = new JFrame("Semester Planning Tool");
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setContentPane(thisPanel);
+        thisFrame.setSize(700, 400);
+        thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }
-
 }

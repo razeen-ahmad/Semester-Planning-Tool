@@ -14,18 +14,14 @@ import javax.swing.text.DateFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 
-public class CourseView extends JFrame {
-    private JPanel CourseView;
+public class CourseView {
+    protected JPanel CourseView;
     private JButton updateCourse;
     private JButton goBack;
     private JFormattedTextField courseTitleValue;
@@ -55,12 +51,6 @@ public class CourseView extends JFrame {
             {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
     public CourseView(Course thisCourse, boolean newCourse, Semester thisSem) {
-        //JFrame initialization
-        super("Semester Planning Tool");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.pack();
-        this.setSize(700, 400);
-
         //get field values from thisCourse
         String courseTitle = thisCourse.getCourseCode();
         String courseProf = thisCourse.getProfName();
@@ -184,22 +174,10 @@ public class CourseView extends JFrame {
         daysOfWeekHelpLabel.setText("(hold CTRL to select multiple)");
         CourseView.add(daysOfWeekHelpLabel, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
-        //set jframe contents
-        this.setContentPane(CourseView);
 
         //initialize time fields
         startTimeValue.setText(courseStartTime);
         endTimeValue.setText(courseEndTime);
-//        startTimeValue.addPropertyChangeListener("value", new PropertyChangeListener() {
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                startTimeValue.getText();
-//            }
-//        });
-//        endTimeValue.addPropertyChangeListener("value", new PropertyChangeListener() {
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                System.out.println(endTimeValue.getText());
-//            }
-//        });
 
         //set radio button groups
         ButtonGroup startTimeGroup = new ButtonGroup();
@@ -297,14 +275,14 @@ public class CourseView extends JFrame {
             });
         }
 
-        //add new deadline button press
+        //new deadline button listener
         addDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "new deadline to be added!");
             }
         });
 
-        //select deadline button
+        //select deadline button listener and initialization
         selectDeadline.setEnabled(false); //initially, no deadline selected
         courseDeadlineList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
@@ -320,6 +298,14 @@ public class CourseView extends JFrame {
             }
         });
 
+        //go back button listener
+        goBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
+                JOptionPane.showMessageDialog(null, "Go Back");
+
+            }
+        });
 
     }
 
@@ -327,15 +313,18 @@ public class CourseView extends JFrame {
         Semester thisSem = Semester.deserializeSem("testSem");
 
 //        Course thisCourse = thisSem.getCourse(0);
-//
-//        JFrame thisFrame = new CourseView(thisCourse, false, null);
+//        JPanel thisPanel = new CourseView(thisCourse, false, null).CourseView;
 
         Course nullCourse = new Course(null, null, new int[]{},
                 LocalTime.parse("12:00"), LocalTime.parse("12:00"),
                 null, null, thisSem);
+        JPanel thisPanel = new CourseView(nullCourse, true, thisSem).CourseView;
 
-        JFrame thisFrame = new CourseView(nullCourse, true, thisSem);
-
+        JFrame thisFrame = new JFrame("Semester Planning Tool");
+        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        thisFrame.setContentPane(thisPanel);
+        thisFrame.setSize(700, 450);
+        thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }
 }
