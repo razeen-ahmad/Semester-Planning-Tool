@@ -114,15 +114,6 @@ public class SemesterView {
             }
         });
 
-        //course list listener
-        courseList.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectCourse.setEnabled(true);
-                deleteCourse.setEnabled(true);
-                selectedCourse = (Course) courseList.getSelectedValue();
-            }
-        });
-
         //course button listener
         addCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -141,9 +132,41 @@ public class SemesterView {
         deleteCourse.setEnabled(false);
         deleteCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "You will delete " + selectedCourse.toString());
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteCourse);
+                Loading.getLoadingScreen(mainFrame);
+
+                Thread t = new Thread(new Runnable() {
+                    public void run() {
+                        int selectedCourse = courseList.getSelectedIndex();
+                        sem.deleteCourse(selectedCourse);
+                        getUpdatedSemesterView(mainFrame, sem);
+                    }
+
+                });
+                t.start();
             }
         });
+
+        //course list listener
+        courseList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectCourse.setEnabled(true);
+                deleteCourse.setEnabled(true);
+                selectedCourse = (Course) courseList.getSelectedValue();
+            }
+        });
+    }
+
+    protected static void getUpdatedSemesterView(JFrame mainFrame, Semester sem) {
+        String semName = sem.getName();
+        sem.serialize();
+        Semester updatedSem = Semester.deserialize(semName);
+        JPanel semViewPanel = new SemesterView(updatedSem).semView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(semViewPanel);
+        mainFrame.setSize(700, 300);
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

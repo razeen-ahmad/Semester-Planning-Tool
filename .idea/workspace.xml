@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/data/testSem.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/testSem.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +78,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Application.CourseView">
+  <component name="RunManager" selected="Application.SemesterView">
     <configuration name="CourseView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.CourseView" />
       <module name="semester-planning-app.main" />
@@ -96,8 +92,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CreateSemester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.CreateSemester" />
+    <configuration name="Loading" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.Loading" />
       <module name="semester-planning-app.main" />
       <extension name="coverage">
         <pattern>
@@ -144,11 +140,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Loading" />
         <item itemvalue="Application.CourseView" />
         <item itemvalue="Application.SemesterView" />
         <item itemvalue="Application.SemesterPlanningApp" />
         <item itemvalue="Application.SemesterSelect" />
-        <item itemvalue="Application.CreateSemester" />
       </list>
     </recent_temporary>
   </component>
