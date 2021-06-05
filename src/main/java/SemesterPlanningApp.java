@@ -22,7 +22,7 @@ public class SemesterPlanningApp {
         newSem.addCourse("test course 1!", "prof mouse", new int[] {1,3,5}, "12:00", "13:15");
         newSem.addCourse("test course 2!", "prof duck", new int[] {2,4}, "11:00", "12:15");
         newSem.getCourse(0).addDeadline("test task 1", "2021-06-04", "task 1 notes");
-        newSem.serializeSem();
+        newSem.serialize();
 
 
 

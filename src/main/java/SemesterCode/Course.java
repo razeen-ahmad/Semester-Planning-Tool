@@ -201,6 +201,10 @@ public class Course implements java.io.Serializable {
         }
     }
 
+    public void serialize() {
+        thisSemester.serialize();
+    }
+
     public String toString(){
         String returnString = "" + courseTitle + " taught by: " + profName;
         return returnString;

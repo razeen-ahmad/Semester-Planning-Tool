@@ -202,7 +202,6 @@ public class Semester implements java.io.Serializable {
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         };
-        System.out.println("Added course to calendar");
     }
 
     public void deleteCourse(int courseIndex){
@@ -221,7 +220,7 @@ public class Semester implements java.io.Serializable {
     }
 
     //serialize and de-serialize
-    public void serializeSem(){
+    public void serialize(){
         try{
             String basePath = System.getProperty("user.dir");
             Path filePath = Paths.get(basePath + "/src/main/java/data/" + this.name + ".ser");
@@ -241,7 +240,7 @@ public class Semester implements java.io.Serializable {
         }
     }
 
-    public static Semester deserializeSem(String semName){
+    public static Semester deserialize(String semName){
         Semester loadedInSem = null;
         try{
             String basePath = System.getProperty("user.dir");

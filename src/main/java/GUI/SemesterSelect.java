@@ -91,7 +91,7 @@ public class SemesterSelect {
         semSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "You have chosen semester: " + semName);
-                Semester selectedSem = Semester.deserializeSem(semName);
+                Semester selectedSem = Semester.deserialize(semName);
                 JPanel semViewPanel = new SemesterView(selectedSem).semView;
                 JFrame f1 = (JFrame) SwingUtilities.windowForComponent(semSelectButton);
                 f1.getContentPane().removeAll();

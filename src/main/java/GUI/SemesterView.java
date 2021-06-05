@@ -134,7 +134,7 @@ public class SemesterView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserializeSem("testSem");
+        Semester thisSem = Semester.deserialize("testSem");
 
         JPanel thisPanel = new SemesterView(thisSem).semView;
 

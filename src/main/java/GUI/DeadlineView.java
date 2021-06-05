@@ -151,7 +151,7 @@ public class DeadlineView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserializeSem("testSem");
+        Semester thisSem = Semester.deserialize("testSem");
         Course thisCourse = thisSem.getCourse(0);
 //        CourseDeadline thisDeadline = thisCourse.getDeadlines().get(0);
 //        JPanel thisPanel = new DeadlineView(thisDeadline, null).DeadlineView;

@@ -329,7 +329,7 @@ public class CourseView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserializeSem("testSem");
+        Semester thisSem = Semester.deserialize("testSem");
 
 //        Course thisCourse = thisSem.getCourse(0);
 //        JPanel thisPanel = new CourseView(thisCourse, false, null).CourseView;
