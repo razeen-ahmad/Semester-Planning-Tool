@@ -6,31 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CreateSemester$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CreateSemester$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CreateSemester$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/MyApp$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/MyApp.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/MyFrame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterSelect$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterSelect$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterSelect.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterView$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterView$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/SemesterView.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/SemesterCode/Course.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/SemesterCode/CourseDeadline.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/SemesterCode/GoogleServices.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/SemesterCode/Semester.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/SemesterPlanningApp.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +78,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Application.SemesterView">
+  <component name="RunManager" selected="Application.DeadlineView">
     <configuration name="CourseView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.CourseView" />
       <module name="semester-planning-app.main" />

@@ -77,12 +77,12 @@ public class DeadlineView {
         DeadlineView.add(deadlineNotesHelperLabel, new GridConstraints(3, 3, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //initialize deadline values
-        String ogDeadlineName = thisDeadline.getName();
-        String ogDeadlineNotes = thisDeadline.getNotes();
-        String ogDeadlineDueDate = thisDeadline.getDueDate();
-        deadlineNameValue.setText(ogDeadlineName);
-        deadlineNotesValue.setText(ogDeadlineNotes);
-        deadlineDueDateValue.setText(ogDeadlineDueDate);
+        String origDeadlineName = thisDeadline.getName();
+        String origDeadlineNotes = thisDeadline.getNotes();
+        String origDeadlineDueDate = thisDeadline.getDueDate();
+        deadlineNameValue.setText(origDeadlineName);
+        deadlineNotesValue.setText(origDeadlineNotes);
+        deadlineDueDateValue.setText(origDeadlineDueDate);
 
         //go back button listener
         goBackButton.addActionListener(new ActionListener() {
@@ -95,19 +95,9 @@ public class DeadlineView {
         if (thisCourse == null) { //if updating existing task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean changed = false;
-                    if (!deadlineNameValue.getText().equals(ogDeadlineName)) {
-                        changed = true;
-                        thisDeadline.setName(deadlineNameValue.getText());
-                    }
-                    if (!deadlineNotesValue.getText().equals(ogDeadlineNotes)) {
-                        changed = true;
-                        thisDeadline.setNotes(deadlineNotesValue.getText());
-                    }
-                    if (!deadlineDueDateValue.getText().equals(ogDeadlineDueDate)) {
-                        changed = true;
-                        thisDeadline.setDueDate(deadlineDueDateValue.getText());
-                    }
+                    boolean changed = checkAndUpdateChanges(thisDeadline, origDeadlineName,
+                            origDeadlineNotes, origDeadlineDueDate);
+
                     if (changed) {
                         JOptionPane.showMessageDialog(null, "Deadline updated");
                     } else {
@@ -118,11 +108,11 @@ public class DeadlineView {
         } else { //if creating new task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (deadlineNameValue.getText().equals("") || deadlineNameValue.getText() == null ||
-                            deadlineNotesValue.getText() == null ||
-                            deadlineDueDateValue.getText().equals("") || deadlineDueDateValue.getText() == null) {
+                    boolean isNotFilled = checkIfNotFilled();
+                    if (isNotFilled) {
                         JOptionPane.showMessageDialog(null, "Fill in all fields");
                     } else {
+                        //update in Google API
                         thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
                                 deadlineNotesValue.getText());
                         JOptionPane.showMessageDialog(null, "Added new deadline!");
@@ -131,6 +121,33 @@ public class DeadlineView {
             });
         }
 
+    }
+
+    private boolean checkIfNotFilled() {
+        boolean nameNotFilled = deadlineNameValue.getText().equals("") || deadlineNameValue.getText() == null;
+        boolean notesNotFilled = deadlineNotesValue.getText() == null;
+        boolean dueDateNotFiled = deadlineDueDateValue.getText().equals("") || deadlineDueDateValue.getText() == null;
+
+        return nameNotFilled || notesNotFilled || dueDateNotFiled;
+    }
+
+    private boolean checkAndUpdateChanges(CourseDeadline thisDeadline, String origDeadlineName,
+                                          String origDeadlineNotes, String origDeadlineDueDate) {
+        boolean changed = false;
+        if (!deadlineNameValue.getText().equals(origDeadlineName)) {
+            changed = true;
+            thisDeadline.setName(deadlineNameValue.getText());
+        }
+        if (!deadlineNotesValue.getText().equals(origDeadlineNotes)) {
+            changed = true;
+            thisDeadline.setNotes(deadlineNotesValue.getText());
+        }
+        if (!deadlineDueDateValue.getText().equals(origDeadlineDueDate)) {
+            changed = true;
+            thisDeadline.setDueDate(deadlineDueDateValue.getText());
+        }
+
+        return changed;
     }
 
     public static void main(String[] args) {

@@ -202,21 +202,22 @@ public class CourseView {
         if (newCourse) {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    if (courseTitleValue.getText() == null || courseTitleValue.getText().equals("") ||
-                            profNameValue.getText() == null || profNameValue.getText().equals("") ||
-                            Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[]{}) ||
-                            courseDescValue.getText() == null || startTimeValue.getText() == null ||
-                            endTimeValue.getText() == null) {
+                    boolean isNotFilled = checkIfNotFilled();
+                    if (isNotFilled) {
                         JOptionPane.showMessageDialog(null, "Fill in all fields");
                     } else {
+                        //get localtime of start time value
                         LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
                         if (!startTimeAM.isSelected()) {
                             realStartTime = realStartTime.plusHours(12);
                         }
+                        //get localtime of end time value
                         LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
-                        if (!startTimeAM.isSelected()) {
+                        if (!endTimeAM.isSelected()) {
                             realEndTime = realEndTime.plusHours(12);
                         }
+
+                        //add through Google API
                         thisSem.addCourse(
                                 courseTitleValue.getText(), profNameValue.getText(),
                                 daysOfWeekList.getSelectedIndices(), realStartTime.toString(),
@@ -229,43 +230,8 @@ public class CourseView {
         } else {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean changed = false;
-                    //check which fields changed compared to serialized course object values
-                    if (!courseTitleValue.getText().equals(courseTitle)) {
-                        changed = true;
-                        thisCourse.setCourseTitle(courseTitleValue.getText());
-                    }
-                    if (!profNameValue.getText().equals(courseProf)) {
-                        changed = true;
-                        thisCourse.setProfName(profNameValue.getText());
-                    }
-                    if (!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
-                        changed = true;
-                        thisCourse.setDayInts(daysOfWeekList.getSelectedIndices());
-                    }
-                    if (!courseDescValue.getText().equals(courseDesc)) {
-                        changed = true;
-                        thisCourse.setCourseDesc(courseDescValue.getText());
-                    }
-                    if (!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
-                        changed = true;
-                        //get local time
-                        LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
-                        if (!startTimeAM.isSelected()) {
-                            newStartTime = newStartTime.plusHours(12);
-                        }
-                        thisCourse.setStartTime(newStartTime.toString());
-                    }
-                    if (!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
-                        changed = true;
-                        //get local time
-                        LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
-                        if (!startTimeAM.isSelected()) {
-                            newEndTime = newEndTime.plusHours(12);
-                        }
-                        thisCourse.setEndTime(newEndTime.toString());
-                    }
-
+                    boolean changed = checkAndUpdateChanges(thisCourse, courseStartTime, courseEndTime,
+                            startIsAM, endIsAM);
                     if (changed) {
                         JOptionPane.showMessageDialog(null, "Course Updated!");
                     } else {
@@ -307,6 +273,59 @@ public class CourseView {
             }
         });
 
+    }
+
+    private boolean checkIfNotFilled() {
+        boolean titleNotFilled = courseTitleValue.getText() == null || courseTitleValue.getText().equals("");
+        boolean profNameNotFilled = profNameValue.getText() == null || profNameValue.getText().equals("");
+        boolean daysOfWeekNotFilled = Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[]{});
+        boolean descNotFilled = courseDescValue.getText() == null;
+        boolean startTimeNotFilled = startTimeValue.getText() == null;
+        boolean endTimeNotFilled = endTimeValue.getText() == null;
+
+        return titleNotFilled || profNameNotFilled || daysOfWeekNotFilled ||
+                descNotFilled || startTimeNotFilled || endTimeNotFilled;
+    }
+
+    //function that checks which fields changed compared to serialized course object values
+    private boolean checkAndUpdateChanges(Course thisCourse, String courseStartTime, String courseEndTime,
+                                          boolean startIsAM, boolean endIsAM) {
+        boolean changed = false;
+        if (!courseTitleValue.getText().equals(thisCourse.getCourseCode())) {
+            changed = true;
+            thisCourse.setCourseTitle(courseTitleValue.getText());
+        }
+        if (!profNameValue.getText().equals(thisCourse.getProfName())) {
+            changed = true;
+            thisCourse.setProfName(profNameValue.getText());
+        }
+        if (!Arrays.equals(daysOfWeekList.getSelectedIndices(), thisCourse.getDayInts())) {
+            changed = true;
+            thisCourse.setDayInts(daysOfWeekList.getSelectedIndices());
+        }
+        if (!courseDescValue.getText().equals(thisCourse.getCourseDesc())) {
+            changed = true;
+            thisCourse.setCourseDesc(courseDescValue.getText());
+        }
+        if (!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
+            changed = true;
+            //get local time
+            LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
+            if (!startTimeAM.isSelected()) {
+                newStartTime = newStartTime.plusHours(12);
+            }
+            thisCourse.setStartTime(newStartTime.toString());
+        }
+        if (!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
+            changed = true;
+            //get local time
+            LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
+            if (!startTimeAM.isSelected()) {
+                newEndTime = newEndTime.plusHours(12);
+            }
+            thisCourse.setEndTime(newEndTime.toString());
+        }
+        return changed;
     }
 
     public static void main(String[] args) {
