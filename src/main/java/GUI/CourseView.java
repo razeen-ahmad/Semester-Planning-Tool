@@ -46,6 +46,7 @@ public class CourseView {
     private JRadioButton endTimePM;
     private JLabel CourseViewLabel;
     private JLabel daysOfWeekHelpLabel;
+    private JButton deleteDeadline;
 
     private static final String[] DAYS_OF_WEEK = new String[]
             {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -93,7 +94,7 @@ public class CourseView {
 
         //intellij form generated java code for swing layout
         CourseView = new JPanel();
-        CourseView.setLayout(new GridLayoutManager(16, 9, new Insets(0, 0, 0, 0), -1, -1));
+        CourseView.setLayout(new GridLayoutManager(15, 9, new Insets(0, 0, 0, 0), -1, -1));
         CourseViewLabel = new JLabel();
         CourseViewLabel.setText("Edit Course Details");
         CourseView.add(CourseViewLabel, new GridConstraints(0, 2, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -111,10 +112,10 @@ public class CourseView {
         CourseView.add(descLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         startTimeLabel = new JLabel();
         startTimeLabel.setText("Start Time:");
-        CourseView.add(startTimeLabel, new GridConstraints(6, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(startTimeLabel, new GridConstraints(6, 1, 2, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         endTimeLabel = new JLabel();
         endTimeLabel.setText("End Time:");
-        CourseView.add(endTimeLabel, new GridConstraints(10, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(endTimeLabel, new GridConstraints(9, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         courseTitleValue = new JFormattedTextField(courseTitle);
         CourseView.add(courseTitleValue, new GridConstraints(1, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         profNameValue = new JFormattedTextField(courseProf);
@@ -124,23 +125,23 @@ public class CourseView {
         startTimeValue = new JFormattedTextField(timeFormatter);
         CourseView.add(startTimeValue, new GridConstraints(6, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         endTimeValue = new JFormattedTextField(timeFormatter);
-        CourseView.add(endTimeValue, new GridConstraints(10, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        CourseView.add(endTimeValue, new GridConstraints(9, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         daysOfWeekList = new JList(DAYS_OF_WEEK);
         CourseView.add(daysOfWeekList, new GridConstraints(3, 2, 2, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(150, 50), null, 0, false));
         final Spacer spacer1 = new Spacer();
         CourseView.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
-        CourseView.add(spacer2, new GridConstraints(15, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        CourseView.add(spacer2, new GridConstraints(14, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        CourseView.add(spacer3, new GridConstraints(13, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        CourseView.add(spacer3, new GridConstraints(12, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
         CourseView.add(spacer4, new GridConstraints(1, 8, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         updateCourse = new JButton();
         updateCourse.setText("Save Course Changes");
-        CourseView.add(updateCourse, new GridConstraints(14, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(updateCourse, new GridConstraints(13, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         goBack = new JButton();
         goBack.setText("Go Back");
-        CourseView.add(goBack, new GridConstraints(14, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(goBack, new GridConstraints(13, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
         CourseView.add(spacer5, new GridConstraints(5, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();
@@ -150,14 +151,9 @@ public class CourseView {
         CourseView.add(courseDeadlinesLabel, new GridConstraints(2, 6, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         courseDeadlineList = new JList(thisCourse.getDeadlines().toArray());
         CourseView.add(courseDeadlineList, new GridConstraints(3, 6, 5, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
-        selectDeadline = new JButton();
-        selectDeadline.setText("Select Deadline");
-        CourseView.add(selectDeadline, new GridConstraints(3, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         addDeadline = new JButton();
         addDeadline.setText("Add New Deadline");
         CourseView.add(addDeadline, new GridConstraints(2, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer7 = new Spacer();
-        CourseView.add(spacer7, new GridConstraints(9, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         startTimeAM = new JRadioButton();
         startTimeAM.setText("AM");
         CourseView.add(startTimeAM, new GridConstraints(8, 2, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -166,14 +162,19 @@ public class CourseView {
         CourseView.add(startTimePM, new GridConstraints(8, 3, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         endTimeAM = new JRadioButton();
         endTimeAM.setText("AM");
-        CourseView.add(endTimeAM, new GridConstraints(12, 2, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(endTimeAM, new GridConstraints(11, 2, 1, 1, GridConstraints.ANCHOR_SOUTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         endTimePM = new JRadioButton();
         endTimePM.setText("PM");
-        CourseView.add(endTimePM, new GridConstraints(12, 3, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        CourseView.add(endTimePM, new GridConstraints(11, 3, 1, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         daysOfWeekHelpLabel = new JLabel();
         daysOfWeekHelpLabel.setText("(hold CTRL to select multiple)");
         CourseView.add(daysOfWeekHelpLabel, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-
+        deleteDeadline = new JButton();
+        deleteDeadline.setText("Delete Selected Deadline");
+        CourseView.add(deleteDeadline, new GridConstraints(6, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectDeadline = new JButton();
+        selectDeadline.setText("Select Deadline");
+        CourseView.add(selectDeadline, new GridConstraints(4, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //initialize time fields
         startTimeValue.setText(courseStartTime);
@@ -248,19 +249,32 @@ public class CourseView {
             }
         });
 
-        //select deadline button listener and initialization
-        selectDeadline.setEnabled(false); //initially, no deadline selected
-        courseDeadlineList.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                selectDeadline.setEnabled(true); //enable select button
+        //delete button listener and initialization
+        deleteDeadline.setEnabled(false);
+        deleteDeadline.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
+                JOptionPane.showMessageDialog(null,
+                        "You will delete: " + selectedDeadline.toString());
             }
         });
+
+        //select deadline button listener and initialization
+        selectDeadline.setEnabled(false); //initially, no deadline selected
         selectDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
                 JOptionPane.showMessageDialog(null,
                         "You have selected: " + selectedDeadline.toString());
 
+            }
+        });
+
+        //course deadline list listener
+        courseDeadlineList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                selectDeadline.setEnabled(true); //enable select button
+                deleteDeadline.setEnabled(true); //enable delete button
             }
         });
 
@@ -331,18 +345,18 @@ public class CourseView {
     public static void main(String[] args) {
         Semester thisSem = Semester.deserialize("testSem");
 
-//        Course thisCourse = thisSem.getCourse(0);
-//        JPanel thisPanel = new CourseView(thisCourse, false, null).CourseView;
+        Course thisCourse = thisSem.getCourse(0);
+        JPanel thisPanel = new CourseView(thisCourse, false, null).CourseView;
 
-        Course nullCourse = new Course(null, null, new int[]{},
-                LocalTime.parse("12:00"), LocalTime.parse("12:00"),
-                null, null, thisSem);
-        JPanel thisPanel = new CourseView(nullCourse, true, thisSem).CourseView;
+//        Course nullCourse = new Course(null, null, new int[]{},
+//                LocalTime.parse("12:00"), LocalTime.parse("12:00"),
+//                null, null, thisSem);
+//        JPanel thisPanel = new CourseView(nullCourse, true, thisSem).CourseView;
 
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(700, 450);
+        thisFrame.setSize(750, 450);
         thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }

@@ -29,6 +29,7 @@ public class SemesterView {
     protected JPanel semView;
     private JLabel semDetails;
     private JButton addCourse;
+    private JButton deleteCourse;
 
     private Course selectedCourse;
 
@@ -99,6 +100,9 @@ public class SemesterView {
         addCourse = new JButton();
         addCourse.setText("Add New Course");
         semView.add(addCourse, new GridConstraints(2, 10, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deleteCourse = new JButton();
+        deleteCourse.setText("Delete Selected Course");
+        semView.add(deleteCourse, new GridConstraints(3, 10, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //initialize selected course variable
         selectedCourse = null;
@@ -114,21 +118,30 @@ public class SemesterView {
         courseList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
                 selectCourse.setEnabled(true);
+                deleteCourse.setEnabled(true);
                 selectedCourse = (Course) courseList.getSelectedValue();
             }
         });
 
-        //add course button listener
+        //course button listener
         addCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Create new courses");
             }
         });
 
-        //add go back button listener
+        //go back button listener
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, "Go back");
+            }
+        });
+
+        //delete course button listener and initialize
+        deleteCourse.setEnabled(false);
+        deleteCourse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "You will delete " + selectedCourse.toString());
             }
         });
     }

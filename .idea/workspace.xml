@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,9 +82,9 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
-  <component name="RunManager" selected="Application.SemesterPlanningApp">
-    <configuration name="CreateSemester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.CreateSemester" />
+  <component name="RunManager" selected="Application.CourseView">
+    <configuration name="CourseView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.CourseView" />
       <module name="semester-planning-app.main" />
       <extension name="coverage">
         <pattern>
@@ -96,8 +96,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeadlineView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.DeadlineView" />
+    <configuration name="CreateSemester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.CreateSemester" />
       <module name="semester-planning-app.main" />
       <extension name="coverage">
         <pattern>
@@ -144,11 +144,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CourseView" />
+        <item itemvalue="Application.SemesterView" />
         <item itemvalue="Application.SemesterPlanningApp" />
         <item itemvalue="Application.SemesterSelect" />
         <item itemvalue="Application.CreateSemester" />
-        <item itemvalue="Application.DeadlineView" />
-        <item itemvalue="Application.SemesterView" />
       </list>
     </recent_temporary>
   </component>

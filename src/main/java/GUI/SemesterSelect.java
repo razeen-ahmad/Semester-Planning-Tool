@@ -32,11 +32,11 @@ public class SemesterSelect {
         //string for intro body text
         String introPara =
                 "   This is a java application to help students plan their semesters with" +
-                "\nGoogle Calendar and Google Tasks. Semesters mark the start and" +
-                "\nend dates for courses, where courses are implemented as recurring" +
-                "\nevents in Google Calendar. Each course has its own list of deadlines," +
-                "\nwhich are implemented as tasks in Google Tasks. To start, select or" +
-                "\ncreate a semester to add courses and deadlines!";
+                        "\nGoogle Calendar and Google Tasks. Semesters mark the start and" +
+                        "\nend dates for courses, where courses are implemented as recurring" +
+                        "\nevents in Google Calendar. Each course has its own list of deadlines," +
+                        "\nwhich are implemented as tasks in Google Tasks. To start, select or" +
+                        "\ncreate a semester to add courses and deadlines!";
 
         //intellij generated swing layout code for this pane
         selectPanel = new JPanel();
