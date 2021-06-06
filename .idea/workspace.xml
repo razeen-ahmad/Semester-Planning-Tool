@@ -7,16 +7,7 @@
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/Loading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/Loading.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/CourseDeadline.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterPlanningApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/data/testSem.ser" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/data/testSem.ser" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

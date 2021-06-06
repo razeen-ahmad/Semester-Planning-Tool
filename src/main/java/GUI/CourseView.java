@@ -6,6 +6,7 @@ import SemesterCode.Semester;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import jdk.vm.ci.meta.Local;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -105,22 +106,22 @@ public class CourseView {
         CourseViewLabel.setText("Edit Course Details");
         CourseView.add(CourseViewLabel, new GridConstraints(0, 2, 1, 7, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         courseTitleLabel = new JLabel();
-        courseTitleLabel.setText("Course Title:");
+        courseTitleLabel.setText("Course Title:*");
         CourseView.add(courseTitleLabel, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         profNameLabel = new JLabel();
-        profNameLabel.setText("Instructor:");
+        profNameLabel.setText("Instructor:*");
         CourseView.add(profNameLabel, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         daysOfWeekLabel = new JLabel();
-        daysOfWeekLabel.setText("Taught On:");
+        daysOfWeekLabel.setText("Taught On:*");
         CourseView.add(daysOfWeekLabel, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         descLabel = new JLabel();
         descLabel.setText("Course Description:");
         CourseView.add(descLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         startTimeLabel = new JLabel();
-        startTimeLabel.setText("Start Time:");
+        startTimeLabel.setText("Start Time:*");
         CourseView.add(startTimeLabel, new GridConstraints(6, 1, 2, 1, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         endTimeLabel = new JLabel();
-        endTimeLabel.setText("End Time:");
+        endTimeLabel.setText("End Time:*");
         CourseView.add(endTimeLabel, new GridConstraints(9, 1, 2, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         courseTitleValue = new JFormattedTextField(courseTitle);
         CourseView.add(courseTitleValue, new GridConstraints(1, 2, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
@@ -214,36 +215,25 @@ public class CourseView {
         if (newCourse) {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean isNotFilled = checkIfNotFilled();
+                    LocalTime givenStartTime = getStartTime();
+                    LocalTime givenEndTime = getEndTime();
+                    boolean isNotFilled = checkIfNotFilled(givenStartTime, givenEndTime);
                     if (isNotFilled) {
-                        JOptionPane.showMessageDialog(null, "Fill in *'d fields");
+                        JOptionPane.showMessageDialog(null,
+                                "Fill in all * fields" +
+                                        "\nCheck that start time and end time are compatible" +
+                                        "\n(e.g. end time comes after start time)"
+                                );
                     } else {
-                        JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
+                        JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateCourse);
                         Loading.getLoadingScreen(mainFrame);
-
                         Thread t = new Thread(new Runnable() {
                             public void run() {
-                                //get localtime of start time value
-                                LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
-                                if (!startTimeAM.isSelected() && realStartTime.getHour() != 12) {
-                                    realStartTime = realStartTime.plusHours(12);
-                                }
-                                if (startTimeAM.isSelected() && realStartTime.getHour() == 12) {
-                                    realStartTime = realStartTime.minusHours(12);
-                                }
-                                //get localtime of end time value
-                                LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
-                                if (!endTimeAM.isSelected() && realEndTime.getHour() != 12) {
-                                    realEndTime = realEndTime.plusHours(12);
-                                }
-                                if (endTimeAM.isSelected() && realEndTime.getHour() == 12) {
-                                    realEndTime = realEndTime.minusHours(12);
-                                }
                                 //add through Google API
                                 thisSem.addCourse(
                                         courseTitleValue.getText(), profNameValue.getText(),
-                                        daysOfWeekList.getSelectedIndices(), realStartTime.toString(),
-                                        realEndTime.toString()
+                                        daysOfWeekList.getSelectedIndices(), givenStartTime.toString(),
+                                        givenEndTime.toString()
                                 );
                                 SemesterView.getUpdatedSemView(mainFrame, thisSem);
                             }
@@ -261,12 +251,23 @@ public class CourseView {
 
                     Thread t = new Thread(new Runnable() {
                         public void run() {
+                            LocalTime startTime = getStartTime();
+                            LocalTime endTime = getEndTime();
+                            boolean isValidDates = checkDateValidity(startTime, endTime);
                             boolean changed = checkAndUpdateChanges(thisCourse, courseStartTime, courseEndTime,
-                                    startIsAM, endIsAM);
-                            if (changed) {
+                                    startIsAM, endIsAM, startTime, endTime, isValidDates);
+                            if (!isValidDates) {
+                                JOptionPane.showMessageDialog(null,
+                                        "\nCheck that start time and end time are compatible" +
+                                        "\n(e.g. end time comes after start time)."
+                                );
+                                SemesterView.getSelectedCourseView(mainFrame, thisCourse);
+                            }
+                            else if (changed) {
                                 JOptionPane.showMessageDialog(null, "Course Updated!");
                                 getUpdatedCourseView(mainFrame, thisCourse);
-                            } else {
+                            }
+                            else {
                                 JOptionPane.showMessageDialog(null, "No updates to be made");
                                 SemesterView.getSelectedCourseView(mainFrame, thisCourse);
                             }
@@ -372,21 +373,24 @@ public class CourseView {
         mainFrame.setVisible(true);
     }
 
-    private boolean checkIfNotFilled() {
+    private boolean checkIfNotFilled(LocalTime givenStartTime, LocalTime givenEndTime) {
         boolean titleNotFilled = courseTitleValue.getText() == null || courseTitleValue.getText().equals("");
         boolean profNameNotFilled = profNameValue.getText() == null || profNameValue.getText().equals("");
         boolean daysOfWeekNotFilled = Arrays.equals(daysOfWeekList.getSelectedIndices(), new int[]{});
         boolean descNotFilled = courseDescValue.getText() == null;
         boolean startTimeNotFilled = startTimeValue.getText() == null;
         boolean endTimeNotFilled = endTimeValue.getText() == null;
+        //check that given start/end times are compatible
+        boolean isValidDates = checkDateValidity(givenStartTime, givenEndTime);
 
         return titleNotFilled || profNameNotFilled || daysOfWeekNotFilled ||
-                descNotFilled || startTimeNotFilled || endTimeNotFilled;
+                descNotFilled || startTimeNotFilled || endTimeNotFilled || !isValidDates;
     }
 
     //function that checks which fields changed compared to serialized course object values
     private boolean checkAndUpdateChanges(Course thisCourse, String courseStartTime, String courseEndTime,
-                                          boolean startIsAM, boolean endIsAM) {
+                                          boolean startIsAM, boolean endIsAM, LocalTime startTime,
+                                          LocalTime endTime, boolean isValidDates) {
         boolean changed = false;
         if (!courseTitleValue.getText().equals(thisCourse.getCourseCode())) {
             changed = true;
@@ -405,38 +409,63 @@ public class CourseView {
             thisCourse.setCourseDesc(courseDescValue.getText());
         }
 
+        //determine if start/end times have been changed
         boolean timeChange = false;
-        LocalTime newStartTime = null;
-        LocalTime newEndTime = null;
         if (!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
             changed = true;
             timeChange = true;
-            //get local time
-            newStartTime = LocalTime.parse(startTimeValue.getText());
-            if (!startTimeAM.isSelected() && newStartTime.getHour() != 12) {
-                newStartTime = newStartTime.plusHours(12);
-            }
-            else if (startTimeAM.isSelected() && newStartTime.getHour() == 12) {
-                newStartTime = newStartTime.minusHours(12);
-            }
         }
         if (!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
             changed = true;
             timeChange = true;
-            //get local time
-            newEndTime = LocalTime.parse(endTimeValue.getText());
-            if (!endTimeAM.isSelected() && newEndTime.getHour() != 12) {
-                newEndTime = newEndTime.plusHours(12);
-            }
-            else if (endTimeAM.isSelected() && newEndTime.getHour() == 12) {
-                newEndTime = newEndTime.minusHours(12);
-            }
         }
 
-        if(timeChange) {
-            thisCourse.setTimes(newStartTime.toString(), newEndTime.toString());
+        //check if valid changes and then make
+        if(timeChange && isValidDates) {
+            thisCourse.setTimes(startTime.toString(), endTime.toString());
         }
+
+        //boolean whether any fields have been changed and updated
         return changed;
+    }
+
+    private LocalTime getStartTime(){
+        //get local time for start
+        LocalTime startTime = LocalTime.parse(startTimeValue.getText());
+        if (!startTimeAM.isSelected() && startTime.getHour() != 12) {
+            startTime = startTime.plusHours(12);
+        }
+        else if (startTimeAM.isSelected() && startTime.getHour() == 12) {
+            startTime = startTime.minusHours(12);
+        }
+
+        return startTime;
+    }
+
+    private LocalTime getEndTime() {
+        //get local time for end
+        LocalTime endTime = LocalTime.parse(endTimeValue.getText());
+        if (!endTimeAM.isSelected() && endTime.getHour() != 12) {
+            endTime = endTime.plusHours(12);
+        }
+        else if (endTimeAM.isSelected() && endTime.getHour() == 12) {
+            endTime = endTime.minusHours(12);
+        }
+        return endTime;
+    }
+
+    private boolean checkDateValidity(LocalTime startTime, LocalTime endTime) {
+
+        boolean isValid = true;
+        if(startTime.isAfter(endTime)) {
+            isValid = false;
+        }
+        else if(endTime.isBefore(startTime)) {
+            isValid = false;
+        }
+
+        return isValid;
+
     }
 
     public static void main(String[] args) {

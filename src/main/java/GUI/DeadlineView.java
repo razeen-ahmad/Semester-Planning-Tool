@@ -45,13 +45,13 @@ public class DeadlineView {
         final Spacer spacer1 = new Spacer();
         DeadlineView.add(spacer1, new GridConstraints(1, 6, 4, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         deadlineNameLabel = new JLabel();
-        deadlineNameLabel.setText("Deadline Name:");
+        deadlineNameLabel.setText("Deadline Name:*");
         DeadlineView.add(deadlineNameLabel, new GridConstraints(1, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deadlineNotesLabel = new JLabel();
         deadlineNotesLabel.setText("Deadline Notes:");
         DeadlineView.add(deadlineNotesLabel, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         deadlineDueDateLabel = new JLabel();
-        deadlineDueDateLabel.setText("Due Date:");
+        deadlineDueDateLabel.setText("Due Date:*");
         DeadlineView.add(deadlineDueDateLabel, new GridConstraints(4, 1, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         DeadlineView.add(spacer2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
@@ -121,7 +121,7 @@ public class DeadlineView {
                 public void actionPerformed(ActionEvent e) {
                     boolean isNotFilled = checkIfNotFilled();
                     if (isNotFilled) {
-                        JOptionPane.showMessageDialog(null, "Fill in *'d fields");
+                        JOptionPane.showMessageDialog(null, "Fill in all * fields");
                     } else {
                         JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
                         Loading.getLoadingScreen(mainFrame);
