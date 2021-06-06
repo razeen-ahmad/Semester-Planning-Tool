@@ -329,8 +329,8 @@ public class CreateSemester {
                 String givenSemName = semNameInput.getText().trim();
                 String givenEndDate = semEndInput.getText();
                 String givenStartDate = semStartInput.getText();
-                if (givenSemName == null || givenStartDate == null || givenEndDate == null) {
-                    JOptionPane.showMessageDialog(null, "Please fill in all fields");
+                if (givenSemName.equals("") || givenStartDate.equals("") || givenEndDate.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Fill in all fields");
                 } else {
                     JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(createButton);
                     Loading.getLoadingScreen(mainFrame);

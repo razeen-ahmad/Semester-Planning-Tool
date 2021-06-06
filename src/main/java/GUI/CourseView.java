@@ -6,7 +6,6 @@ import SemesterCode.Semester;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import jdk.vm.ci.meta.Local;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
