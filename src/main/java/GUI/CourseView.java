@@ -290,18 +290,25 @@ public class CourseView {
         deleteDeadline.setEnabled(false);
         deleteDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
-                Loading.getLoadingScreen(mainFrame);
+                CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
+                int dialogResult = JOptionPane.showConfirmDialog (null,
+                        "Are you sure you want to delete "  + selectedDeadline + "?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
 
-                Thread t = new Thread(new Runnable() {
-                    public void run() {
-                        int selectedIndex = courseDeadlineList.getSelectedIndex();
-                        thisCourse.deleteDeadline(selectedIndex);
-                        getUpdatedCourseView(mainFrame, thisCourse);
-                    }
+                if(dialogResult == JOptionPane.YES_OPTION){
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
+                    Loading.getLoadingScreen(mainFrame);
 
-                });
-                t.start();
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            int selectedIndex = courseDeadlineList.getSelectedIndex();
+                            thisCourse.deleteDeadline(selectedIndex);
+                            getUpdatedCourseView(mainFrame, thisCourse);
+                        }
+
+                    });
+                    t.start();
+                }
 
             }
         });

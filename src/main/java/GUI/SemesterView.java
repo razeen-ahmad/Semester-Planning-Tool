@@ -136,18 +136,24 @@ public class SemesterView {
         deleteCourse.setEnabled(false);
         deleteCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteCourse);
-                Loading.getLoadingScreen(mainFrame);
+                Course selectedCourse = (Course) courseList.getSelectedValue();
+                int dialogResult = JOptionPane.showConfirmDialog (null,
+                        "Are you sure you want to delete "  + selectedCourse + "?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+                if(dialogResult == JOptionPane.YES_OPTION) {
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteCourse);
+                    Loading.getLoadingScreen(mainFrame);
 
-                Thread t = new Thread(new Runnable() {
-                    public void run() {
-                        int selectedCourse = courseList.getSelectedIndex();
-                        sem.deleteCourse(selectedCourse);
-                        getUpdatedSemView(mainFrame, sem);
-                    }
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            int selectedCourse = courseList.getSelectedIndex();
+                            sem.deleteCourse(selectedCourse);
+                            getUpdatedSemView(mainFrame, sem);
+                        }
 
-                });
-                t.start();
+                    });
+                    t.start();
+                }
             }
         });
 
