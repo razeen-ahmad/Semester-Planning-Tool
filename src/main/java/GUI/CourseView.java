@@ -180,7 +180,7 @@ public class CourseView {
         deleteDeadline.setText("Delete Selected Deadline");
         CourseView.add(deleteDeadline, new GridConstraints(6, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         selectDeadline = new JButton();
-        selectDeadline.setText("Select Deadline");
+        selectDeadline.setText("Go to Selected Deadline");
         CourseView.add(selectDeadline, new GridConstraints(4, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         timeZoneLabel = new JLabel();
         timeZoneLabel.setText("NOTE: All times are in: " + thisSem.getTimezone());
@@ -238,6 +238,7 @@ public class CourseView {
                                         daysOfWeekList.getSelectedIndices(), givenStartTime.toString(),
                                         givenEndTime.toString()
                                 );
+                                JOptionPane.showMessageDialog(null, "Course Added!");
                                 SemesterView.getUpdatedSemView(mainFrame, thisSem);
                             }
                         });
@@ -305,6 +306,8 @@ public class CourseView {
                         public void run() {
                             int selectedIndex = courseDeadlineList.getSelectedIndex();
                             thisCourse.deleteDeadline(selectedIndex);
+                            JOptionPane.showMessageDialog(null,
+                                    "Deadline Deleted and Saved!");
                             getUpdatedCourseView(mainFrame, thisCourse);
                         }
 
@@ -337,8 +340,13 @@ public class CourseView {
         //go back button listener
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
-                SemesterSelect.getSelectedSemView(mainFrame, thisSem);
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Any unsaved changes will be lost. Do you still want to go back?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
+                    SemesterSelect.getSelectedSemView(mainFrame, thisSem);
+                }
             }
         });
 
@@ -351,7 +359,7 @@ public class CourseView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(updatedCoursePanel);
-        mainFrame.setSize(750, 450);
+        mainFrame.setSize(900, 450);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -364,7 +372,7 @@ public class CourseView {
 
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setContentPane(thisPanel);
-        mainFrame.setSize(700, 400);
+        mainFrame.setSize(750, 400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -376,7 +384,7 @@ public class CourseView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(courseDeadlinePanel);
-        mainFrame.setSize(700, 400);
+        mainFrame.setSize(750, 400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -474,7 +482,7 @@ public class CourseView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("Test fall 2020");
+        Semester thisSem = Semester.deserialize("testSem");
 
         Course thisCourse = thisSem.getCourse(0);
         JPanel thisPanel = new CourseView(thisCourse, false, thisSem).CourseView;
@@ -487,7 +495,7 @@ public class CourseView {
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(750, 450);
+        thisFrame.setSize(900, 450);
         thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }

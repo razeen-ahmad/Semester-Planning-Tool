@@ -116,6 +116,7 @@ public class SemesterSelect {
                     Thread t = new Thread(new Runnable() {
                         public void run() {
                             selectedSem.deleteSem();
+                            JOptionPane.showMessageDialog(null, "Semester Deleted!");
                             SemesterView.getSemSelectView(mainFrame);
                         }
                     });

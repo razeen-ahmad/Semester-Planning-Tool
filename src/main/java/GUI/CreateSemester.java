@@ -338,6 +338,7 @@ public class CreateSemester {
                     Thread t = new Thread(new Runnable() {
                         public void run() {
                             Semester newSem = new Semester(givenSemName, givenStartDate, givenEndDate, givenZone);
+                            JOptionPane.showMessageDialog(null, "New Semester Created!");
                             SemesterView.getUpdatedSemView(mainFrame, newSem);
                         }
                     });

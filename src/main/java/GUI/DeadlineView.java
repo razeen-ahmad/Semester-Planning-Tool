@@ -67,7 +67,7 @@ public class DeadlineView {
         deadlineDueDateHelperLabel.setText("Enter date as: 'YYYY-MM-DD' (e.g Jan. 1, 2010 = '2010-01-01')");
         DeadlineView.add(deadlineDueDateHelperLabel, new GridConstraints(5, 3, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         updateDeadlineButton = new JButton();
-        updateDeadlineButton.setText("Save");
+        updateDeadlineButton.setText("Save Deadline Changes");
         DeadlineView.add(updateDeadlineButton, new GridConstraints(6, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         goBackButton = new JButton();
         goBackButton.setText("Go Back");
@@ -87,8 +87,13 @@ public class DeadlineView {
         //go back button listener
         goBackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
-                SemesterView.getSelectedCourseView(mainFrame, thisCourse);
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Any unsaved changes will be lost. Do you still want to go back?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBackButton);
+                    SemesterView.getSelectedCourseView(mainFrame, thisCourse);
+                }
             }
         });
 
@@ -105,7 +110,8 @@ public class DeadlineView {
                                     origDeadlineNotes, origDeadlineDueDate);
 
                             if (changed) {
-                                JOptionPane.showMessageDialog(null, "Deadline updated");
+                                JOptionPane.showMessageDialog(null,
+                                        "Deadline Updated and Saved!");
                                 CourseView.getUpdatedCourseView(mainFrame, thisCourse);
                             } else {
                                 JOptionPane.showMessageDialog(null, "No changes to update");
@@ -131,6 +137,8 @@ public class DeadlineView {
                                 //update in Google API
                                 thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
                                         deadlineNotesValue.getText());
+                                JOptionPane.showMessageDialog(null,
+                                        "New Deadline Created and Saved!");
                                 CourseView.getUpdatedCourseView(mainFrame, thisCourse);
                             }
                         });
@@ -170,7 +178,7 @@ public class DeadlineView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("TEST fall 2020");
+        Semester thisSem = Semester.deserialize("testSem");
         Course thisCourse = thisSem.getCourse(0);
 //        CourseDeadline thisDeadline = thisCourse.getDeadlines().get(0);
 //        JPanel thisPanel = new DeadlineView(thisDeadline, false, null).DeadlineView;
@@ -183,7 +191,7 @@ public class DeadlineView {
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(700, 400);
+        thisFrame.setSize(750, 400);
         thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }

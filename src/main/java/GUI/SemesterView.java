@@ -148,6 +148,7 @@ public class SemesterView {
                         public void run() {
                             int selectedCourse = courseList.getSelectedIndex();
                             sem.deleteCourse(selectedCourse);
+                            JOptionPane.showMessageDialog(null, "Course Deleted!");
                             getUpdatedSemView(mainFrame, sem);
                         }
 
@@ -183,7 +184,7 @@ public class SemesterView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(coursePanel);
-        mainFrame.setSize(750, 450);
+        mainFrame.setSize(900, 450);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -197,7 +198,7 @@ public class SemesterView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(createCoursePanel);
-        mainFrame.setSize(750, 450);
+        mainFrame.setSize(900, 450);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
