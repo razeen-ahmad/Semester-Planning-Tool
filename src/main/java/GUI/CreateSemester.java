@@ -1,5 +1,6 @@
 package GUI;
 
+import SemesterCode.Semester;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -35,9 +36,6 @@ public class CreateSemester {
     private JButton goBack;
     private JLabel fieldsNotesLabel;
 
-    private String givenSemName;
-    private String givenStartDate;
-    private String givenEndDate;
     private String givenZone;
 
     private static final String[] ZONE_NAMES = new String[]{
@@ -310,31 +308,11 @@ public class CreateSemester {
         fieldsNotesLabel.setText("NOTE: These Values Cannot Be Changed Later!");
         CreateSemPanel.add(fieldsNotesLabel, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
-        //initialize field variable values
-        givenSemName = null;
-        givenStartDate = null;
-        givenEndDate = null;
+        //initialize time zone field variable
         givenZone = ZONE_NAMES[0];
 
-        //semName field listener and initialization
-        semNameInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                givenSemName = semNameInput.getText();
-            }
-        });
+        //semName field initialization
         semNameInput.setValue(null);
-
-        //semester start/end date listeners
-        semStartInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                givenStartDate = semStartInput.getText();
-            }
-        });
-        semEndInput.addPropertyChangeListener("value", new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                givenEndDate = semEndInput.getText();
-            }
-        });
 
         //time zone drop down menu listener
         semZoneSelect.addActionListener(new ActionListener() {
@@ -348,14 +326,22 @@ public class CreateSemester {
         //create semester button listener
         createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String givenSemName = semNameInput.getText().trim();
+                String givenEndDate = semEndInput.getText();
+                String givenStartDate = semStartInput.getText();
                 if (givenSemName == null || givenStartDate == null || givenEndDate == null) {
                     JOptionPane.showMessageDialog(null, "Please fill in all fields");
                 } else {
-                    JOptionPane.showMessageDialog(null,
-                            "You have created a new semester: " + givenSemName +
-                                    "\nstarts on: " + givenStartDate + " and ends on: " + givenEndDate +
-                                    "\n in: " + givenZone
-                    );
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(createButton);
+                    Loading.getLoadingScreen(mainFrame);
+
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            Semester newSem = new Semester(givenSemName, givenStartDate, givenEndDate, givenZone);
+                            SemesterView.getUpdatedSemView(mainFrame, newSem);
+                        }
+                    });
+                    t.start();
                 }
             }
         });
@@ -363,9 +349,20 @@ public class CreateSemester {
         //go back button listener
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Go Back");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
+                getSemesterSelect(mainFrame);
             }
         });
+    }
+
+    private static void getSemesterSelect(JFrame mainFrame) {
+        JPanel selectSemPanel = new SemesterSelect().selectPanel;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(selectSemPanel);
+        mainFrame.setSize(650, 350);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

@@ -230,5 +230,8 @@ public class GoogleServices {
         Task thisTask = service.tasks().get(taskListID, taskId).execute();
 
         thisTask.setDeleted(true);
+
+        //push changes to google tasks api
+        service.tasks().update(taskListID, thisTask.getId(), thisTask).execute();
     }
 }

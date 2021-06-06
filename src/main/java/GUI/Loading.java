@@ -40,6 +40,7 @@ public class Loading {
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(loadingPanel);
         mainFrame.setSize(400, 300);
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
 

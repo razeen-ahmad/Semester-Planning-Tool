@@ -76,6 +76,9 @@ public class CourseView {
         } else if (thisCourse.getStartTime().getHour() == 12) {
             courseStartTime = thisCourse.getStartTime().toString();
             startIsAM = false;
+        } else if(thisCourse.getStartTime().getHour() == 0) {
+            courseStartTime = thisCourse.getStartTime().plusHours(12L).toString();
+            startIsAM = true;
         } else {
             courseStartTime = thisCourse.getStartTime().toString();
             startIsAM = true;
@@ -87,6 +90,9 @@ public class CourseView {
         } else if (thisCourse.getEndTime().getHour() == 12) {
             courseEndTime = thisCourse.getEndTime().toString();
             endIsAM = false;
+        } else if(thisCourse.getEndTime().getHour() == 0) {
+            courseEndTime = thisCourse.getEndTime().plusHours(12L).toString();
+            endIsAM = true;
         } else {
             courseEndTime = thisCourse.getEndTime().toString();
             endIsAM = true;
@@ -197,6 +203,11 @@ public class CourseView {
         //set days of week list selections
         daysOfWeekList.setSelectedIndices(courseDays);
 
+        //check if creating course for first time- do not want to add deadlines null course
+        if(newCourse) {
+            addDeadline.setEnabled(false);
+        }
+
 
         //update semester button press, conditional action listeners
         //based on whether creating new or editing existing course
@@ -205,39 +216,64 @@ public class CourseView {
                 public void actionPerformed(ActionEvent e) {
                     boolean isNotFilled = checkIfNotFilled();
                     if (isNotFilled) {
-                        JOptionPane.showMessageDialog(null, "Fill in all fields");
+                        JOptionPane.showMessageDialog(null, "Fill in *'d fields");
                     } else {
-                        //get localtime of start time value
-                        LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
-                        if (!startTimeAM.isSelected()) {
-                            realStartTime = realStartTime.plusHours(12);
-                        }
-                        //get localtime of end time value
-                        LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
-                        if (!endTimeAM.isSelected()) {
-                            realEndTime = realEndTime.plusHours(12);
-                        }
+                        JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
+                        Loading.getLoadingScreen(mainFrame);
 
-                        //add through Google API
-                        thisSem.addCourse(
-                                courseTitleValue.getText(), profNameValue.getText(),
-                                daysOfWeekList.getSelectedIndices(), realStartTime.toString(),
-                                realEndTime.toString()
-                        );
-                        JOptionPane.showMessageDialog(null, "Successfully created new course");
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+                                //get localtime of start time value
+                                LocalTime realStartTime = LocalTime.parse(startTimeValue.getText());
+                                if (!startTimeAM.isSelected() && realStartTime.getHour() != 12) {
+                                    realStartTime = realStartTime.plusHours(12);
+                                }
+                                if (startTimeAM.isSelected() && realStartTime.getHour() == 12) {
+                                    realStartTime = realStartTime.minusHours(12);
+                                }
+                                //get localtime of end time value
+                                LocalTime realEndTime = LocalTime.parse(endTimeValue.getText());
+                                if (!endTimeAM.isSelected() && realEndTime.getHour() != 12) {
+                                    realEndTime = realEndTime.plusHours(12);
+                                }
+                                if (endTimeAM.isSelected() && realEndTime.getHour() == 12) {
+                                    realEndTime = realEndTime.minusHours(12);
+                                }
+                                //add through Google API
+                                thisSem.addCourse(
+                                        courseTitleValue.getText(), profNameValue.getText(),
+                                        daysOfWeekList.getSelectedIndices(), realStartTime.toString(),
+                                        realEndTime.toString()
+                                );
+                                SemesterView.getUpdatedSemView(mainFrame, thisSem);
+                            }
+                        });
+                        t.start();
                     }
+
                 }
             });
         } else {
             updateCourse.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean changed = checkAndUpdateChanges(thisCourse, courseStartTime, courseEndTime,
-                            startIsAM, endIsAM);
-                    if (changed) {
-                        JOptionPane.showMessageDialog(null, "Course Updated!");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No updates to be made");
-                    }
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
+                    Loading.getLoadingScreen(mainFrame);
+
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            boolean changed = checkAndUpdateChanges(thisCourse, courseStartTime, courseEndTime,
+                                    startIsAM, endIsAM);
+                            if (changed) {
+                                JOptionPane.showMessageDialog(null, "Course Updated!");
+                                getUpdatedCourseView(mainFrame, thisCourse);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No updates to be made");
+                                SemesterView.getSelectedCourseView(mainFrame, thisCourse);
+                            }
+                        }
+
+                    });
+                    t.start();
                 }
             });
         }
@@ -245,7 +281,8 @@ public class CourseView {
         //new deadline button listener
         addDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "new deadline to be added!");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(addDeadline);
+                getCreateDeadlineView(mainFrame, thisCourse);
             }
         });
 
@@ -253,9 +290,19 @@ public class CourseView {
         deleteDeadline.setEnabled(false);
         deleteDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
-                JOptionPane.showMessageDialog(null,
-                        "You will delete: " + selectedDeadline.toString());
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
+                Loading.getLoadingScreen(mainFrame);
+
+                Thread t = new Thread(new Runnable() {
+                    public void run() {
+                        int selectedIndex = courseDeadlineList.getSelectedIndex();
+                        thisCourse.deleteDeadline(selectedIndex);
+                        getUpdatedCourseView(mainFrame, thisCourse);
+                    }
+
+                });
+                t.start();
+
             }
         });
 
@@ -263,10 +310,10 @@ public class CourseView {
         selectDeadline.setEnabled(false); //initially, no deadline selected
         selectDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(selectDeadline);
                 CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
-                JOptionPane.showMessageDialog(null,
-                        "You have selected: " + selectedDeadline.toString());
 
+                getSelectedDeadlineView(mainFrame, selectedDeadline, thisCourse);
             }
         });
 
@@ -281,12 +328,48 @@ public class CourseView {
         //go back button listener
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
-                JOptionPane.showMessageDialog(null, "Go Back");
-
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
+                SemesterSelect.getSelectedSemView(mainFrame, thisSem);
             }
         });
 
+    }
+
+    protected static void getUpdatedCourseView(JFrame mainFrame, Course thisCourse) {
+        Course updatedCourse = thisCourse.serialize();
+        JPanel updatedCoursePanel = new CourseView(updatedCourse, false,
+                thisCourse.getThisSemester()).CourseView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(updatedCoursePanel);
+        mainFrame.setSize(750, 450);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    private static void getCreateDeadlineView(JFrame mainFrame, Course thisCourse) {
+        CourseDeadline nullDeadline = new CourseDeadline(null, null, thisCourse,
+                null, null, null);
+        JPanel thisPanel = new DeadlineView(nullDeadline, true, thisCourse,
+                thisCourse.getThisSemester()).DeadlineView;
+
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setContentPane(thisPanel);
+        mainFrame.setSize(700, 400);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    protected static void getSelectedDeadlineView(JFrame mainFrame, CourseDeadline selectedDeadline,
+                                                Course thisCourse) {
+        JPanel courseDeadlinePanel = new DeadlineView(selectedDeadline, false,
+                thisCourse, thisCourse.getThisSemester()).DeadlineView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(courseDeadlinePanel);
+        mainFrame.setSize(700, 400);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
     }
 
     private boolean checkIfNotFilled() {
@@ -321,32 +404,46 @@ public class CourseView {
             changed = true;
             thisCourse.setCourseDesc(courseDescValue.getText());
         }
+
+        boolean timeChange = false;
+        LocalTime newStartTime = null;
+        LocalTime newEndTime = null;
         if (!startTimeValue.getText().equals(courseStartTime) || startTimeAM.isSelected() != startIsAM) {
             changed = true;
+            timeChange = true;
             //get local time
-            LocalTime newStartTime = LocalTime.parse(startTimeValue.getText());
-            if (!startTimeAM.isSelected()) {
+            newStartTime = LocalTime.parse(startTimeValue.getText());
+            if (!startTimeAM.isSelected() && newStartTime.getHour() != 12) {
                 newStartTime = newStartTime.plusHours(12);
             }
-            thisCourse.setStartTime(newStartTime.toString());
+            else if (startTimeAM.isSelected() && newStartTime.getHour() == 12) {
+                newStartTime = newStartTime.minusHours(12);
+            }
         }
         if (!endTimeValue.getText().equals(courseEndTime) || endTimeAM.isSelected() != endIsAM) {
             changed = true;
+            timeChange = true;
             //get local time
-            LocalTime newEndTime = LocalTime.parse(endTimeValue.getText());
-            if (!startTimeAM.isSelected()) {
+            newEndTime = LocalTime.parse(endTimeValue.getText());
+            if (!endTimeAM.isSelected() && newEndTime.getHour() != 12) {
                 newEndTime = newEndTime.plusHours(12);
             }
-            thisCourse.setEndTime(newEndTime.toString());
+            else if (endTimeAM.isSelected() && newEndTime.getHour() == 12) {
+                newEndTime = newEndTime.minusHours(12);
+            }
+        }
+
+        if(timeChange) {
+            thisCourse.setTimes(newStartTime.toString(), newEndTime.toString());
         }
         return changed;
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("testSem");
+        Semester thisSem = Semester.deserialize("Test fall 2020");
 
         Course thisCourse = thisSem.getCourse(0);
-        JPanel thisPanel = new CourseView(thisCourse, false, null).CourseView;
+        JPanel thisPanel = new CourseView(thisCourse, false, thisSem).CourseView;
 
 //        Course nullCourse = new Course(null, null, new int[]{},
 //                LocalTime.parse("12:00"), LocalTime.parse("12:00"),

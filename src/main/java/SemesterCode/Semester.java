@@ -58,6 +58,16 @@ public class Semester implements java.io.Serializable {
         return this.courses.get(courseIndex);
     }
 
+    public Course getCourse(String courseName) {
+        for(int i = 0; i < this.courses.size(); i++) {
+            Course thisCourse = this.courses.get(i);
+            if(thisCourse.getCourseCode().equals(courseName)) {
+                return  thisCourse;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Course> getCourseList() {
         return this.courses;
     }
@@ -211,10 +221,17 @@ public class Semester implements java.io.Serializable {
         else{
             Course thisCourse = this.courses.get(courseIndex);
             this.courses.remove(courseIndex);
+            //remove course event from google calendar
             try {
                 GoogleServices.deleteCourse(thisCourse.getEventID());
             } catch (IOException | GeneralSecurityException e) {
                 e.printStackTrace();
+            }
+            //remove all of courses deadlines from google tasks
+            ArrayList<CourseDeadline> deadlines= thisCourse.getDeadlines();
+            int numDeadlines = deadlines.size();
+            for(int i = 0; i < numDeadlines; i++) {
+                thisCourse.deleteDeadline(0);
             }
         }
     }

@@ -17,11 +17,12 @@ public class SemesterPlanningApp {
 //        Course thisCourse = thisSem.getCourse(0);
 //        thisSem.serializeSem();
 
-        Semester newSem = new Semester("testSem", "2021-06-01", "2021-06-20",
+        Semester newSem = new Semester("testSem", "2021-06-05", "2021-06-20",
                 "America/Chicago");
         newSem.addCourse("test course 1!", "prof mouse", new int[] {1,3,5}, "12:00", "13:15");
         newSem.addCourse("test course 2!", "prof duck", new int[] {2,4}, "11:00", "12:15");
-        newSem.getCourse(0).addDeadline("test task 1", "2021-06-04", "task 1 notes");
+        newSem.getCourse(0).addDeadline("test task 1", "2021-06-08", "task 1 notes");
+        newSem.getCourse(1).addDeadline("test task 2", "2021-06-05", "task 2 notes");
         newSem.serialize();
 
 

@@ -30,7 +30,7 @@ public class DeadlineView {
     private JLabel deadlineNotesHelperLabel;
 
 
-    public DeadlineView(CourseDeadline thisDeadline, Course thisCourse) {
+    public DeadlineView(CourseDeadline thisDeadline, boolean newDeadline, Course thisCourse, Semester thisSem) {
 
         //create due date formatter
         DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,22 +87,33 @@ public class DeadlineView {
         //go back button listener
         goBackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Go Back");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
+                SemesterView.getSelectedCourseView(mainFrame, thisCourse);
             }
         });
 
         //update deadline button listener
-        if (thisCourse == null) { //if updating existing task
+        if (!newDeadline) { //if updating existing task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    boolean changed = checkAndUpdateChanges(thisDeadline, origDeadlineName,
-                            origDeadlineNotes, origDeadlineDueDate);
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
+                    Loading.getLoadingScreen(mainFrame);
 
-                    if (changed) {
-                        JOptionPane.showMessageDialog(null, "Deadline updated");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "No changes to update");
-                    }
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            boolean changed = checkAndUpdateChanges(thisDeadline, origDeadlineName,
+                                    origDeadlineNotes, origDeadlineDueDate);
+
+                            if (changed) {
+                                JOptionPane.showMessageDialog(null, "Deadline updated");
+                                CourseView.getUpdatedCourseView(mainFrame, thisCourse);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "No changes to update");
+                                CourseView.getSelectedDeadlineView(mainFrame, thisDeadline, thisCourse);
+                            }
+                        }
+                    });
+                    t.start();
                 }
             });
         } else { //if creating new task
@@ -110,12 +121,20 @@ public class DeadlineView {
                 public void actionPerformed(ActionEvent e) {
                     boolean isNotFilled = checkIfNotFilled();
                     if (isNotFilled) {
-                        JOptionPane.showMessageDialog(null, "Fill in all fields");
+                        JOptionPane.showMessageDialog(null, "Fill in *'d fields");
                     } else {
-                        //update in Google API
-                        thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
-                                deadlineNotesValue.getText());
-                        JOptionPane.showMessageDialog(null, "Added new deadline!");
+                        JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
+                        Loading.getLoadingScreen(mainFrame);
+
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+                                //update in Google API
+                                thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
+                                        deadlineNotesValue.getText());
+                                CourseView.getUpdatedCourseView(mainFrame, thisCourse);
+                            }
+                        });
+                        t.start();
                     }
                 }
             });
@@ -151,15 +170,15 @@ public class DeadlineView {
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("testSem");
+        Semester thisSem = Semester.deserialize("TEST fall 2020");
         Course thisCourse = thisSem.getCourse(0);
 //        CourseDeadline thisDeadline = thisCourse.getDeadlines().get(0);
-//        JPanel thisPanel = new DeadlineView(thisDeadline, null).DeadlineView;
+//        JPanel thisPanel = new DeadlineView(thisDeadline, false, null).DeadlineView;
 
 
         CourseDeadline nullDeadline = new CourseDeadline(null, null, thisCourse,
                 null, null, null);
-        JPanel thisPanel = new DeadlineView(nullDeadline, thisCourse).DeadlineView;
+        JPanel thisPanel = new DeadlineView(nullDeadline, true, thisCourse, thisSem).DeadlineView;
 
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

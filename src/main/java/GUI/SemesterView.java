@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class SemesterView {
@@ -110,21 +111,24 @@ public class SemesterView {
         selectCourse.setEnabled(false);
         selectCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "You have selected " + selectedCourse.toString());
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(selectCourse);
+                getSelectedCourseView(mainFrame, selectedCourse);
             }
         });
 
         //course button listener
         addCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create new courses");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(addCourse);
+                getCreateCourseView(mainFrame, sem);
             }
         });
 
         //go back button listener
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Go back");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
+                getSemSelectView(mainFrame);
             }
         });
 
@@ -139,7 +143,7 @@ public class SemesterView {
                     public void run() {
                         int selectedCourse = courseList.getSelectedIndex();
                         sem.deleteCourse(selectedCourse);
-                        getUpdatedSemesterView(mainFrame, sem);
+                        getUpdatedSemView(mainFrame, sem);
                     }
 
                 });
@@ -157,7 +161,42 @@ public class SemesterView {
         });
     }
 
-    protected static void getUpdatedSemesterView(JFrame mainFrame, Semester sem) {
+    private static void getSemSelectView(JFrame mainFrame) {
+        JPanel semSelectPanel = new SemesterSelect().selectPanel;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(semSelectPanel);
+        mainFrame.setSize(650, 350);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    protected static void getSelectedCourseView(JFrame mainFrame, Course selectedCourse) {
+        JPanel coursePanel = new CourseView(selectedCourse, false,
+                selectedCourse.getThisSemester()).CourseView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(coursePanel);
+        mainFrame.setSize(750, 450);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    private static void getCreateCourseView(JFrame mainFrame, Semester sem) {
+        //placeholder course object to load in CourseView, but not actually add to semester or google api
+        Course nullCourse = new Course(null, null, new int[]{},
+                LocalTime.parse("12:00"), LocalTime.parse("12:00"),
+                null, null, sem);
+        JPanel createCoursePanel = new CourseView(nullCourse, true, sem).CourseView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(createCoursePanel);
+        mainFrame.setSize(750, 450);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    protected static void getUpdatedSemView(JFrame mainFrame, Semester sem) {
         String semName = sem.getName();
         sem.serialize();
         Semester updatedSem = Semester.deserialize(semName);
@@ -166,11 +205,12 @@ public class SemesterView {
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(semViewPanel);
         mainFrame.setSize(700, 300);
+        mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("testSem");
+        Semester thisSem = Semester.deserialize("TEST fall 2020");
 
         JPanel thisPanel = new SemesterView(thisSem).semView;
 

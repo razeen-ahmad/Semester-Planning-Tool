@@ -90,21 +90,17 @@ public class SemesterSelect {
         //add listener to select semester button
         semSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "You have chosen semester: " + semName);
                 Semester selectedSem = Semester.deserialize(semName);
-                JPanel semViewPanel = new SemesterView(selectedSem).semView;
-                JFrame f1 = (JFrame) SwingUtilities.windowForComponent(semSelectButton);
-                f1.getContentPane().removeAll();
-                f1.setContentPane(semViewPanel);
-                f1.pack();
-                f1.setVisible(true);
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(semSelectButton);
+                getSelectedSemView(mainFrame, selectedSem);
             }
         });
 
         //add listener to add semester button
         addSem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create new semester");
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(addSem);
+                getCreateSemView(mainFrame);
             }
         });
 
@@ -136,6 +132,26 @@ public class SemesterSelect {
         }
 
         return fileNames;
+    }
+
+    protected static void getSelectedSemView(JFrame mainFrame, Semester selectedSem) {
+        JPanel semViewPanel = new SemesterView(selectedSem).semView;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(semViewPanel);
+        mainFrame.setSize(700, 300);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+    }
+
+    private static void getCreateSemView(JFrame mainFrame) {
+        JPanel createSemPanel = new CreateSemester().CreateSemPanel;
+
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(createSemPanel);
+        mainFrame.setSize(1000, 350);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
     }
 
     public static void main(String[] args) {

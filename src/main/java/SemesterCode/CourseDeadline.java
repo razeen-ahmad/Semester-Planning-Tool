@@ -107,6 +107,12 @@ public class CourseDeadline implements java.io.Serializable {
         }
     }
 
+    public CourseDeadline serialize() {
+        Course updatedCourse = thisCourse.serialize();
+        CourseDeadline updatedDeadline = updatedCourse.getDeadline(name);
+        return updatedDeadline;
+    }
+
     public String toString(){
         DateTimeFormatter formatter = DateTimeFormatter
                 .ofPattern("MM/dd/yyyy");

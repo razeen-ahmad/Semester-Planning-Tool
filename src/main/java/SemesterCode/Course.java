@@ -68,8 +68,23 @@ public class Course implements java.io.Serializable {
         return this.endTime;
     }
 
+    public Semester getThisSemester() {
+        return this.thisSemester;
+    }
+
     public ArrayList<CourseDeadline> getDeadlines() {
         return this.deadlines;
+    }
+
+    public CourseDeadline getDeadline(String deadlineName) {
+        CourseDeadline[] deadlines = (CourseDeadline[]) this.deadlines.toArray();
+        for(int i = 0; i < deadlines.length; i++) {
+            CourseDeadline thisDeadline = deadlines[i];
+            if(thisDeadline.getName().equals(deadlineName)) {
+                return thisDeadline;
+            }
+        }
+        return null;
     }
 
     //setters
@@ -127,7 +142,10 @@ public class Course implements java.io.Serializable {
         }
     }
 
-    public void setStartTime(String newBegTime){
+    private String formatStartTime(String newBegTime){
+        if(newBegTime == null) {
+            return null;
+        }
         //create new start time
         LocalTime newStartTime = LocalTime.parse(newBegTime);
         this.startTime = newStartTime;
@@ -135,15 +153,13 @@ public class Course implements java.io.Serializable {
         //get formatted DT string
         String newStartDT = Semester.getFormattedDT(this.courseStartDay, newStartTime);
 
-        try {
-            GoogleServices.updateCourse(this.eventID, null, newStartDT, null,
-                    null, null, this.semEnd, this.thisSemester.getTimezone());
-        } catch (IOException | GeneralSecurityException e) {
-            e.printStackTrace();
-        }
+        return newStartDT;
     }
 
-    public void setEndTime(String newStopTime){
+    private String formatEndTime(String newStopTime){
+        if(newStopTime == null) {
+            return null;
+        }
         //create new end time
         LocalTime newEndTime = LocalTime.parse(newStopTime);
         this.endTime = newEndTime;
@@ -151,9 +167,16 @@ public class Course implements java.io.Serializable {
         //get formatted DT string
         String newEndDT = Semester.getFormattedDT(this.courseStartDay, newEndTime);
 
-        //update with google api
+        return newEndDT;
+    }
+
+    public void setTimes(String newStartTime, String newStopTime) {
+        String newStartDT = formatStartTime(newStartTime);
+        String newEndDT = formatEndTime(newStopTime);
+
+        //update with google API
         try {
-            GoogleServices.updateCourse(this.eventID, null, null, newEndDT,
+            GoogleServices.updateCourse(this.eventID, null, newStartDT, newEndDT,
                     null, null, this.semEnd, this.thisSemester.getTimezone());
         } catch (IOException | GeneralSecurityException e) {
             e.printStackTrace();
@@ -201,8 +224,11 @@ public class Course implements java.io.Serializable {
         }
     }
 
-    public void serialize() {
+    public Course serialize() {
         thisSemester.serialize();
+        Semester updatedSem = Semester.deserialize(thisSemester.getName());
+        Course updatedCourse = updatedSem.getCourse(courseTitle);
+        return updatedCourse;
     }
 
     public String toString(){
