@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CourseView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/CreateSemester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/DeadlineView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/Loading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/Loading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +85,19 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RunManager" selected="Application.SemesterSelect">
+    <configuration name="CourseView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GUI.CourseView" />
+      <module name="semester-planning-app.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="GUI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CreateSemester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.CreateSemester" />
       <module name="semester-planning-app.main" />
@@ -92,19 +113,6 @@
     </configuration>
     <configuration name="DeadlineView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI.DeadlineView" />
-      <module name="semester-planning-app.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="GUI.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Loading" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI.Loading" />
       <module name="semester-planning-app.main" />
       <extension name="coverage">
         <pattern>
@@ -138,11 +146,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.CourseView" />
         <item itemvalue="Application.SemesterPlanningApp" />
         <item itemvalue="Application.SemesterSelect" />
         <item itemvalue="Application.CreateSemester" />
         <item itemvalue="Application.DeadlineView" />
-        <item itemvalue="Application.Loading" />
       </list>
     </recent_temporary>
   </component>

@@ -47,6 +47,7 @@ public class CourseView {
     private JLabel CourseViewLabel;
     private JLabel daysOfWeekHelpLabel;
     private JButton deleteDeadline;
+    private JLabel timeZoneLabel;
 
     private static final String[] DAYS_OF_WEEK = new String[]
             {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
@@ -181,6 +182,9 @@ public class CourseView {
         selectDeadline = new JButton();
         selectDeadline.setText("Select Deadline");
         CourseView.add(selectDeadline, new GridConstraints(4, 7, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        timeZoneLabel = new JLabel();
+        timeZoneLabel.setText("NOTE: All times are in: " + thisSem.getTimezone());
+        CourseView.add(timeZoneLabel, new GridConstraints(12, 2, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //initialize time fields
         startTimeValue.setText(courseStartTime);

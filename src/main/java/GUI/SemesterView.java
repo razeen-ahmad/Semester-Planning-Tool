@@ -183,7 +183,7 @@ public class SemesterView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(coursePanel);
-        mainFrame.setSize(700, 300);
+        mainFrame.setSize(750, 450);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
