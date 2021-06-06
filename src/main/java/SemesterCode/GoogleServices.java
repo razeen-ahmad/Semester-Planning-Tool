@@ -234,4 +234,12 @@ public class GoogleServices {
         //push changes to google tasks api
         service.tasks().update(taskListID, thisTask.getId(), thisTask).execute();
     }
+
+    public static void deleteTaskList(String semName)
+            throws GeneralSecurityException, IOException {
+        Tasks service = getTasksAPIClientService();
+        String taskListID = getTasklistID(service, semName);
+
+        service.tasklists().delete(taskListID).execute();
+    }
 }

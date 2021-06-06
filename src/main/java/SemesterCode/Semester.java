@@ -251,6 +251,15 @@ public class Semester implements java.io.Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //delete this semester's tasklist
+        try {
+            GoogleServices.deleteTaskList(this.name);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //serialize and de-serialize
