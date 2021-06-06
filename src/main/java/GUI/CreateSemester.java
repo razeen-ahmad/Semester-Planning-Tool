@@ -331,27 +331,34 @@ public class CreateSemester {
                 String givenSemName = semNameInput.getText().trim();
                 String givenEndDate = semEndInput.getText();
                 String givenStartDate = semStartInput.getText();
+
+                //get input date into correct format for semester object and google API
+                DateFormat correctDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date startDate = null;
+                Date endDate = null;
+                try {
+                    startDate = inputDateFormat.parse(givenStartDate);
+                    endDate = inputDateFormat.parse(givenEndDate);
+                } catch (ParseException parseException) {
+                    parseException.printStackTrace();
+                }
+                boolean isValidDates = checkDateValidity(startDate, endDate);
                 if (givenSemName.equals("") || givenStartDate.equals("") || givenEndDate.equals("")) {
                     JOptionPane.showMessageDialog(null, "Fill in all fields");
-                } else {
+                } else if (!isValidDates) {
+                    JOptionPane.showMessageDialog(null,
+                            "\nCheck that start date and end date are compatible" +
+                                    "\n(e.g. end date comes after start date)."
+                    );
+                }
+                else {
                     JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(createButton);
                     Loading.getLoadingScreen(mainFrame);
+                    String correctStartDate = correctDateFormat.format(startDate);
+                    String correctEndDate = correctDateFormat.format(endDate);
 
                     Thread t = new Thread(new Runnable() {
                         public void run() {
-                            //get input date into correct format for semester object and google API
-                            DateFormat correctDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            Date startDate = null;
-                            Date endDate = null;
-                            try {
-                                startDate = inputDateFormat.parse(givenStartDate);
-                                endDate = inputDateFormat.parse(givenEndDate);
-                            } catch (ParseException parseException) {
-                                parseException.printStackTrace();
-                            }
-                            String correctStartDate = correctDateFormat.format(startDate);
-                            String correctEndDate = correctDateFormat.format(endDate);
-
                             Semester newSem = new Semester(givenSemName, correctStartDate, correctEndDate, givenZone);
                             JOptionPane.showMessageDialog(null, "New Semester Created!");
                             SemesterView.getUpdatedSemView(mainFrame, newSem);
@@ -379,5 +386,12 @@ public class CreateSemester {
         mainFrame.setSize(700, 300);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
+    }
+
+    private static boolean checkDateValidity(Date startDate, Date endDate) {
+        if(startDate.after(endDate)){
+            return false;
+        }
+        return true;
     }
 }

@@ -469,15 +469,9 @@ public class CourseView {
     }
 
     private boolean checkDateValidity(LocalTime startTime, LocalTime endTime) {
-
-        boolean isValid = true;
         if (startTime.isAfter(endTime)) {
-            isValid = false;
-        } else if (endTime.isBefore(startTime)) {
-            isValid = false;
+            return false;
         }
-
-        return isValid;
-
+        return true;
     }
 }
