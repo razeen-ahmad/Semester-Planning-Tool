@@ -480,23 +480,4 @@ public class CourseView {
         return isValid;
 
     }
-
-    public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("testSem");
-
-        Course thisCourse = thisSem.getCourse(0);
-        JPanel thisPanel = new CourseView(thisCourse, false, thisSem).CourseView;
-
-//        Course nullCourse = new Course(null, null, new int[]{},
-//                LocalTime.parse("12:00"), LocalTime.parse("12:00"),
-//                null, null, thisSem);
-//        JPanel thisPanel = new CourseView(nullCourse, true, thisSem).CourseView;
-
-        JFrame thisFrame = new JFrame("Semester Planning Tool");
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(900, 450);
-        thisFrame.setLocationRelativeTo(null);
-        thisFrame.setVisible(true);
-    }
 }

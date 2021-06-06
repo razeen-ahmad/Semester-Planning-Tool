@@ -200,23 +200,4 @@ public class DeadlineView {
 
         return changed;
     }
-
-    public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("testSem");
-        Course thisCourse = thisSem.getCourse(0);
-//        CourseDeadline thisDeadline = thisCourse.getDeadlines().get(0);
-//        JPanel thisPanel = new DeadlineView(thisDeadline, false, null).DeadlineView;
-
-
-        CourseDeadline nullDeadline = new CourseDeadline(null, null, thisCourse,
-                null, null, null);
-        JPanel thisPanel = new DeadlineView(nullDeadline, true, thisCourse, thisSem).DeadlineView;
-
-        JFrame thisFrame = new JFrame("Semester Planning Tool");
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(750, 400);
-        thisFrame.setLocationRelativeTo(null);
-        thisFrame.setVisible(true);
-    }
 }

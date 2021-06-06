@@ -380,15 +380,4 @@ public class CreateSemester {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        JPanel thisPanel = new CreateSemester().CreateSemPanel;
-
-        JFrame thisFrame = new JFrame("Semester Planning Tool");
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(1000, 350);
-        thisFrame.setLocationRelativeTo(null);
-        thisFrame.setVisible(true);
-    }
 }

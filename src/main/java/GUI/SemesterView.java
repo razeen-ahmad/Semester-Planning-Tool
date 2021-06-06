@@ -215,17 +215,4 @@ public class SemesterView {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        Semester thisSem = Semester.deserialize("TEST fall 2020");
-
-        JPanel thisPanel = new SemesterView(thisSem).semView;
-
-        JFrame thisFrame = new JFrame("Semester Planning Tool");
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        thisFrame.setContentPane(thisPanel);
-        thisFrame.setSize(700, 300);
-        thisFrame.setLocationRelativeTo(null);
-        thisFrame.setVisible(true);
-    }
 }

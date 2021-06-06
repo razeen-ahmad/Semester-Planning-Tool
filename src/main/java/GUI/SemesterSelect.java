@@ -184,9 +184,13 @@ public class SemesterSelect {
     }
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+        } catch(Exception ignored){}
 
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         SemesterSelect thisPanel = new SemesterSelect();
+
 
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.setContentPane(thisPanel.selectPanel);
