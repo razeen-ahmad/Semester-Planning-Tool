@@ -16,6 +16,8 @@ import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class CreateSemester {
     protected JPanel CreateSemPanel;
@@ -218,8 +220,8 @@ public class CreateSemester {
     public CreateSemester() {
 
         //create date and name formatters
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormatter dateFormatter = new DateFormatter(dateFormat);
+        DateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormatter inputDateFormatter = new DateFormatter(inputDateFormat);
         MaskFormatter nameFormatter = null;
         try {
             nameFormatter = new MaskFormatter("********************");
@@ -255,9 +257,9 @@ public class CreateSemester {
         CreateSemPanel.add(SemZoneLabel, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semNameInput = new JFormattedTextField(nameFormatter);
         CreateSemPanel.add(semNameInput, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        semStartInput = new JFormattedTextField(dateFormatter);
+        semStartInput = new JFormattedTextField(inputDateFormatter);
         CreateSemPanel.add(semStartInput, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        semEndInput = new JFormattedTextField(dateFormatter);
+        semEndInput = new JFormattedTextField(inputDateFormatter);
         CreateSemPanel.add(semEndInput, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         semZoneSelect = new JComboBox(ZONE_NAMES);
         CreateSemPanel.add(semZoneSelect, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -293,10 +295,10 @@ public class CreateSemester {
         semNameHelperLabel.setText("Only Alphanumeric Characters");
         CreateSemPanel.add(semNameHelperLabel, new GridConstraints(2, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semStartHelperLabel = new JLabel();
-        semStartHelperLabel.setText("Date Format: 'YYYY-MM-DD'. (e.g Jan. 1, 2010 = '2010-01-01').");
+        semStartHelperLabel.setText("Date Format: 'MM/DD/YYYY'. (e.g Jan. 1, 2010 = '01/01/2010').");
         CreateSemPanel.add(semStartHelperLabel, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semEndHelperLabel = new JLabel();
-        semEndHelperLabel.setText("Date Format: 'YYYY-MM-DD'. (e.g Jan. 1, 2010 = '2010-01-01').");
+        semEndHelperLabel.setText("Date Format: 'MM/DD/YYYY'. (e.g Jan. 1, 2010 = '01/01/2010').");
         CreateSemPanel.add(semEndHelperLabel, new GridConstraints(4, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semZoneHelperLabel = new JLabel();
         semZoneHelperLabel.setText("Choose the timezone of this semester.");
@@ -337,7 +339,20 @@ public class CreateSemester {
 
                     Thread t = new Thread(new Runnable() {
                         public void run() {
-                            Semester newSem = new Semester(givenSemName, givenStartDate, givenEndDate, givenZone);
+                            //get input date into correct format for semester object and google API
+                            DateFormat correctDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                            Date startDate = null;
+                            Date endDate = null;
+                            try {
+                                startDate = inputDateFormat.parse(givenStartDate);
+                                endDate = inputDateFormat.parse(givenEndDate);
+                            } catch (ParseException parseException) {
+                                parseException.printStackTrace();
+                            }
+                            String correctStartDate = correctDateFormat.format(startDate);
+                            String correctEndDate = correctDateFormat.format(endDate);
+
+                            Semester newSem = new Semester(givenSemName, correctStartDate, correctEndDate, givenZone);
                             JOptionPane.showMessageDialog(null, "New Semester Created!");
                             SemesterView.getUpdatedSemView(mainFrame, newSem);
                         }
@@ -361,7 +376,7 @@ public class CreateSemester {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(selectSemPanel);
-        mainFrame.setSize(650, 350);
+        mainFrame.setSize(700, 300);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }

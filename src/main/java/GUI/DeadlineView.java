@@ -13,7 +13,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DeadlineView {
     private JFormattedTextField deadlineNameValue;
@@ -33,8 +35,8 @@ public class DeadlineView {
     public DeadlineView(CourseDeadline thisDeadline, boolean newDeadline, Course thisCourse, Semester thisSem) {
 
         //create due date formatter
-        DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormatter dateFormat = new DateFormatter(simpleDateFormat);
+        DateFormat inputFormat = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormatter inputDateFormat = new DateFormatter(inputFormat);
 
         //intellij generated java swing layout for JPanel
         DeadlineView = new JPanel();
@@ -61,10 +63,10 @@ public class DeadlineView {
         DeadlineView.add(deadlineNameValue, new GridConstraints(1, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         deadlineNotesValue = new JFormattedTextField();
         DeadlineView.add(deadlineNotesValue, new GridConstraints(2, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        deadlineDueDateValue = new JFormattedTextField(dateFormat);
+        deadlineDueDateValue = new JFormattedTextField(inputDateFormat);
         DeadlineView.add(deadlineDueDateValue, new GridConstraints(4, 3, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         deadlineDueDateHelperLabel = new JLabel();
-        deadlineDueDateHelperLabel.setText("Enter date as: 'YYYY-MM-DD' (e.g Jan. 1, 2010 = '2010-01-01')");
+        deadlineDueDateHelperLabel.setText("Enter date as: 'MM/DD/YYYY' (e.g Jan. 1, 2010 = '01/01/2010')");
         DeadlineView.add(deadlineDueDateHelperLabel, new GridConstraints(5, 3, 1, 2, GridConstraints.ANCHOR_NORTHWEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         updateDeadlineButton = new JButton();
         updateDeadlineButton.setText("Save Deadline Changes");
@@ -134,8 +136,19 @@ public class DeadlineView {
 
                         Thread t = new Thread(new Runnable() {
                             public void run() {
+                                //get correct due date format for google api and object
+                                DateFormat correctDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date inputDate = null;
+                                try {
+                                    inputDate = inputFormat.parse(deadlineDueDateValue.getText());
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                String correctDueDate = correctDateFormat.format(inputDate);
+
+
                                 //update in Google API
-                                thisCourse.addDeadline(deadlineNameValue.getText(), deadlineDueDateValue.getText(),
+                                thisCourse.addDeadline(deadlineNameValue.getText(), correctDueDate,
                                         deadlineNotesValue.getText());
                                 JOptionPane.showMessageDialog(null,
                                         "New Deadline Created and Saved!");
@@ -170,8 +183,19 @@ public class DeadlineView {
             thisDeadline.setNotes(deadlineNotesValue.getText());
         }
         if (!deadlineDueDateValue.getText().equals(origDeadlineDueDate)) {
+            //get input date into correct format for deadline object and google API
+            DateFormat inputDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat correctDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date inputDate = null;
+            try {
+                inputDate = inputDateFormat.parse(deadlineDueDateValue.getText());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String correctDueDate = correctDateFormat.format(inputDate);
+
             changed = true;
-            thisDeadline.setDueDate(deadlineDueDateValue.getText());
+            thisDeadline.setDueDate(correctDueDate);
         }
 
         return changed;
