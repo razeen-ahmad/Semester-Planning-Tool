@@ -137,10 +137,10 @@ public class SemesterView {
         deleteCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Course selectedCourse = (Course) courseList.getSelectedValue();
-                int dialogResult = JOptionPane.showConfirmDialog (null,
-                        "Are you sure you want to delete "  + selectedCourse + "?",
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to delete " + selectedCourse + "?",
                         "Warning", JOptionPane.YES_NO_OPTION);
-                if(dialogResult == JOptionPane.YES_OPTION) {
+                if (dialogResult == JOptionPane.YES_OPTION) {
                     JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteCourse);
                     Loading.getLoadingScreen(mainFrame);
 
@@ -167,12 +167,12 @@ public class SemesterView {
         });
     }
 
-    private static void getSemSelectView(JFrame mainFrame) {
+    protected static void getSemSelectView(JFrame mainFrame) {
         JPanel semSelectPanel = new SemesterSelect().selectPanel;
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(semSelectPanel);
-        mainFrame.setSize(650, 350);
+        mainFrame.setSize(700, 300);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }
@@ -183,7 +183,7 @@ public class SemesterView {
 
         mainFrame.getContentPane().removeAll();
         mainFrame.setContentPane(coursePanel);
-        mainFrame.setSize(750, 450);
+        mainFrame.setSize(700, 300);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
     }

@@ -23,6 +23,7 @@ public class SemesterSelect {
     private JLabel semSelectHelpLabel;
     private JTextArea introText;
     private JLabel SemesterSelectTitle;
+    private JButton deleteSem;
     private String semName;
 
     public SemesterSelect() {
@@ -40,34 +41,37 @@ public class SemesterSelect {
 
         //intellij generated swing layout code for this pane
         selectPanel = new JPanel();
-        selectPanel.setLayout(new GridLayoutManager(5, 16, new Insets(0, 0, 0, 0), -1, -1));
+        selectPanel.setLayout(new GridLayoutManager(5, 19, new Insets(0, 0, 0, 0), -1, -1));
         final Spacer spacer1 = new Spacer();
-        selectPanel.add(spacer1, new GridConstraints(1, 15, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer1, new GridConstraints(1, 18, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         selectPanel.add(spacer2, new GridConstraints(4, 1, 1, 10, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        selectPanel.add(spacer3, new GridConstraints(4, 14, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        selectPanel.add(spacer3, new GridConstraints(4, 17, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         semSelect = new JComboBox(semNames);
-        selectPanel.add(semSelect, new GridConstraints(3, 1, 1, 10, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(semSelect, new GridConstraints(3, 1, 1, 11, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         semSelectHelpLabel = new JLabel();
         semSelectHelpLabel.setText("Select Semester");
-        selectPanel.add(semSelectHelpLabel, new GridConstraints(2, 1, 1, 10, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(semSelectHelpLabel, new GridConstraints(2, 1, 1, 11, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         introText = new JTextArea(introPara);
         introText.putClientProperty("html.disable", Boolean.FALSE);
-        selectPanel.add(introText, new GridConstraints(1, 1, 1, 10, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        selectPanel.add(introText, new GridConstraints(1, 1, 1, 11, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final Spacer spacer4 = new Spacer();
-        selectPanel.add(spacer4, new GridConstraints(1, 14, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JLabel SemesterSelectTitle = new JLabel();
+        selectPanel.add(spacer4, new GridConstraints(1, 17, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        SemesterSelectTitle = new JLabel();
         SemesterSelectTitle.setText("Welcome to the Semester Planning Tool!");
-        selectPanel.add(SemesterSelectTitle, new GridConstraints(0, 1, 1, 10, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(SemesterSelectTitle, new GridConstraints(0, 1, 1, 11, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         addSem = new JButton();
         addSem.setText("Create New Semester");
-        selectPanel.add(addSem, new GridConstraints(2, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(addSem, new GridConstraints(2, 12, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
         selectPanel.add(spacer5, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         semSelectButton = new JButton();
         semSelectButton.setText("Select Semester");
-        selectPanel.add(semSelectButton, new GridConstraints(4, 11, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        selectPanel.add(semSelectButton, new GridConstraints(4, 14, 1, 3, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        deleteSem = new JButton();
+        deleteSem.setText("Delete Semester");
+        selectPanel.add(deleteSem, new GridConstraints(4, 12, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //check if there are any semesters to select from
         if (semNames.length > 0) {
@@ -76,6 +80,7 @@ public class SemesterSelect {
         if (semNames.length == 0) {
             semSelect.setEnabled(false);
             semSelectButton.setEnabled(false);
+            deleteSem.setEnabled(false);
         }
 
         //add listener to semester select dropdown menu
@@ -93,6 +98,29 @@ public class SemesterSelect {
                 Semester selectedSem = Semester.deserialize(semName);
                 JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(semSelectButton);
                 getSelectedSemView(mainFrame, selectedSem);
+            }
+        });
+
+        //add listener to delete semester button
+        deleteSem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Semester selectedSem = Semester.deserialize(semName);
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to delete " + selectedSem.getName() + "?",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteSem);
+                    Loading.getLoadingScreen(mainFrame);
+
+                    Thread t = new Thread(new Runnable() {
+                        public void run() {
+                            selectedSem.deleteSem();
+                            SemesterView.getSemSelectView(mainFrame);
+                        }
+                    });
+                    t.start();
+                }
             }
         });
 
@@ -115,7 +143,7 @@ public class SemesterSelect {
         try {
             //get all serialized semester objects
             String basePath = System.getProperty("user.dir");
-            Path datadir = Paths.get(basePath + "/src/main/java/data");
+            Path datadir = Paths.get(basePath + "/src/main/java/SavedSemesters");
 
             Stream<Path> files = Files.list(datadir);
             Object[] filePaths = files.toArray();
@@ -161,7 +189,7 @@ public class SemesterSelect {
 
         thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         thisFrame.setContentPane(thisPanel.selectPanel);
-        thisFrame.setSize(650, 350);
+        thisFrame.setSize(700, 300);
         thisFrame.setLocationRelativeTo(null);
         thisFrame.setVisible(true);
     }

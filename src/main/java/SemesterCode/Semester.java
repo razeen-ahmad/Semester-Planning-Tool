@@ -236,11 +236,28 @@ public class Semester implements java.io.Serializable {
         }
     }
 
+    public void deleteSem() {
+        //delete courses and deadlines in this semester
+        int numCourses = courses.size();
+        for(int i = 0; i < numCourses; i++) {
+            deleteCourse(0);
+        }
+
+        //delete serialized semester file
+        String basePath = System.getProperty("user.dir");
+        Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + this.name + ".ser");
+        try {
+            Files.delete(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     //serialize and de-serialize
     public void serialize(){
         try{
             String basePath = System.getProperty("user.dir");
-            Path filePath = Paths.get(basePath + "/src/main/java/data/" + this.name + ".ser");
+            Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + this.name + ".ser");
             Boolean fileExists = Files.exists(filePath);
             if(!fileExists){
                 Files.createFile(filePath);
@@ -261,7 +278,7 @@ public class Semester implements java.io.Serializable {
         Semester loadedInSem = null;
         try{
             String basePath = System.getProperty("user.dir");
-            Path newTestPath = Paths.get(basePath + "/src/main/java/data/"+ semName +".ser");
+            Path newTestPath = Paths.get(basePath + "/src/main/java/SavedSemesters/"+ semName +".ser");
             FileInputStream fileIn = new FileInputStream(newTestPath.toString());
             ObjectInputStream in = new ObjectInputStream(fileIn);
             loadedInSem = (Semester) in.readObject();

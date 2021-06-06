@@ -34,7 +34,7 @@ public class SemesterPlanningApp {
 
 //        try {
 //            String basePath = System.getProperty("user.dir");
-//            Path datadir = Paths.get(basePath + "/src/main/java/data");
+//            Path datadir = Paths.get(basePath + "/src/main/java/SavedSemesters");
 //
 //            Stream<Path> files = Files.list(datadir);
 //            System.out.println("done running files.list");

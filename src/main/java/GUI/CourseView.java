@@ -76,7 +76,7 @@ public class CourseView {
         } else if (thisCourse.getStartTime().getHour() == 12) {
             courseStartTime = thisCourse.getStartTime().toString();
             startIsAM = false;
-        } else if(thisCourse.getStartTime().getHour() == 0) {
+        } else if (thisCourse.getStartTime().getHour() == 0) {
             courseStartTime = thisCourse.getStartTime().plusHours(12L).toString();
             startIsAM = true;
         } else {
@@ -90,7 +90,7 @@ public class CourseView {
         } else if (thisCourse.getEndTime().getHour() == 12) {
             courseEndTime = thisCourse.getEndTime().toString();
             endIsAM = false;
-        } else if(thisCourse.getEndTime().getHour() == 0) {
+        } else if (thisCourse.getEndTime().getHour() == 0) {
             courseEndTime = thisCourse.getEndTime().plusHours(12L).toString();
             endIsAM = true;
         } else {
@@ -204,7 +204,7 @@ public class CourseView {
         daysOfWeekList.setSelectedIndices(courseDays);
 
         //check if creating course for first time- do not want to add deadlines null course
-        if(newCourse) {
+        if (newCourse) {
             addDeadline.setEnabled(false);
         }
 
@@ -222,7 +222,7 @@ public class CourseView {
                                 "Fill in all * fields" +
                                         "\nCheck that start time and end time are compatible" +
                                         "\n(e.g. end time comes after start time)"
-                                );
+                        );
                     } else {
                         JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateCourse);
                         Loading.getLoadingScreen(mainFrame);
@@ -258,15 +258,13 @@ public class CourseView {
                             if (!isValidDates) {
                                 JOptionPane.showMessageDialog(null,
                                         "\nCheck that start time and end time are compatible" +
-                                        "\n(e.g. end time comes after start time)."
+                                                "\n(e.g. end time comes after start time)."
                                 );
                                 SemesterView.getSelectedCourseView(mainFrame, thisCourse);
-                            }
-                            else if (changed) {
+                            } else if (changed) {
                                 JOptionPane.showMessageDialog(null, "Course Updated!");
                                 getUpdatedCourseView(mainFrame, thisCourse);
-                            }
-                            else {
+                            } else {
                                 JOptionPane.showMessageDialog(null, "No updates to be made");
                                 SemesterView.getSelectedCourseView(mainFrame, thisCourse);
                             }
@@ -291,11 +289,11 @@ public class CourseView {
         deleteDeadline.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CourseDeadline selectedDeadline = (CourseDeadline) courseDeadlineList.getSelectedValue();
-                int dialogResult = JOptionPane.showConfirmDialog (null,
-                        "Are you sure you want to delete "  + selectedDeadline + "?",
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Are you sure you want to delete " + selectedDeadline + "?",
                         "Warning", JOptionPane.YES_NO_OPTION);
 
-                if(dialogResult == JOptionPane.YES_OPTION){
+                if (dialogResult == JOptionPane.YES_OPTION) {
                     JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(deleteDeadline);
                     Loading.getLoadingScreen(mainFrame);
 
@@ -368,7 +366,7 @@ public class CourseView {
     }
 
     protected static void getSelectedDeadlineView(JFrame mainFrame, CourseDeadline selectedDeadline,
-                                                Course thisCourse) {
+                                                  Course thisCourse) {
         JPanel courseDeadlinePanel = new DeadlineView(selectedDeadline, false,
                 thisCourse, thisCourse.getThisSemester()).DeadlineView;
 
@@ -427,7 +425,7 @@ public class CourseView {
         }
 
         //check if valid changes and then make
-        if(timeChange && isValidDates) {
+        if (timeChange && isValidDates) {
             thisCourse.setTimes(startTime.toString(), endTime.toString());
         }
 
@@ -435,13 +433,12 @@ public class CourseView {
         return changed;
     }
 
-    private LocalTime getStartTime(){
+    private LocalTime getStartTime() {
         //get local time for start
         LocalTime startTime = LocalTime.parse(startTimeValue.getText());
         if (!startTimeAM.isSelected() && startTime.getHour() != 12) {
             startTime = startTime.plusHours(12);
-        }
-        else if (startTimeAM.isSelected() && startTime.getHour() == 12) {
+        } else if (startTimeAM.isSelected() && startTime.getHour() == 12) {
             startTime = startTime.minusHours(12);
         }
 
@@ -453,8 +450,7 @@ public class CourseView {
         LocalTime endTime = LocalTime.parse(endTimeValue.getText());
         if (!endTimeAM.isSelected() && endTime.getHour() != 12) {
             endTime = endTime.plusHours(12);
-        }
-        else if (endTimeAM.isSelected() && endTime.getHour() == 12) {
+        } else if (endTimeAM.isSelected() && endTime.getHour() == 12) {
             endTime = endTime.minusHours(12);
         }
         return endTime;
@@ -463,10 +459,9 @@ public class CourseView {
     private boolean checkDateValidity(LocalTime startTime, LocalTime endTime) {
 
         boolean isValid = true;
-        if(startTime.isAfter(endTime)) {
+        if (startTime.isAfter(endTime)) {
             isValid = false;
-        }
-        else if(endTime.isBefore(startTime)) {
+        } else if (endTime.isBefore(startTime)) {
             isValid = false;
         }
 
