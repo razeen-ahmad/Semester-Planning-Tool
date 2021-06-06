@@ -1,5 +1,6 @@
 package GUI;
 
+import SemesterCode.GoogleServices;
 import SemesterCode.Semester;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.util.stream.Stream;
 
 public class SemesterSelect {
@@ -184,6 +186,14 @@ public class SemesterSelect {
     }
 
     public static void main(String[] args) {
+        try {
+            GoogleServices.signIn();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
         } catch(Exception ignored){}

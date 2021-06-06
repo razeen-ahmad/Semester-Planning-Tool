@@ -242,4 +242,8 @@ public class GoogleServices {
 
         service.tasklists().delete(taskListID).execute();
     }
+
+    public static void signIn() throws GeneralSecurityException, IOException {
+        getCalAPIClientService();
+    }
 }
