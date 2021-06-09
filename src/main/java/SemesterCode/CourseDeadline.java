@@ -50,7 +50,7 @@ public class CourseDeadline implements java.io.Serializable {
         }
         else {
             DateTimeFormatter formatter = DateTimeFormatter
-                    .ofPattern("yyyy-MM-dd");
+                    .ofPattern("MM/dd/yyyy");
             return this.dueDate.format(formatter);
         }
     }
