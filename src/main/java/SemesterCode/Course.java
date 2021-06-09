@@ -31,7 +31,8 @@ public class Course implements java.io.Serializable {
         this.startTime = start;
         this.endTime = end;
         DateTimeFormatter semEndFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        this.semEnd = thisSemester.getEnd().format(semEndFormatter);
+        //add 1 day to semester end date because Google Calendar API rules do not include last day
+        this.semEnd = thisSemester.getEnd().plusDays(1).format(semEndFormatter);
         this.eventID = eventID;
         this.courseStartDay = courseStartDay;
         this.thisSemester = thisSemester;
@@ -102,10 +103,6 @@ public class Course implements java.io.Serializable {
     public void setProfName(String newProfName){
         this.profName = newProfName;
         setCourseDesc("");
-    }
-
-    private void setCourseStartDay(ZonedDateTime newStartDay){
-        this.courseStartDay = newStartDay;
     }
 
     public void setDayInts(int[] newDaysOfWeek){
