@@ -9,7 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 
 public class SignIn {
@@ -52,6 +57,27 @@ public class SignIn {
 
         JFrame thisFrame = new JFrame("Semester Planning Tool");
         SignIn thisPanel = new SignIn();
+
+        thisFrame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                int dialogResult = JOptionPane.showConfirmDialog(null,
+                        "Do you want to stay logged in?\nSigning out will avoid errors.",
+                        "Warning", JOptionPane.YES_NO_OPTION);
+
+                if (dialogResult == JOptionPane.NO_OPTION) {
+                    //sign out user if they do NOT want to "stay signed in"
+                    String basePath = System.getProperty("user.dir");
+                    Path filePath = Paths.get(basePath + "/tokens/StoredCredential");
+                    if(Files.exists(filePath)) {
+                        try {
+                            Files.delete(filePath);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
 
 
         thisFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

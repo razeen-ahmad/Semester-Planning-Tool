@@ -264,18 +264,30 @@ public class GoogleServices {
         getOauthAPIClientService();
     }
 
-    public static void signOut() throws IOException {
+    public static void signOut(String userName) throws IOException {
         //delete saved credential file
         String basePath = System.getProperty("user.dir");
         Path filePath = Paths.get(basePath + "/tokens/StoredCredential");
         Files.delete(filePath);
+
+        //check if can delete user's SavedSemester directory
+        Path savedUserPath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + userName);
+        if(!Files.list(savedUserPath).iterator().hasNext()) {
+            //if user's savedsemester directory is empty, then can safely delete it.
+            Files.delete(savedUserPath);
+        }
     };
 
-    public static String getUserName() throws GeneralSecurityException, IOException {
+    public static String getUserName(boolean withDomainName) throws GeneralSecurityException, IOException {
         Oauth2 service = getOauthAPIClientService();
         Userinfo userInfo = service.userinfo().get().execute();
         String fullEmail = userInfo.getEmail();
-        String[] emailSplit = fullEmail.split("@");
-        return emailSplit[0];
+        if(withDomainName) {
+            return fullEmail;
+        }
+        else {
+            String[] emailSplit = fullEmail.split("@");
+            return emailSplit[0];
+        }
     }
 }

@@ -37,7 +37,7 @@ public class Semester implements java.io.Serializable {
         this.endDate = ZonedDateTime.of(end, END_DAY, thisTimezone);
         this.courses = new ArrayList<Course>();
         try {
-            this.userName = GoogleServices.getUserName();
+            this.userName = GoogleServices.getUserName(false);
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         } catch (IOException e) {

@@ -33,8 +33,11 @@ public class SemesterSelect {
 
     public SemesterSelect() {
         //get username
+        String fullEmail = null;
         try {
-            username = GoogleServices.getUserName();
+            fullEmail = GoogleServices.getUserName(true);
+            String[] emailSplit = fullEmail.split("@");
+            username = emailSplit[0];
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -53,9 +56,9 @@ public class SemesterSelect {
                         "\nThese deadlines are implemented as tasks in Google Tasks. All tasks" +
                         "\nare added to the tasklist corresponding to the course's semester." +
                         "\nTo start, select or create a semester to add courses and deadlines!" +
-                        "\n\nYou are currently signed into: " + username + "@gmail.com. If you are" +
-                        "\nnot seeing the semesters you expected, try signing in to a different " +
-                        "\nGoogle account.";
+                        "\n\nIf you are not seeing the semesters you expected or are getting other errors," +
+                        "\ntry signing in to your account again or try a different Google account." +
+                        "\nYou are currently signed into: " + fullEmail;
 
         //intellij generated swing layout code for this pane
         selectPanel = new JPanel();
@@ -117,7 +120,7 @@ public class SemesterSelect {
         signOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    GoogleServices.signOut();
+                    GoogleServices.signOut(username);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
