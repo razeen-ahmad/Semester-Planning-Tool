@@ -26,20 +26,36 @@ public class SemesterSelect {
     private JTextArea introText;
     private JLabel SemesterSelectTitle;
     private JButton deleteSem;
+    private JButton signOut;
+
     private String semName;
+    private String username;
 
     public SemesterSelect() {
+        //get username
+        try {
+            username = GoogleServices.getUserName();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //get existing serialized semesters
-        String[] semNames = getSavedSems();
+        String[] semNames = getSavedSems(username);
 
         //string for intro body text
         String introPara =
-                "   This is a java application to help students plan their semesters with" +
-                        "\nGoogle Calendar and Google Tasks. Semesters mark the start and" +
-                        "\nend dates for courses, where courses are implemented as recurring" +
-                        "\nevents in Google Calendar. Each course has its own list of deadlines," +
-                        "\nwhich are implemented as tasks in Google Tasks. To start, select or" +
-                        "\ncreate a semester to add courses and deadlines!";
+                "   This is a java application to help students plan their semesters in" +
+                        "\nGoogle Calendar and Google Tasks. Semesters mark the first and" +
+                        "\nlast dates for courses. Courses are implemented as recurring" +
+                        "\nevents in Google Calendar. Each course has its own list of deadlines." +
+                        "\nThese deadlines are implemented as tasks in Google Tasks. All tasks" +
+                        "\nare added to the tasklist corresponding to the course's semester." +
+                        "\nTo start, select or create a semester to add courses and deadlines!" +
+                        "\n\nYou are currently signed into: " + username + "@gmail.com. If you are" +
+                        "\nnot seeing the semesters you expected, try signing in to a different " +
+                        "\nGoogle account.";
 
         //intellij generated swing layout code for this pane
         selectPanel = new JPanel();
@@ -74,6 +90,9 @@ public class SemesterSelect {
         deleteSem = new JButton();
         deleteSem.setText("Delete Semester");
         selectPanel.add(deleteSem, new GridConstraints(4, 12, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        signOut = new JButton();
+        signOut.setText("Sign Out");
+        selectPanel.add(signOut, new GridConstraints(1, 13, 1, 4, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 
         //check if there are any semesters to select from
         if (semNames.length > 0) {
@@ -94,10 +113,24 @@ public class SemesterSelect {
             }
         });
 
+        //add listener to sign out button
+        signOut.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    GoogleServices.signOut();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+
+                JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(signOut);
+                getSignIn(mainFrame);
+            }
+        });
+
         //add listener to select semester button
         semSelectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Semester selectedSem = Semester.deserialize(semName);
+                Semester selectedSem = Semester.deserialize(semName, username);
                 JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(semSelectButton);
                 getSelectedSemView(mainFrame, selectedSem);
             }
@@ -106,7 +139,7 @@ public class SemesterSelect {
         //add listener to delete semester button
         deleteSem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Semester selectedSem = Semester.deserialize(semName);
+                Semester selectedSem = Semester.deserialize(semName, username);
                 int dialogResult = JOptionPane.showConfirmDialog(null,
                         "Are you sure you want to delete " + selectedSem.getName() + "?",
                         "Warning", JOptionPane.YES_NO_OPTION);
@@ -140,13 +173,18 @@ public class SemesterSelect {
         introText.setBackground(new Color(0, 0, 0, 0));
     }
 
-    protected static String[] getSavedSems() {
+    protected static String[] getSavedSems(String userName) {
         String[] fileNames = null;
 
         try {
             //get all serialized semester objects
             String basePath = System.getProperty("user.dir");
-            Path datadir = Paths.get(basePath + "/src/main/java/SavedSemesters");
+            Path datadir = Paths.get(basePath + "/src/main/java/SavedSemesters/" + userName);
+
+             if(!Files.isDirectory(datadir)) {
+                 //if this user does not have directory for saved semesters, create one
+                 Files.createDirectories(datadir);
+             }
 
             Stream<Path> files = Files.list(datadir);
             Object[] filePaths = files.toArray();
@@ -185,27 +223,13 @@ public class SemesterSelect {
         mainFrame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        try {
-            GoogleServices.signIn();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static void getSignIn(JFrame mainFrame) {
+        JPanel signInPanel = new SignIn().SignIn;
 
-        try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-        } catch(Exception ignored){}
-
-        JFrame thisFrame = new JFrame("Semester Planning Tool");
-        SemesterSelect thisPanel = new SemesterSelect();
-
-
-        thisFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        thisFrame.setContentPane(thisPanel.selectPanel);
-        thisFrame.setSize(700, 300);
-        thisFrame.setLocationRelativeTo(null);
-        thisFrame.setVisible(true);
+        mainFrame.getContentPane().removeAll();
+        mainFrame.setContentPane(signInPanel);
+        mainFrame.setSize(500, 300);
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
     }
 }

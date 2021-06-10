@@ -223,7 +223,7 @@ public class Course implements java.io.Serializable {
 
     public Course serialize() {
         thisSemester.serialize();
-        Semester updatedSem = Semester.deserialize(thisSemester.getName());
+        Semester updatedSem = Semester.deserialize(thisSemester.getName(), thisSemester.getUserName());
         Course updatedCourse = updatedSem.getCourse(courseTitle);
         return updatedCourse;
     }

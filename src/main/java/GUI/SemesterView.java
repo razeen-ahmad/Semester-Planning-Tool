@@ -205,8 +205,9 @@ public class SemesterView {
 
     protected static void getUpdatedSemView(JFrame mainFrame, Semester sem) {
         String semName = sem.getName();
+        String userName = sem.getUserName();
         sem.serialize();
-        Semester updatedSem = Semester.deserialize(semName);
+        Semester updatedSem = Semester.deserialize(semName, userName);
         JPanel semViewPanel = new SemesterView(updatedSem).semView;
 
         mainFrame.getContentPane().removeAll();

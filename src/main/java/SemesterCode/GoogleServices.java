@@ -1,6 +1,7 @@
 package SemesterCode;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -15,8 +16,10 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.google.api.services.calendar.model.Events;
 import com.google.api.services.tasks.model.Task;
+import com.google.api.services.oauth2.model.Userinfo;
+import com.google.api.services.oauth2.Oauth2;
+import com.google.api.services.oauth2.Oauth2Scopes;
 import com.google.api.services.tasks.Tasks;
 import com.google.api.services.tasks.TasksScopes;
 import com.google.api.services.tasks.model.TaskList;
@@ -26,6 +29,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +45,8 @@ public class GoogleServices {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_EVENTS, TasksScopes.TASKS );
+    private static final List<String> SCOPES = Arrays.asList(CalendarScopes.CALENDAR_EVENTS, TasksScopes.TASKS,
+            Oauth2Scopes.USERINFO_EMAIL);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
@@ -83,6 +90,16 @@ public class GoogleServices {
                 .build();
         return service;
     }
+
+    // Build a new authorized API client service for Google Tasks.
+    private static Oauth2 getOauthAPIClientService() throws GeneralSecurityException, IOException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Oauth2 service = new Oauth2.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+
+        return service;
+    };
 
     // function to create a course object and add it to user's primary GCal
     public static String createCourse(String courseCode, String startTime, String endTime, String semEnd,
@@ -244,6 +261,21 @@ public class GoogleServices {
     }
 
     public static void signIn() throws GeneralSecurityException, IOException {
-        getCalAPIClientService();
+        getOauthAPIClientService();
+    }
+
+    public static void signOut() throws IOException {
+        //delete saved credential file
+        String basePath = System.getProperty("user.dir");
+        Path filePath = Paths.get(basePath + "/tokens/StoredCredential");
+        Files.delete(filePath);
+    };
+
+    public static String getUserName() throws GeneralSecurityException, IOException {
+        Oauth2 service = getOauthAPIClientService();
+        Userinfo userInfo = service.userinfo().get().execute();
+        String fullEmail = userInfo.getEmail();
+        String[] emailSplit = fullEmail.split("@");
+        return emailSplit[0];
     }
 }

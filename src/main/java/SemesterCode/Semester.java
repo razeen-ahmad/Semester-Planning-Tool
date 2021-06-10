@@ -18,6 +18,7 @@ public class Semester implements java.io.Serializable {
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
     private ArrayList<Course> courses;
+    private String userName;
 
     protected final ZoneId TIMEZONE;
 
@@ -35,6 +36,13 @@ public class Semester implements java.io.Serializable {
         this.startDate = ZonedDateTime.of(start, BEG_DAY, thisTimezone);
         this.endDate = ZonedDateTime.of(end, END_DAY, thisTimezone);
         this.courses = new ArrayList<Course>();
+        try {
+            this.userName = GoogleServices.getUserName();
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //getters
@@ -79,6 +87,10 @@ public class Semester implements java.io.Serializable {
             returnString += thisCourse.toString() + "\n";
         }
         return returnString;
+    }
+
+    public String getUserName() {
+        return this.userName;
     }
 
     //setters
@@ -245,7 +257,7 @@ public class Semester implements java.io.Serializable {
 
         //delete serialized semester file
         String basePath = System.getProperty("user.dir");
-        Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + this.name + ".ser");
+        Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + this.userName + "/" + this.name + ".ser");
         try {
             Files.delete(filePath);
         } catch (IOException e) {
@@ -266,7 +278,8 @@ public class Semester implements java.io.Serializable {
     public void serialize(){
         try{
             String basePath = System.getProperty("user.dir");
-            Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + this.name + ".ser");
+            Path filePath = Paths.get(basePath + "/src/main/java/SavedSemesters/" +
+                    this.userName + "/" + this.name + ".ser");
             Boolean fileExists = Files.exists(filePath);
             if(!fileExists){
                 Files.createFile(filePath);
@@ -283,11 +296,12 @@ public class Semester implements java.io.Serializable {
         }
     }
 
-    public static Semester deserialize(String semName){
+    public static Semester deserialize(String semName, String userName){
         Semester loadedInSem = null;
         try{
             String basePath = System.getProperty("user.dir");
-            Path newTestPath = Paths.get(basePath + "/src/main/java/SavedSemesters/"+ semName +".ser");
+            Path newTestPath = Paths.get(basePath + "/src/main/java/SavedSemesters/" +
+                    userName + "/" + semName +".ser");
             FileInputStream fileIn = new FileInputStream(newTestPath.toString());
             ObjectInputStream in = new ObjectInputStream(fileIn);
             loadedInSem = (Semester) in.readObject();

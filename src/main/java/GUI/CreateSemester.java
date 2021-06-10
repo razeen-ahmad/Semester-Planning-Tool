@@ -11,12 +11,9 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class CreateSemester {
@@ -350,8 +347,7 @@ public class CreateSemester {
                             "\nCheck that start date and end date are compatible" +
                                     "\n(e.g. end date comes after start date)."
                     );
-                }
-                else {
+                } else {
                     JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(createButton);
                     Loading.getLoadingScreen(mainFrame);
                     String correctStartDate = correctDateFormat.format(startDate);
@@ -389,7 +385,7 @@ public class CreateSemester {
     }
 
     private static boolean checkDateValidity(Date startDate, Date endDate) {
-        if(startDate.after(endDate)){
+        if (startDate.after(endDate)) {
             return false;
         }
         return true;
