@@ -61,10 +61,10 @@ public class SignIn {
         thisFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 int dialogResult = JOptionPane.showConfirmDialog(null,
-                        "Do you want to stay logged in?\nSigning out will avoid errors.",
+                        "Do you want to sign out?\nSigning out will avoid errors.",
                         "Warning", JOptionPane.YES_NO_OPTION);
 
-                if (dialogResult == JOptionPane.NO_OPTION) {
+                if (dialogResult == JOptionPane.YES_OPTION) {
                     //sign out user if they do NOT want to "stay signed in"
                     String basePath = System.getProperty("user.dir");
                     Path filePath = Paths.get(basePath + "/tokens/StoredCredential");

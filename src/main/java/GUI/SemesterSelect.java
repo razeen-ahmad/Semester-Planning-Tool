@@ -49,13 +49,13 @@ public class SemesterSelect {
 
         //string for intro body text
         String introPara =
-                "   This is a java application to help students plan their semesters in" +
+                "   This is a Java application to help students plan their semesters in" +
                         "\nGoogle Calendar and Google Tasks. Semesters mark the first and" +
                         "\nlast dates for courses. Courses are implemented as recurring" +
                         "\nevents in Google Calendar. Each course has its own list of deadlines." +
-                        "\nThese deadlines are implemented as tasks in Google Tasks. All tasks" +
-                        "\nare added to the tasklist corresponding to the course's semester." +
-                        "\nTo start, select or create a semester to add courses and deadlines!" +
+                        "\nThese deadlines are implemented as tasks in Google Tasks. All tasks (for" +
+                        "\ncourses in the same semester are added to a single tasklist named by the" +
+                        "\nsemester. To start, select or create a semester to add courses and deadlines!" +
                         "\n\nIf you are not seeing the semesters you expected or are getting other errors," +
                         "\ntry signing in to your account again or try a different Google account." +
                         "\nYou are currently signed into: " + fullEmail;
