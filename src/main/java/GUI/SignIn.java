@@ -64,7 +64,7 @@ public class SignIn {
 
                 String basePath = System.getProperty("user.dir");
                 Path filePath = Paths.get(basePath + "/tokens/StoredCredential");
-                if(Files.exists(filePath)) {
+                if (Files.exists(filePath)) {
                     try {
                         Files.delete(filePath);
                     } catch (IOException ioException) {

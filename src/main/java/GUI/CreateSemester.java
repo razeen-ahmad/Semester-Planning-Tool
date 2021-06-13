@@ -369,19 +369,9 @@ public class CreateSemester {
         goBack.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(goBack);
-                getSemesterSelect(mainFrame);
+                SemesterView.getSemSelectView(mainFrame);
             }
         });
-    }
-
-    private static void getSemesterSelect(JFrame mainFrame) {
-        JPanel selectSemPanel = new SemesterSelect().selectPanel;
-
-        mainFrame.getContentPane().removeAll();
-        mainFrame.setContentPane(selectSemPanel);
-        mainFrame.setSize(700, 300);
-        mainFrame.setLocationRelativeTo(null);
-        mainFrame.setVisible(true);
     }
 
     private static boolean checkDateValidity(Date startDate, Date endDate) {

@@ -10,21 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a724506-1192-4d9a-b405-8e037903ef07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$1$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$2$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$4$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/GUI/CourseView$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/SemesterSelect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SavedSemesters/rahmad875/test.ser" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/GoogleServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemesterCode/Semester.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
