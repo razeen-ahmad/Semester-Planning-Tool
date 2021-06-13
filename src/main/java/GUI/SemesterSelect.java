@@ -182,12 +182,12 @@ public class SemesterSelect {
         try {
             //get all serialized semester objects
             String basePath = System.getProperty("user.dir");
-            Path datadir = Paths.get(basePath + "/src/main/java/SavedSemesters/" + userName);
+            Path datadir = Paths.get(basePath + "/SavedSemesters/" + userName);
 
-             if(!Files.isDirectory(datadir)) {
-                 //if this user does not have directory for saved semesters, create one
-                 Files.createDirectories(datadir);
-             }
+            if (!Files.isDirectory(datadir)) {
+                //if this user does not have directory for saved semesters, create one
+                Files.createDirectories(datadir);
+            }
 
             Stream<Path> files = Files.list(datadir);
             Object[] filePaths = files.toArray();

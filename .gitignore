@@ -12,3 +12,6 @@ credentials.json
 #ignore stored credentials token
 tokens/StoredCredential
 StoredCredential
+
+#ignore executable jar
+out/artifacts/semester_planning_app_main_jar

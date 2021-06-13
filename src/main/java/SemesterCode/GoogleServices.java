@@ -271,7 +271,7 @@ public class GoogleServices {
         Files.delete(filePath);
 
         //check if can delete user's SavedSemester directory
-        Path savedUserPath = Paths.get(basePath + "/src/main/java/SavedSemesters/" + userName);
+        Path savedUserPath = Paths.get(basePath + "/SavedSemesters/" + userName);
         if(!Files.list(savedUserPath).iterator().hasNext()) {
             //if user's savedsemester directory is empty, then can safely delete it.
             Files.delete(savedUserPath);
