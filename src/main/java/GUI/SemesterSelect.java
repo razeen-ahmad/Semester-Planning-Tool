@@ -55,7 +55,7 @@ public class SemesterSelect {
                         "\nevents in Google Calendar. Each course has its own list of deadlines." +
                         "\nThese deadlines are implemented as tasks in Google Tasks. All tasks (for" +
                         "\ncourses in the same semester are added to a single tasklist named by the" +
-                        "\nsemester. To start, select or create a semester to add courses and deadlines!" +
+                        "\nsemester). To start, select or create a semester to add courses and deadlines!" +
                         "\n\nIf you are not seeing the semesters you expected or are getting other errors," +
                         "\ntry signing in to your account again or try a different Google account." +
                         "\nYou are currently signed into: " + fullEmail;
