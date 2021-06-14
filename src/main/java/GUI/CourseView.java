@@ -409,9 +409,9 @@ public class CourseView {
         boolean endTimeNotFilled = endTimeValue.getText().equals("");
 
         //check that given start/end times are compatible only if startTime and endTime both filled
-        boolean isValidDates = true;
+        boolean isValidDates = false;
         if (!startTimeNotFilled && !endTimeNotFilled) {
-            checkTimeValidity(givenStartTime, givenEndTime);
+            isValidDates = checkTimeValidity(givenStartTime, givenEndTime);
         }
 
         return titleNotFilled || profNameNotFilled || daysOfWeekNotFilled ||
