@@ -103,25 +103,30 @@ public class DeadlineView {
         if (!newDeadline) { //if updating existing task
             updateDeadlineButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
-                    Loading.getLoadingScreen(mainFrame);
+                    boolean isNotFilled = checkIfNotFilled();
+                    if (isNotFilled) {
+                        JOptionPane.showMessageDialog(null, "Fill in all * fields");
+                    } else {
+                        JFrame mainFrame = (JFrame) SwingUtilities.windowForComponent(updateDeadlineButton);
+                        Loading.getLoadingScreen(mainFrame);
 
-                    Thread t = new Thread(new Runnable() {
-                        public void run() {
-                            boolean changed = checkAndUpdateChanges(thisDeadline, origDeadlineName,
-                                    origDeadlineNotes, origDeadlineDueDate);
+                        Thread t = new Thread(new Runnable() {
+                            public void run() {
+                                boolean changed = checkAndUpdateChanges(thisDeadline, origDeadlineName,
+                                        origDeadlineNotes, origDeadlineDueDate);
 
-                            if (changed) {
-                                JOptionPane.showMessageDialog(null,
-                                        "Deadline Updated and Saved!");
-                                CourseView.getUpdatedCourseView(mainFrame, thisCourse);
-                            } else {
-                                JOptionPane.showMessageDialog(null, "No changes to update");
-                                CourseView.getSelectedDeadlineView(mainFrame, thisDeadline, thisCourse);
+                                if (changed) {
+                                    JOptionPane.showMessageDialog(null,
+                                            "Deadline Updated and Saved!");
+                                    CourseView.getUpdatedCourseView(mainFrame, thisCourse);
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "No changes to update");
+                                    CourseView.getSelectedDeadlineView(mainFrame, thisDeadline, thisCourse);
+                                }
                             }
-                        }
-                    });
-                    t.start();
+                        });
+                        t.start();
+                    }
                 }
             });
         } else { //if creating new task
